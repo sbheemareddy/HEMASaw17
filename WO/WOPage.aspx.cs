@@ -19,8 +19,8 @@ namespace HEMASaw.WO
             Session["EmployeeName"] = "MENDOZA, MARGARITO";
             ParseAndPopulateTextBoxes("Date: 12/27/2023, WO#:1685996, Block#:173318, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633");
             PopulateSystemData(workOrder , slicebatch, blockbatch);
-            lblEmpID.InnerText = Session["EmpID"].ToString();
-            lblEmpName.InnerText = Session["EmployeeName"].ToString();
+            //lblEmpID.InnerText = Session["EmpID"].ToString();
+            //lblEmpName.InnerText = Session["EmployeeName"].ToString();
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -43,7 +43,7 @@ namespace HEMASaw.WO
                     switch (key)
                     {
                         case "Date":
-                            lblQRCodeDate.InnerText = value;
+                            txtQRCodeDate.Text = value;
                             break;
                         case "WO#":
                             txtWO.Text = value;
@@ -51,7 +51,7 @@ namespace HEMASaw.WO
                             break;
                         case "Block#":
                             blockbatch = value;
-                            lblBlockBatch.InnerText = value;
+                            txtBlockBatch.Text = value;
                             // txtBlock.Text = value;
                             break;
                         case "Badge#":
@@ -59,20 +59,20 @@ namespace HEMASaw.WO
                             break;
                         case "Slice#":
                             slicebatch = value;
-                            lblSliceBatch.InnerText = value;
+                            txtSliceBatch.Text = value;
 
                             break;
                         case "Saw#":
-                            lblSaw.InnerText = value;
+                            txtSaw.Text = value;
                             break;
                         case "Min":
-                            lblMin.InnerText = value;
+                            txtMin.Text = value;
                             break;
                         case "Max":
-                            lblMax.InnerText = value;
+                            txtMax.Text = value;
                             break;
                         case "Ave":
-                            lblAve.InnerText = value;
+                            txtAve.Text = value;
                             break;
                     }
                 }
@@ -85,11 +85,12 @@ namespace HEMASaw.WO
 
             if (wOData != null)
             {
-                lblDescription.InnerText = wOData.Description;
-                lblLegacyPart.InnerText = wOData.VisualPartID;
-                lblTargetDensity.InnerText = wOData.Density.ToString();
-                lblDensityTol.InnerText = wOData.DensityTol.ToString();
-                lblCutSlice.InnerText = wOData.SliceNum.ToString();
+                txtMaterial.Text = wOData.Material;
+                txtDescription.Text = wOData.Description;
+                txtLegacyPart.Text = wOData.VisualPartID;
+                txtTargetDensity.Text = wOData.Density.ToString();
+                txtDensityTol.Text = wOData.DensityTol.ToString();
+                txtCutSlice.Text = wOData.SliceNum.ToString();
                 Session["Thickness"] = wOData.Thickness.ToString();
             }
         }
@@ -119,17 +120,21 @@ namespace HEMASaw.WO
             double thickness = 0.0;
             double.TryParse(Session["Thickness"].ToString(), out thickness);
 
-            double DensityPCF = weight / (width * length * thickness) / 1728;
+            double CC = (width * length * thickness)  / 1728;
+
+            double DensityPCF = weight / CC;
 
 
-            
-            
             lblPCFCalculated.InnerText = DensityPCF.ToString();
-            bool acceptDataSuccess = true;
+            //bool acceptDataSuccess = true;
 
-            if ((DensityPCF <= (double.Parse(lblTargetDensity.InnerText)+ double.Parse(lblDensityTol.InnerText))) || (DensityPCF >= (double.Parse(lblTargetDensity.InnerText) - double.Parse(lblDensityTol.InnerText))))
+            double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
+
+            double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
+
+            if (DensityPCF <= tolHigher && DensityPCF >= tolLower)
             {
-                // Data acceptance succeeded, keep the button green
+                // Data acceptance succeeded, keep the buttontolLower green
                 divpass.Visible = true;
                 divfail.Visible = false;
             }
@@ -147,6 +152,23 @@ namespace HEMASaw.WO
 
         protected void btnReprintTags_Click(object sender, EventArgs e)
         {
+
+        }
+
+
+        protected void btnPrintSliceLabel_Click(object sender, EventArgs e)
+        {
+
+            var url = @"../Report/SliceLabelReport.aspx?reportName=SliceLabel";
+            Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
+            Response.End();
+        }
+
+        protected void btnPrintSummaryLabel_Click(object sender, EventArgs e)
+        {
+            var url = @"../Report/SliceLabelReport.aspx?reportName=SummaryLabel";
+            Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
+            Response.End();
 
         }
     }

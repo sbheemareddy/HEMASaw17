@@ -51,15 +51,6 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.Button btnKeyinWO;
 
         /// <summary>
-        /// btnReprintTags control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReprintTags;
-
-        /// <summary>
         /// txtWO control.
         /// </summary>
         /// <remarks>
@@ -69,103 +60,76 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.TextBox txtWO;
 
         /// <summary>
-        /// lblSaw control.
+        /// txtSaw control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSaw;
+        protected global::System.Web.UI.WebControls.TextBox txtSaw;
 
         /// <summary>
-        /// lblQRCodeDate control.
+        /// txtQRCodeDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblQRCodeDate;
+        protected global::System.Web.UI.WebControls.TextBox txtQRCodeDate;
 
         /// <summary>
-        /// lblPartId control.
+        /// txtMaterial control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblPartId;
+        protected global::System.Web.UI.WebControls.TextBox txtMaterial;
 
         /// <summary>
-        /// lblDescription control.
+        /// txtDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblDescription;
+        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
-        /// lblLegacyPart control.
+        /// txtLegacyPart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblLegacyPart;
+        protected global::System.Web.UI.WebControls.TextBox txtLegacyPart;
 
         /// <summary>
-        /// lblEmpID control.
+        /// txtBlockBatch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblEmpID;
+        protected global::System.Web.UI.WebControls.TextBox txtBlockBatch;
 
         /// <summary>
-        /// lblEmpName control.
+        /// txtCutSlice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblEmpName;
+        protected global::System.Web.UI.WebControls.TextBox txtCutSlice;
 
         /// <summary>
-        /// lblBlockBatch control.
+        /// txtSliceBatch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblBlockBatch;
-
-        /// <summary>
-        /// lblCutSlice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCutSlice;
-
-        /// <summary>
-        /// lblSliceBatch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSliceBatch;
-
-        /// <summary>
-        /// lblBlank control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblBlank;
+        protected global::System.Web.UI.WebControls.TextBox txtSliceBatch;
 
         /// <summary>
         /// txtComments control.
@@ -177,31 +141,31 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.TextBox txtComments;
 
         /// <summary>
-        /// lblMin control.
+        /// txtMin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblMin;
+        protected global::System.Web.UI.WebControls.TextBox txtMin;
 
         /// <summary>
-        /// lblMax control.
+        /// txtMax control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblMax;
+        protected global::System.Web.UI.WebControls.TextBox txtMax;
 
         /// <summary>
-        /// lblAve control.
+        /// txtAve control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAve;
+        protected global::System.Web.UI.WebControls.TextBox txtAve;
 
         /// <summary>
         /// txtLength control.
@@ -231,22 +195,22 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.TextBox txtWeight;
 
         /// <summary>
-        /// lblTargetDensity control.
+        /// txtTargetDensity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTargetDensity;
+        protected global::System.Web.UI.WebControls.TextBox txtTargetDensity;
 
         /// <summary>
-        /// lblDensityTol control.
+        /// txtDensityTol control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblDensityTol;
+        protected global::System.Web.UI.WebControls.TextBox txtDensityTol;
 
         /// <summary>
         /// lblPCFCalculated control.
@@ -265,6 +229,24 @@ namespace HEMASaw.WO
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divpass;
+
+        /// <summary>
+        /// btnPrintSliceLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPrintSliceLabel;
+
+        /// <summary>
+        /// btnPrintSummaryLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPrintSummaryLabel;
 
         /// <summary>
         /// divfail control.

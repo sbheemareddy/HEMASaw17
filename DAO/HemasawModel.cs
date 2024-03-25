@@ -19,6 +19,7 @@ namespace HEMASaw.DAO
 
     public class WOData
     {
+        public string Material { get; set; }
         public string SliceBatch { get; set; }
         public double Density { get; set; }
         public double DensityTol { get; set; }

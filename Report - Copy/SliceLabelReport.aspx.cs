@@ -15,20 +15,18 @@ using HEMASaw.DAO;
 
 public partial class SliceLabelReport : System.Web.UI.Page
 {
+    public int JobID { get; set; }
+    public string pk { get; set; }
 
     public int m_currentPageIndex;
     public IList<Stream> m_streams;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        string reportName = Request.QueryString["reportName"];
-         Report report = CustomizeReport(reportName+".trdx");
-        // PrintReport(report);
-         RenderinPage(report);
+       // Report report = CustomizeReport("SliceLabel.trdx");
+        //PrintReport(report);
+       // RenderinPage(report);
 
-        //Report summaryReport = CustomizeReport("SummaryLabel.trdx");
-        //PrintReport(summaryReport);
-        
     }
 
     public Report CustomizeReport(string filename)
@@ -97,55 +95,55 @@ public partial class SliceLabelReport : System.Web.UI.Page
                 ms.Close();
             }
 
-            //////// The total number of pages of the report is 1 + the streamIDs         
-            //////int m_numberOfPages = 1;
-            //////pages = new Byte[m_numberOfPages][];
-            //////pages[0] = firstPage;
-            //////m_currentPageIndex = 0;
+            // The total number of pages of the report is 1 + the streamIDs         
+            int m_numberOfPages = 1;
+            pages = new Byte[m_numberOfPages][];
+            pages[0] = firstPage;
+            m_currentPageIndex = 0;
 
-            //////if (m_streams[0].Length > 1000)
-            //////{
-            //////    //if there's nothing to print return
-            //////    if (m_streams == null || m_streams.Count == 0)
-            //////        return;
+            if (m_streams[0].Length > 1000)
+            {
+                //if there's nothing to print return
+                if (m_streams == null || m_streams.Count == 0)
+                    return;
 
-            //////    PrintDocument printDoc = new PrintDocument();
-            //////   // printerName = "HP LaserJet Pro MFP M226dw UPD PS";
-            //////    //set the printername, deal w/ the printer being invalid
-            //////    printDoc.PrinterSettings.PrinterName = printerName;
-            //////    if (!printDoc.PrinterSettings.IsValid)
-            //////    {
-            //////        string msg = String.Format("Can't find printer \"{0}\".", printerName);
+                PrintDocument printDoc = new PrintDocument();
+               // printerName = "HP LaserJet Pro MFP M226dw UPD PS";
+                //set the printername, deal w/ the printer being invalid
+                printDoc.PrinterSettings.PrinterName = printerName;
+                if (!printDoc.PrinterSettings.IsValid)
+                {
+                    string msg = String.Format("Can't find printer \"{0}\".", printerName);
 
-            //////        return;
-            //////    }
+                    return;
+                }
 
-            //////    //set the printername, deal w/ the printer being invalid
-            //////    printDoc.PrinterSettings.PrinterName = printerName;
+                //set the printername, deal w/ the printer being invalid
+                printDoc.PrinterSettings.PrinterName = printerName;
 
-            //////    PaperSize pageCustomSize = new PaperSize("Custom", 400, 500);
-            //////    printDoc.DefaultPageSettings.PaperSize = pageCustomSize;
+                PaperSize pageCustomSize = new PaperSize("Custom", 400, 500);
+                printDoc.DefaultPageSettings.PaperSize = pageCustomSize;
 
-            //////    //Margins margins = new Margins(25, 25, 10, 10);
-            //////    //printDoc.DefaultPageSettings.Margins = margins;
+                //Margins margins = new Margins(25, 25, 10, 10);
+                //printDoc.DefaultPageSettings.Margins = margins;
 
-            //////    //attatch an event handler that will fire for each page that is printed.
-            //////    printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
+                //attatch an event handler that will fire for each page that is printed.
+                printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
 
-            //////    //Set instance of print controller to hide page print popup message
-            //////    printDoc.PrintController = new System.Drawing.Printing.StandardPrintController();
+                //Set instance of print controller to hide page print popup message
+                printDoc.PrintController = new System.Drawing.Printing.StandardPrintController();
 
-            //////    ////call print method, which get's the process going and ultimately calls the printpage method via the eventhandler.
-            //////    printDoc.Print();
-            //////   //Centiv.RawPrinterHelper.SendMemoryToPrinter(printerName, new MemoryStream(firstPage));
+                ////call print method, which get's the process going and ultimately calls the printpage method via the eventhandler.
+                printDoc.Print();
+               //Centiv.RawPrinterHelper.SendMemoryToPrinter(printerName, new MemoryStream(firstPage));
 
-            //////    //Dispose of Print Document
-            //////    printDoc.Dispose();
-            //////}
-            //////else
-            //////{
-            //////    //invalid report
-            //////}
+                //Dispose of Print Document
+                printDoc.Dispose();
+            }
+            else
+            {
+                //invalid report
+            }
 
             DisposeReport();
         }
@@ -177,22 +175,22 @@ public partial class SliceLabelReport : System.Web.UI.Page
             instanceReportSource.ReportDocument = report;
             var renderResult = reportProcessor.RenderReport("PDF", instanceReportSource, deviceInfo);
 
+            ////// Create Byte array containing the rendered image of the 1st page.
+            ////Byte[] firstPage = renderResult.DocumentBytes;
+            ////var ms = new MemoryStream(firstPage);
+            ////m_streams.Add(new MemoryStream(firstPage));
+
+            ////// Stream the PDF content to the response for inline display
+            ////Response.Clear();
+            ////Response.ContentType = "application/pdf";
+            ////Response.AppendHeader("Content-Disposition", "inline; filename=" + renderResult.DocumentName + "." + renderResult.Extension);
+            ////Response.BinaryWrite(renderResult.DocumentBytes);
+            ////Response.End();
+
             // Create Byte array containing the rendered image of the 1st page.
             Byte[] firstPage = renderResult.DocumentBytes;
             var ms = new MemoryStream(firstPage);
             m_streams.Add(new MemoryStream(firstPage));
-
-            // Stream the PDF content to the response for inline display
-            Response.Clear();
-            Response.ContentType = "application/pdf";
-            Response.AppendHeader("Content-Disposition", "inline; filename=" + renderResult.DocumentName + "." + renderResult.Extension);
-            Response.BinaryWrite(renderResult.DocumentBytes);
-            Response.End();
-
-            // Create Byte array containing the rendered image of the 1st page.
-            //Byte[] firstPage = renderResult.DocumentBytes;
-            //var ms = new MemoryStream(firstPage);
-            //m_streams.Add(new MemoryStream(firstPage));
 
             // Save the PDF to a file
             string fileName = renderResult.DocumentName + "." + renderResult.Extension;

@@ -307,13 +307,11 @@
 							  <Font Size="9pt" Bold="True" />
 						  </Style>
 					  </TextBox>
-					  <Barcode Width="1.992in" Height="0.65in" Left="0.55in" Top="0.05in" Value="= Fields.Material + ''&#xD;&#xA;&#xD;&#xA;" Module="1px" Checksum="False" Name="barcode1">
-						  <Style TextAlign="Center" VerticalAlign="Bottom" LineWidth="1pt">
-							  <Font Size="8pt" Bold="True" />
+					  <Barcode Value="= Fields.Material" Type="Code128" Width="1.75in" Height="0.2in" Left="0.8in" Top="0in" Name="barcode1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
 						  </Style>
-						  <Encoder>
-							  <Code39Encoder />
-						  </Encoder>
 					  </Barcode>
 				  </Items>
 			  </GroupHeaderSection>
@@ -348,13 +346,11 @@
 					  <Padding Left="0.03in" />
 				  </Style>
 				  <Items>
-					  <Barcode Width="1.992in" Height="0.65in" Left="0.55in" Top="0.05in" Value="= Fields.SliceBatch + ''&#xD;&#xA;&#xD;&#xA;" Module="1px" Checksum="False" Name="barcode1">
-						  <Style TextAlign="Center" VerticalAlign="Bottom" LineWidth="1pt">
-							  <Font Size="8pt" Bold="True" />
+					  <Barcode Value="= Fields.SliceBatch" Type="Code128" Width="2.50in" Height="0.2in" Left="0.0in" Top="0in" Name="sliceBatchBarcode">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
 						  </Style>
-						  <Encoder>
-							  <Code39Encoder />
-						  </Encoder>
 					  </Barcode>
 				  </Items>
 			  </GroupHeaderSection>

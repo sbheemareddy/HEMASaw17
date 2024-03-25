@@ -1,33 +1,38 @@
-USE [HEMASaws]
-GO
-
-/****** Object:  StoredProcedure [dbo].[spGetSystemData]    Script Date: 02-03-2024 09:50:23 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
--- =============================================
--- Author:		
--- Create date: 02/29/2024
--- Description:	gets the System Data for the work Order
--- =============================================
-ALTER PROCEDURE [dbo].[spGetSystemData] 
-	@workOrder int
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	SET NOCOUNT ON;
-
-	SELECT   
-	CASE
-		WHEN woh.[Status] = 'A' THEN 'A - Open'
-		WHEN woh.[Status] = 'Y' THEN 'Y - Closed'
-	END AS 'Status',	
-	woh.Slice_Batch , im.[Description]
-	FROM [HEMASaws].[dbo].WorkOrderHeader woh
-	INNER JOIN [HEMASaws].[dbo].[ItemMaster] im on im.Material= woh.Material
-	WHERE WorkOrder = @workOrder
-END
-
+    
+-- =============================================    
+-- Author:      
+-- Create date: 02/29/2024    
+-- Description: gets the System Data for the work Order    
+-- =============================================    
+ALTER PROCEDURE [dbo].[spGetSystemData]     
+ @workOrder int ,  
+ @slice_batch varchar(10),  
+ @block_batch varchar(10)  
+AS    
+BEGIN    
+ -- SET NOCOUNT ON added to prevent extra result sets from    
+ SET NOCOUNT ON;    
+  
+ IF (@slice_batch ='')  
+ set  @slice_batch = null  
+  
+ IF (@block_batch ='')  
+ set  @block_batch = null  
+    
+ SELECT  
+ woh.Material,
+ WOH.Slice_Batch,  
+ im.Density,   
+ im.DensityTol,   
+ im.VisualPartID ,   
+ im.Description,  
+ sd.SliceNum,  
+ sd.Thickness  
+ FROM [HEMASaws].[dbo].WorkOrderHeader woh    
+ INNER JOIN [HEMASaws].[dbo].[ItemMaster] im on im.Material= woh.Material    
+ INNER JOIN [HEMASaws].[dbo].[SliceData] sd on sd.WorkOrder =woh.WorkOrder   
+ WHERE sd.WorkOrder = @workOrder    
+ and Slice_Batch = @slice_batch  
+ and sd.BlockNumber = @block_batch  
+ and woh.Slice_Batch = @slice_batch  
+END    

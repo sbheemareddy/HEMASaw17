@@ -202,6 +202,7 @@
     <Content Include="App_Data\General.cs" />
     <Content Include="App_Data\PrintLabel.cs" />
     <Content Include="assets\gill-logomark-red.svg" />
+    <Content Include="assets\GLogo.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -222,8 +223,8 @@
     <Content Include="Report\SliceLabelReport.aspx" />
     <Content Include="WO\WOPage.aspx" />
     <Content Include="OpenTK.dll.config" />
-    <Content Include="Report\ShippingLabel.trdx" />
-    <Content Include="Report\SLiceSummary.trdx" />
+    <Content Include="Report\SliceLabel.trdx" />
+    <Content Include="Report\SummaryLabel.trdx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -293,6 +294,9 @@
     <Compile Include="Report\SliceLabelReport.aspx.cs">
       <DependentUpon>SliceLabelReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\SliceLabelReport.aspx.designer.cs">
+      <DependentUpon>SliceLabelReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

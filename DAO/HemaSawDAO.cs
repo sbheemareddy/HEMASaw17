@@ -40,6 +40,7 @@ namespace HEMASaw.DAO
 
                     while (reader.Read())
                     {
+                        wOData.Material = reader["Material"].ToString();
                         wOData.SliceBatch = reader["Slice_Batch"].ToString();
                         wOData.Density = double.Parse(reader["Density"].ToString());
                         wOData.DensityTol = double.Parse(reader["DensityTol"].ToString());
