@@ -2,7 +2,7 @@
 
 
 
-<%@ Register Assembly="Telerik.ReportViewer.WebForms, Version=13.0.19.222, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" Namespace="Telerik.ReportViewer.WebForms" TagPrefix="telerik" %>
+<%@ Register Assembly="Telerik.ReportViewer.WebForms, Version=18.0.24.130, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" Namespace="Telerik.ReportViewer.WebForms" TagPrefix="telerik" %>
 
 <!DOCTYPE html>
 

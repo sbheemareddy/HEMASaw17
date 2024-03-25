@@ -177,5 +177,48 @@ namespace HEMASaw.DAO
                 }
             }
         }
+
+        public static DataSet GetSliceSummaryLabel(int workOrder , string sliceBatch , string blockBatch)
+        {
+
+            // Parameters for the stored procedure
+             workOrder = 1622280; // Replace with actual work order value
+             sliceBatch = "0000180214"; // Replace with actual slice batch value
+             blockBatch = ""; // Replace with actual block batch value
+
+            // Create a new SqlConnection using the connection string
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Create a new SqlCommand for the stored procedure
+                using (SqlCommand command = new SqlCommand("spGetSliceLabel", connection))
+                {
+                    // Specify that the command is a stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters to the command
+                    command.Parameters.Add("@workOrder", SqlDbType.Int).Value = workOrder;
+                    command.Parameters.Add("@slice_batch", SqlDbType.VarChar).Value = sliceBatch;
+                    command.Parameters.Add("@block_batch", SqlDbType.VarChar).Value = blockBatch;
+
+                    // Create a new SqlDataAdapter to execute the command and fill a DataSet
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        // Create a new DataSet to hold the results
+                        DataSet dataSet = new DataSet();
+
+                        // Open the connection
+                        connection.Open();
+
+                        // Fill the DataSet with the results of the command
+                        adapter.Fill(dataSet);
+
+                        // Close the connection
+                        connection.Close();
+
+                        return dataSet;
+                    }
+                }
+            }
+        }
     }
 }

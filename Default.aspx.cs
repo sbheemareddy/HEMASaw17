@@ -8,6 +8,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using HEMASaw.DAO;
+using Telerik.Reporting;
+using Telerik.Reporting.Processing;
+using Report = Telerik.Reporting.Report;
 
 namespace HEMASaw
 {
@@ -17,8 +20,50 @@ namespace HEMASaw
         protected void Page_Load(object sender, EventArgs e)
         {
             ParseAndPopulateTextBoxes("Date: 12/27/2023, WO#:1685996, Block#:123, Badge#:123, Slice#:3, Saw#:4, Min:0.622, Max:0.638, Ave:0.633");
-          //  PopulateSystemData(workOrder);
+            //  PopulateSystemData(workOrder);
+            GenerateTelerikReport();
 
+        }
+
+        private void GenerateTelerikReport()
+        {
+            // Create an instance of the report
+            Report report = new Report();
+
+            // Load the report definition file
+           // report.Load("Path/To/Your/Report.trdx");
+
+            // Create a data table to hold your data (replace with your actual data source)
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Cust", typeof(string));
+            dataTable.Columns.Add("Spec", typeof(string));
+            dataTable.Columns.Add("CustPO", typeof(string));
+            dataTable.Columns.Add("CustPN", typeof(string));
+            // Add more columns as needed
+
+            // Populate the data table with sample data (replace with your actual data)
+            dataTable.Rows.Add("SampleCust1", "SampleSpec1", "SampleCustPO1", "SampleCustPN1");
+            dataTable.Rows.Add("SampleCust2", "SampleSpec2", "SampleCustPO2", "SampleCustPN2");
+            // Add more rows as needed
+
+            // Bind the data table to the report
+            report.DataSource = dataTable;
+
+            // Generate the report document
+            ReportProcessor reportProcessor = new ReportProcessor();
+            InstanceReportSource reportSource = new InstanceReportSource();
+            reportSource.ReportDocument = report;
+           // Telerik.Reporting.Processing.ReportProcessingResult result = reportProcessor.RenderReport("PDF", reportSource, null);
+            reportProcessor.RenderReport("PDF", reportSource, null);
+
+            // Save the report document to a file
+            string outputPath = "Path/To/Save/Report.pdf";
+            //using (var fileStream = System.IO.File.OpenWrite(outputPath))
+            //{
+            //    fileStream.Write(result.DocumentBytes, 0, result.DocumentBytes.Length);
+            //}
+
+            Console.WriteLine("Report generation complete!");
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

@@ -6,14 +6,11 @@ using System.Data.Common;
 using System.Drawing.Printing;
 using Telerik.Reporting;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Web.UI.WebControls;
 using System.Linq;
-using System.Data.SqlClient;
-using HEMASaw.DAO;
 
-public partial class SliceLabelReport : System.Web.UI.Page
+public partial class ShippingLabelReport : System.Web.UI.Page
 {
     public int JobID { get; set; }
     public string pk { get; set; }
@@ -23,27 +20,36 @@ public partial class SliceLabelReport : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Report report = CustomizeReport("SliceLabel.trdx");
-        PrintReport(report, "", new Label());
+        Report report = CustomizeReport("ShippingLabel.trdx");
+        //ConvertReport(report);
     }
 
     public Report CustomizeReport(string filename)
     {
+        Database db = DatabaseFactory.CreateDatabase("Centiv_Nexiv2");
+        string sql = "sp_GetDesignLabel";
+        DbCommand cmd = db.GetStoredProcCommand(sql);
+        cmd.CommandTimeout = 300;
+        db.AddInParameter(cmd, "id", DbType.Int32, pk);
+        db.AddInParameter(cmd, "idtype", DbType.String, "");
 
-        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(int.MinValue, string.Empty, string.Empty);
+        DataSet ds = new DataSet();
+        db.LoadDataSet(cmd, ds, "LabelData");
 
         Report report = null;
         if (ds.Tables[0].Rows.Count > 0)
         {
             DataRow data = ds.Tables[0].Rows[0];
-            //PrintLabelData.PrintLabelFields printLabelData = PrintLabelData.GetPrintLabelData(data, jobID);
-            SliceLabelData.SliceLabelFields sliceLabelFields = SliceLabelData.GetSliceLabelLabelData(data);
+            int jobID = JobID;
+            PrintLabelData.PrintLabelFields printLabelData = PrintLabelData.GetPrintLabelData(data, jobID);
+
             //Deserialize the .trdx report and set datasource
             report = GetTelerikReportFromXml(filename);
-            report.DataSource = sliceLabelFields;
-
-            return report;
+            report.DataSource = printLabelData;
         }
+
+        //Centiv.General.WriteEventLog("CustomizeReport COMPLETE");
+
         return report;
     }
 
@@ -77,10 +83,9 @@ public partial class SliceLabelReport : System.Web.UI.Page
 
         try
         {
-
+           // Centiv.General.WriteEventLog("PrintReport RENDER START");
             instanceReportSource.ReportDocument = report;
-             var renderResult = reportProcessor.RenderReport("PDF", instanceReportSource, deviceInfo);         
-            // var renderResult = reportProcessor.RenderReport("IMAGE", instanceReportSource, deviceInfo);
+             var renderResult = reportProcessor.RenderReport("PDF", instanceReportSource, deviceInfo);          // var renderResult = reportProcessor.RenderReport("IMAGE", instanceReportSource, deviceInfo);
 
             //if (!renderResult.HasErrors)
             //{
@@ -93,13 +98,14 @@ public partial class SliceLabelReport : System.Web.UI.Page
             //        fs.Write(renderResult.DocumentBytes, 0, renderResult.DocumentBytes.Length);
             //    }
             //}
+           // Centiv.General.WriteEventLog("PrintReport RENDER COMPLETE");
 
             //Create Byte array containing the rendered image. of the 1st page.
             Byte[] firstPage = renderResult.DocumentBytes;
             var ms = new MemoryStream(firstPage);
             m_streams.Add(new MemoryStream(firstPage));
 
-            using (FileStream file = new FileStream(@"C:\Srinivas\SliceReport\" + RandomString(8) + ".pdf", FileMode.Create, System.IO.FileAccess.Write))
+            using (FileStream file = new FileStream(@"C:\Applications\PrintCenterShipping\ExceptionDetailsFile\Test" + RandomString(8) + ".pdf", FileMode.Create, System.IO.FileAccess.Write))
             {
                 byte[] bytes = new byte[firstPage.Length];
                 ms.Read(bytes, 0, (int)firstPage.Length);
@@ -126,6 +132,7 @@ public partial class SliceLabelReport : System.Web.UI.Page
                 if (!printDoc.PrinterSettings.IsValid)
                 {
                     string msg = String.Format("Can't find printer \"{0}\".", printerName);
+                   // General.DisplayMessage(lbl, msg, General.PageStyleError);
 
                     return;
                 }
@@ -146,23 +153,24 @@ public partial class SliceLabelReport : System.Web.UI.Page
                 printDoc.PrintController = new System.Drawing.Printing.StandardPrintController();
 
                 ////call print method, which get's the process going and ultimately calls the printpage method via the eventhandler.
+              //  Centiv.General.WriteEventLog("PrintReport PRINT START - " + printerName);
                 printDoc.Print();
                //Centiv.RawPrinterHelper.SendMemoryToPrinter(printerName, new MemoryStream(firstPage));
+               // Centiv.General.WriteEventLog("PrintReport PRINT COMPLETE - " + printerName);
 
                 //Dispose of Print Document
                 printDoc.Dispose();
             }
             else
             {
-                //invalid report
+               // General.DisplayMessage(lbl, General.msgErrorInvalidReport, General.PageStyleError);
             }
 
             DisposeReport();
         }
         catch (Exception ex)
         {
-
-           //handle error
+           
         }
     }
 
@@ -195,8 +203,14 @@ public partial class SliceLabelReport : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-           //Handle Error
-           
+            ex.Data.Add("m_currentPageIndex", m_currentPageIndex);
+            ex.Data.Add("m_streams Count", m_streams.Count);
+           // bool rethrow = ExceptionPolicy.HandleException(ex, "Exception Policy");
+
+            //if (rethrow)
+            //{
+            //    throw;
+            //}
         }
     }
     public void DisposeReport()
@@ -211,7 +225,11 @@ public partial class SliceLabelReport : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-           //Handle Exception
+           // bool rethrow = ExceptionPolicy.HandleException(ex, "Exception Policy");
+            //if (rethrow)
+            //{
+            //    throw;
+            //}
         }
 
     }
