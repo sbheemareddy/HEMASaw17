@@ -33,7 +33,8 @@
                 <div class="col-md-12">
                     <asp:GridView ID="gvSearchResults" runat="server" AutoGenerateColumns="false" CssClass="table table-striped" 
                         AllowPaging="True" PageSize="5" PagerStyle-HorizontalAlign="Center" 
-                        OnPageIndexChanging="gvSearchResults_PageIndexChanging" OnRowCommand="gvSearchResults_RowCommand" DataKeyNames="Workorder, Slice_Batch, Block_Batch, SliceNum">
+                        OnPageIndexChanging="gvSearchResults_PageIndexChanging" OnRowCommand="gvSearchResults_RowCommand" 
+                        OnDataBound="gvSearchResults_DataBound" DataKeyNames ="Workorder, Slice_Batch, Block_Batch, SliceNum">
                         <Columns>
                             <asp:BoundField DataField="Material" HeaderText="Material" />
                             <asp:BoundField DataField="Slice_Batch" HeaderText="Slice Order" />
@@ -69,15 +70,7 @@
             color: red;
         }
     </style>
-    <script>
-   <%-- var textBox = document.getElementById('txtQRScanData');
-    textBox.value = event.key;
-
-    // Trigger AJAX postback to simulate text changed event
-    __doPostBack('<%= txtQRScanData.ClientID %>', textBox.value);--%>
-    </script>
-
-    <script>
+     <script>
         document.getElementById('txtQRScanData').addEventListener('input', function (event) {
             // This function will be called whenever the value of the textbox changes
             var scannedData = event.target.value;

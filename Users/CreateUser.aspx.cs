@@ -9,9 +9,8 @@ using System.Web.UI.WebControls;
 
 namespace HEMASaw.Users
 {
-    public partial class CreateUser : System.Web.UI.Page
+    public partial class CreateUser : HemaBasePage
     {
-        //private bool isEditing = false;
         protected void Page_Load(object sender, EventArgs e)
             {
                 if (!IsPostBack)
@@ -25,7 +24,6 @@ namespace HEMASaw.Users
                         // Change title and button text for editing
                         litTitle.Text = "Edit User";
                         btnSave.Text = "Update";
-                        //isEditing = true;
                     }
                     else
                     {
@@ -55,18 +53,19 @@ namespace HEMASaw.Users
             // Method to load user details for editing
             private void LoadUserDetails(string userId)
             {
-                // Example method to load user details for editing
-                // Retrieve user details from data source based on userId
-                // Example: var user = GetUserById(userId);
                 // Populate input fields with user details
                 var user = HemaSawDAO.GetUserById(userId);
                 txtEmployeeID.Text = user.EmployeeID;
                 txtFirstName.Text = user.FirstName;
                 txtLastName.Text = user.LastName;
                 chkActive.Checked = user.Active;
-               // txtCreateDate.Text = user.CreateDate.ToString();
                 txtTermDate.Text = user.TermDate.HasValue ? user.TermDate.Value.ToString() : string.Empty;
                 ddlEmployeeRole.SelectedValue = user.EmployeeRole.ToString();
             }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Users.aspx");
         }
+    }
 }

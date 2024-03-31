@@ -1,7 +1,13 @@
 ﻿/* Move down content because we have a fixed navbar that is 50px tall */
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+   /* padding-top: 50px;
+    padding-bottom: 20px;*/
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 /* Wrapping element */
@@ -52,6 +58,11 @@ body::-webkit-scrollbar {
     max-width: 1200px;
     margin: 0 auto;
     height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  /*  justify-content: space-around;*/
+    flex: 1;
+    justify-content: space-between;
 }
 
 .navbar-brand,
@@ -80,10 +91,7 @@ body::-webkit-scrollbar {
   transition: 0.3s all ease-in-out;
 } */
 
-.container {
-    display: flex;
-    justify-content: space-between;
-}
+
 
 .information {
     display: flex;
@@ -140,9 +148,9 @@ label {
     width: 100px;
     padding: 2px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: #f0f0f0;
+    font-weight: 600;
 }
-
 
 .form {
     width: 370px;
@@ -227,7 +235,7 @@ button {
 .footer {
     background-color: #E93C35;
     color: #fff;
-    padding: 20px 0;
+   /* padding: 20px 0;*/
     left: 0;
     bottom: 0;
     width: 100%;
@@ -236,7 +244,7 @@ button {
 .footer_container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+   /* justify-content: space-between;*/
     padding: 0 4rem;
 }
 
@@ -250,14 +258,179 @@ button {
     font-weight: bold;
 }
 
-/* Basic CSS for menu styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+
 
 .navbar {
     background-color: #E93C35;
     overflow: hidden;
 }
+
+
+
+.card {
+    width: calc(30% - 5px);
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+    /* margin-bottom: 5px;*/
+}
+
+input[type="text"],
+select {
+    /*width: 100%;*/
+    /* padding: 8px;*/
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.buttons {
+    /*  display: flex;*/
+    justify-content: center;
+}
+
+.btn {
+    margin: 0 10px;
+}
+
+.catchy-label {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #4caf50; /* Green color for the label */
+}
+
+.catchy-green {
+    background-color: #4caf50; /* Red button color */
+}
+
+.catchy-red {
+    background-color: #e64a19; /* Darker red button color on hover */
+}
+
+.fixed-size-input {
+    width: 100px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.fixed-size-input {
+    width: 100px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.fixed-size-input-long {
+    width: 300px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.fixed-size-input-Readonly-long {
+    width: 300px;
+    padding: 2px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    font-weight: 600;
+}
+
+.fixed-size-label {
+    width: 120px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.fixed-size-Select {
+    width: 50px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.fixed-size-label-long {
+    width: 300px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.logo img {
+    width: 100%; /* Adjust the width as needed */
+    height: 40px; /* Automatically adjust height to maintain aspect ratio */
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.btn {
+    margin: 0 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    Default button color color: #fff;
+    Text color border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 700;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+        Button color on hover
+    }
+
+.navbar {
+    background-color: #E93C35;
+    padding: 0px 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    box-shadow: 1px 0px 7px rgb(181, 181, 181);
+}
+
+.error-message {
+    color: red;
+}
+
+h6 {
+    font-weight: 600;
+}
+
+.centered-content {
+    display: flex;
+    /*    justify-content: center;
+    align-items: center;*/
+    height: 75vh; /* Set the height of the container to full viewport height */
+    padding-left:40%;
+    padding-top:3%;
+}
+
+.check-box-width {
+    width: 20px;
+}
+
+.td-spacing {
+    padding-left: 25px; /* Adjust the padding as needed */
+}
+
+.page-header {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    font-weight: bold; /* Optionally, make the text bold */
+    padding: 10px; /* Add padding for spacing */
+   /* background-color: #f0f0f0;*/ /* Optionally, add background color */
+    /*border-bottom: 2px solid #ccc;*/ /* Optionally, add a bottom border */
+    width:750px;
+}
+
+

@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WOPage.aspx.cs" Inherits="HEMASaw.WO.WOPage" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid">
         <div class="buttons">
@@ -22,7 +21,7 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Expander#</label>
-                    <select>
+                    <select class="fixed-size-Select">
                         <option value="2">2</option>
                         <option value="3">3</option>
                     </select>
@@ -42,22 +41,16 @@
                     <label class="fixed-size-label">Description</label>
                 </div>
                 <div class="field">
-                    <asp:TextBox ID="txtDescription" class="fixed-size-input-Readonly-long" ReadOnly="true" runat="server" />
+                    <asp:TextBox ID="txtDescription" class="fixed-size-input-Readonly-long" ReadOnly="true" runat="server"
+                        TextMode="MultiLine" Rows="1" Style="resize: vertical;" />
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Legacy Part</label>
                 </div>
                 <div class="field">
-                    <asp:TextBox ID="txtLegacyPart" class="fixed-size-input-Readonly-long" ReadOnly="true" runat="server" />
+                    <asp:TextBox ID="txtLegacyPart" class="fixed-size-input-Readonly-long" ReadOnly="true" runat="server"
+                        TextMode="MultiLine" Rows="1" Style="resize: vertical;" />
                 </div>
-                <%--            <div class="field"> 
-                <label for="empid">Emp ID</label>
-                <label for="empid" id="lblEmpID" runat="server">Emp ID</label>
-            </div>
-            <div class="field"> 
-                <label for="empname">Emp Name</label>
-                <label for="empname" id="lblEmpName" runat="server">Emp Name</label>
-            </div>--%>
             </div>
             <div class="card">
                 <h6>Block Batch#</h6>
@@ -149,26 +142,22 @@
                 <asp:Button ID="btnPrintSummaryLabel" runat="server" Text="Print Summary Tag" CssClass="btn" OnClientClick="redirectToSummaryLabel(); return false;" />
             </div>
         </div>
-
-
         <div id="divfail" class="catchy-red" visible="false" runat="server">
             <h2>Acceptance Failed</h2>
         </div>
-
     </div>
-    <style>
+<%--    <style>
         .error-message {
             color: red;
         }
-    </style>
+    </style>--%>
     <script type="text/javascript">
         function redirectToSliceLabel() {
             window.open('/report/SliceLabelReport.aspx?reportName=SliceLabel', '_blank');
         }
 
-    function redirectToSummaryLabel() {
-        window.open('/report/SliceLabelReport.aspx?reportName=SummaryLabel', '_blank');
-    }
+        function redirectToSummaryLabel() {
+            window.open('/report/SliceLabelReport.aspx?reportName=SummaryLabel', '_blank');
+        }
     </script>
-
 </asp:Content>

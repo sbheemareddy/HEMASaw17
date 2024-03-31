@@ -14,7 +14,7 @@ using Report = Telerik.Reporting.Report;
 
 namespace HEMASaw
 {
-    public partial class _Default : Page
+    public partial class _Default : HemaBasePage
     {
          protected void Page_Load(object sender, EventArgs e)
         {
@@ -81,16 +81,26 @@ namespace HEMASaw
         private void BindGridView()
         {
             // Retrieve search criteria from the form
-            int workOrder = int.Parse(txtWorkOrder.Text.Trim().ToString());
+            int workOrder = 0;
+            int.TryParse(txtWorkOrder.Text.Trim().ToString().ToUpper(),out workOrder);
             string blockBatch = txtBlockBatch.Text.Trim();
             string sliceBatch = txtSliceBatch.Text.Trim();
 
-            // Call a method to perform the search
-            DataTable searchResults = PerformSearch(workOrder, blockBatch, sliceBatch);
+            if (workOrder>0)
+            {
+                // Call a method to perform the search
+                DataTable searchResults = PerformSearch(workOrder, blockBatch, sliceBatch);
 
-            // Bind search results to DataGrid
-            gvSearchResults.DataSource = searchResults;
-            gvSearchResults.DataBind();
+                // Bind search results to DataGrid
+                gvSearchResults.DataSource = searchResults;
+                gvSearchResults.DataBind();
+            }
+            else
+            {
+                gvSearchResults.DataBind();
+                gvSearchResults.EmptyDataText = "No work orders for the search criteria.";
+            }
+
         }
 
         protected void gvSearchResults_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -120,6 +130,15 @@ namespace HEMASaw
             {
                 ParseAndPopulateTextBoxes(TestQRScanValue);
                 BindGridView();
+            }
+        }
+
+        protected void gvSearchResults_DataBound(object sender, EventArgs e)
+        {
+            if (gvSearchResults.Rows.Count == 0)
+            {
+                // No search results, display the message
+                gvSearchResults.EmptyDataText = "No work orders for the search criteria.";
             }
         }
     }

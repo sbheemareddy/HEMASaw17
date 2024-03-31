@@ -12,8 +12,9 @@ using System.Web.UI.WebControls;
 using System.Linq;
 using System.Data.SqlClient;
 using HEMASaw.DAO;
+using HEMASaw;
 
-public partial class SliceLabelReport : System.Web.UI.Page
+public partial class SliceLabelReport : HemaBasePage
 {
 
     public int m_currentPageIndex;

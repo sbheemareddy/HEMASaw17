@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace HEMASaw.Users
 {
-    public partial class Users : System.Web.UI.Page
+    public partial class Users : HemaBasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -58,6 +58,11 @@ namespace HEMASaw.Users
             GridViewUsers.PageIndex = e.NewPageIndex;
             // Rebind your data here
             BindGridView(); // Example method to bind data to GridView
+        }
+
+        protected void btnQRCodeScan_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("../Default.aspx");
         }
 
     }

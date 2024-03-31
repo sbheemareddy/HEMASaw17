@@ -209,12 +209,12 @@ namespace HEMASaw.DAO
                         user.EmployeeID = reader["EmployeeID"].ToString();
                         user.FirstName = reader["FirstName"].ToString();
                         user.LastName = reader["LastName"].ToString();
-                        user.Active = reader["Active"].ToString() == "1" ? true : false; ;
+                        user.Active = reader["Active"].ToString().ToUpper() == "Y" ? true : false; 
                         user.CreateDate = (DateTime)reader["CreateDate"];
                         user.TermDate = reader["TermDate"] == DBNull.Value ? null : (DateTime?)reader["TermDate"];
-
+                        user.EmployeeRoleDesc = reader["employeeRole"].ToString().ToUpper() == "1" ? "Operator" : "Supervisor";
+                        user.EmployeeRole = int.Parse(reader["employeeRole"].ToString());
                     }
-
                     reader.Close();
                 }
             }

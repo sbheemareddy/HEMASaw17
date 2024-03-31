@@ -9,13 +9,14 @@
     <title><%: Page.Title %> - HEMASaws Application</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="Content/Site.css" rel="stylesheet" />
     <asp:PlaceHolder runat="server">
+
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 </head>
 <body>
     <form runat="server">
-
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
@@ -46,11 +47,23 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="../Users/Users.aspx">Manage Users</a>
-                        </li>
+                        <% if (Request.IsAuthenticated) { %>
+                            <li class="nav-item">
+                                <span class="nav-link text-white">Hello, <%= GetUserDisplayName() %></span>
+                            </li>
+                            <% if ( Session["EmployeeRoleDesc"] != null &&  Session["EmployeeRoleDesc"].ToString().ToUpper() == "SUPERVISOR") { %>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="../Users/Users.aspx">Manage Users</a>
+                                </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#" onclick="logout()">Logout</a>
+                            </li>
+                        <% } %>
                     </ul>
                 </div>
+
+
             </nav>
 
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
@@ -67,13 +80,12 @@
                 </div>
             </footer>
         </div>
-
     </form>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <style>
-    .container {
+    <style>
+        /*.container {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
@@ -87,15 +99,15 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .field {
-       /* margin-bottom: 5px;*/
-    }
+    .field {*/
+        /* margin-bottom: 5px;*/
+        /*}
 
     input[type="text"],
-    select {
+    select {*/
         /*width: 100%;*/
-       /* padding: 8px;*/
-        border: 1px solid #ccc;
+        /* padding: 8px;*/
+        /*border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
     }
@@ -104,9 +116,9 @@
         margin-top: 0;
     }
 
-    .buttons {
-  /*  display: flex;*/
-    justify-content: center;
+    .buttons {*/
+        /*  display: flex;*/
+        /*justify-content: center;
     }
 
     .btn {
@@ -117,16 +129,16 @@
     text-align: center;
     margin-top: 20px;
     font-size: 18px;
-    color: #4caf50; /* Green color for the label */
-}
+    color: #4caf50;*/ /* Green color for the label */
+        /*}
 
     .catchy-green {
-    background-color: #4caf50; /* Red button color */
-}
+    background-color: #4caf50;*/ /* Red button color */
+        /*}
 
 .catchy-red {
-    background-color: #e64a19; /* Darker red button color on hover */
-}
+    background-color: #e64a19;*/ /* Darker red button color on hover */
+        /*}
 
 .fixed-size-input {
     width: 100px;
@@ -176,9 +188,9 @@
 }
 
 .logo img {
-    width: 100%; /* Adjust the width as needed */
-    height: 40px; /* Automatically adjust height to maintain aspect ratio */
-}
+    width: 100%;*/ /* Adjust the width as needed */
+        /*height: 40px;*/ /* Automatically adjust height to maintain aspect ratio */
+        /*}
 
 
 .buttons {
@@ -213,7 +225,27 @@
     box-shadow: 1px 0px 7px rgb(181, 181, 181);
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-</style>
+.container {
+    flex: 1;
+}
+
+.error-message {
+    color: red;
+}*/
+    </style>
+    <script>
+        function logout() {
+            // Redirect to the server-side sign-out method
+            window.location.href = "logout.aspx";
+        }
+    </script>
+
+
 </body>
 </html>

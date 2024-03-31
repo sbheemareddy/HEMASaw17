@@ -2,7 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
-        <h1>User Management</h1>
+         <div class="buttons">
+             <div class="page-header">Manage Users</div>
+            <asp:Button ID="btnQRCodeScan" runat="server" CausesValidation="false" Text="QR Code Scan" CssClass="btn" OnClick="btnQRCodeScan_Click" />
+            <asp:Button ID="btnCreateUser" runat="server" Text="Create User" OnClick="btnCreateUser_Click" CssClass="btn btn-primary" />        
+         </div>
         <div class="table-responsive">
             <asp:GridView ID="GridViewUsers" runat="server" CssClass="table table-striped table-bordered"
                 AutoGenerateColumns="False" DataKeyNames="EmployeeID" 
@@ -19,7 +23,6 @@
                     <asp:CommandField ShowEditButton="True" />
                 </Columns>
             </asp:GridView>
-            <asp:Button ID="btnCreateUser" runat="server" Text="Create User" OnClick="btnCreateUser_Click" CssClass="btn btn-primary" />
         </div>
         </div>
 </asp:Content>

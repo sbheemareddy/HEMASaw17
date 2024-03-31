@@ -15,13 +15,13 @@ namespace HEMASaw.Users
     {
 
         /// <summary>
-        /// GridViewUsers control.
+        /// btnQRCodeScan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridViewUsers;
+        protected global::System.Web.UI.WebControls.Button btnQRCodeScan;
 
         /// <summary>
         /// btnCreateUser control.
@@ -31,5 +31,14 @@ namespace HEMASaw.Users
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCreateUser;
+
+        /// <summary>
+        /// GridViewUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridViewUsers;
     }
 }

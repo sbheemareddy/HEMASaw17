@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace HEMASaw.WO
 {
-    public partial class WOPage : System.Web.UI.Page
+    public partial class WOPage : HemaBasePage
     {
         //private int workOrder = 0;
         //private string slicebatch = string.Empty;
