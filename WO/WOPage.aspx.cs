@@ -10,15 +10,38 @@ namespace HEMASaw.WO
 {
     public partial class WOPage : System.Web.UI.Page
     {
-        private int workOrder = 0;
-        private string slicebatch = string.Empty;
-        private string blockbatch = string.Empty;
+        //private int workOrder = 0;
+        //private string slicebatch = string.Empty;
+        //private string blockbatch = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["EmpID"] = "0086";
-            Session["EmployeeName"] = "MENDOZA, MARGARITO";
-            ParseAndPopulateTextBoxes("Date: 12/27/2023, WO#:1685996, Block#:173318, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633");
-            PopulateSystemData(workOrder , slicebatch, blockbatch);
+            if(!IsPostBack)
+            {
+                int workOrder = int.Parse(Session["Workorder"].ToString());
+                string sliceBatch = Session["Slice_Batch"].ToString();
+                string blockBatch = Session["Block_Batch"].ToString();
+                string sliceNum = Session["SliceNum"].ToString();
+                string qrScanData = Session["QRScanData"].ToString();
+                PopulateSystemData(workOrder, sliceBatch, blockBatch, sliceNum);
+                // string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633";
+
+                if (!string.IsNullOrEmpty(qrScanData))
+                {
+                    ParseAndPopulateTextBoxes(qrScanData);
+                }
+                else
+                {
+                    PopulateQRDataFromSystem(workOrder, sliceBatch, blockBatch, sliceNum);
+                }
+
+
+
+                // Use the retrieved values as needed
+            }
+            //Session["EmpID"] = "0086";
+            //Session["EmployeeName"] = "MENDOZA, MARGARITO";
+            //ParseAndPopulateTextBoxes("Date: 12/27/2023, WO#:1685996, Block#:173318, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633");
+            //PopulateSystemData(workOrder , slicebatch, blockbatch);
             //lblEmpID.InnerText = Session["EmpID"].ToString();
             //lblEmpName.InnerText = Session["EmployeeName"].ToString();
         }
@@ -47,10 +70,10 @@ namespace HEMASaw.WO
                             break;
                         case "WO#":
                             txtWO.Text = value;
-                            workOrder = int.Parse(value.ToString());
+                            //workOrder = int.Parse(value.ToString());
                             break;
                         case "Block#":
-                            blockbatch = value;
+                            //blockbatch = value;
                             txtBlockBatch.Text = value;
                             // txtBlock.Text = value;
                             break;
@@ -58,7 +81,7 @@ namespace HEMASaw.WO
 
                             break;
                         case "Slice#":
-                            slicebatch = value;
+                           // slicebatch = value;
                             txtSliceBatch.Text = value;
 
                             break;
@@ -79,9 +102,9 @@ namespace HEMASaw.WO
             }
         }
 
-        private void PopulateSystemData(int workOrder, string slicebatch, string blockbatch)
+        private void PopulateSystemData(int workOrder, string slicebatch, string blockbatch, string sliceNum)
         {
-            WOData wOData = HemaSawDAO.GetSystemData(workOrder, slicebatch, blockbatch);
+            WOData wOData = HemaSawDAO.GetSystemData(workOrder, slicebatch, blockbatch, sliceNum);
 
             if (wOData != null)
             {
@@ -95,14 +118,35 @@ namespace HEMASaw.WO
             }
         }
 
+        private void PopulateQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, string sliceNum)
+        {
+            QRCodeData qRCodeData  = HemaSawDAO.GetQRDataFromSystem(workOrder, slicebatch, blockbatch, sliceNum);
+
+            if (qRCodeData != null)
+            {
+                txtQRCodeDate.Text = qRCodeData.QRCodeDate;
+                txtWO.Text = qRCodeData.WO.ToString();
+                txtBlockBatch.Text = qRCodeData.BlockBatch;
+                txtSliceBatch.Text = qRCodeData.SliceBatch;
+                txtSaw.Text = qRCodeData.Saw;
+                txtMin.Text = qRCodeData.Min.ToString();
+                txtMax.Text = qRCodeData.Max.ToString();
+                txtAve.Text = qRCodeData.Ave.ToString();
+
+            }
+        }
+
         protected void btnQRCodeScan_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("../Default.aspx");
         }
 
         protected void btnClearData_Click(object sender, EventArgs e)
         {
-
+            txtLength.Text = string.Empty;
+            txtWeight.Text = string.Empty;
+            txtWidth.Text = string.Empty;
+            txtComments.Text = string.Empty;
         }
 
         protected void btnAcceptData_Click(object sender, EventArgs e)
@@ -125,7 +169,7 @@ namespace HEMASaw.WO
             double DensityPCF = weight / CC;
 
 
-            lblPCFCalculated.InnerText = DensityPCF.ToString();
+            lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
             //bool acceptDataSuccess = true;
 
             double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
@@ -145,16 +189,15 @@ namespace HEMASaw.WO
             }
         }
 
-        protected void btnKeyinWO_Click(object sender, EventArgs e)
+        protected void btnSearchWO_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("../Default.aspx");
         }
 
         protected void btnReprintTags_Click(object sender, EventArgs e)
         {
 
         }
-
 
         protected void btnPrintSliceLabel_Click(object sender, EventArgs e)
         {
@@ -173,3 +216,4 @@ namespace HEMASaw.WO
         }
     }
 }
+

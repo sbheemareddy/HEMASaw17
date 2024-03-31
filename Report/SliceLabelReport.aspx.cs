@@ -21,26 +21,24 @@ public partial class SliceLabelReport : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        string reportName = Request.QueryString["reportName"];
-         Report report = CustomizeReport(reportName+".trdx");
-        // PrintReport(report);
-         RenderinPage(report);
-
-        //Report summaryReport = CustomizeReport("SummaryLabel.trdx");
-        //PrintReport(summaryReport);
-        
+        int workOrder = int.Parse(Session["Workorder"].ToString());
+        string sliceBatch = Session["Slice_Batch"].ToString();
+        string blockBatch = Session["Block_Batch"].ToString();
+        string sliceNum = Session["SliceNum"].ToString();
+        string reportName = Path.ChangeExtension(Request.QueryString["reportName"], ".trdx");
+        Report report = CustomizeReport(reportName,workOrder,sliceBatch,blockBatch,sliceNum);
+        RenderinPage(report);
     }
 
-    public Report CustomizeReport(string filename)
+    public Report CustomizeReport(string filename, int workOrder ,string sliceBatch , string blockBatch , string sliceNum)
     {
 
-        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(int.MinValue, string.Empty, string.Empty);
+        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(workOrder, sliceBatch, blockBatch);
 
         Report report = null;
         if (ds.Tables[0].Rows.Count > 0)
         {
             DataRow data = ds.Tables[0].Rows[0];
-            //PrintLabelData.PrintLabelFields printLabelData = PrintLabelData.GetPrintLabelData(data, jobID);
             SliceLabelData.SliceLabelFields sliceLabelFields = SliceLabelData.GetSliceLabelLabelData(data);
             //Deserialize the .trdx report and set datasource
             report = GetTelerikReportFromXml(filename);
@@ -59,8 +57,6 @@ public partial class SliceLabelReport : System.Web.UI.Page
             var xmlSerializer = new Telerik.Reporting.XmlSerialization.ReportXmlSerializer();
             report = (Report)xmlSerializer.Deserialize(xmlReader);
         }
-
-        //Centiv.General.WriteEventLog("GetTelerikReportFromXml COMPLETE");
         return report;
     }
 

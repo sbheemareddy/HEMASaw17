@@ -10,8 +10,7 @@ namespace HEMASaw.DAO
     public static class HemaSawDAO
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
-
-        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch)
+        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, string sliceNum)
         {
             WOData wOData = new WOData();
             // Connection string to your SQL Server database
@@ -34,16 +33,19 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@workOrder", workOrder);
                     command.Parameters.AddWithValue("@slice_batch", slicebatch);
                     command.Parameters.AddWithValue("@block_batch", blockbatch);
+                    command.Parameters.AddWithValue("@sliceNum", sliceNum);
 
                     // Execute the command
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
                     {
+                        string densityTol = double.Parse(reader["DensityTol"].ToString()).ToString("0.000");
+                        string density = double.Parse(reader["Density"].ToString()).ToString("0.000");
                         wOData.Material = reader["Material"].ToString();
                         wOData.SliceBatch = reader["Slice_Batch"].ToString();
-                        wOData.Density = double.Parse(reader["Density"].ToString());
-                        wOData.DensityTol = double.Parse(reader["DensityTol"].ToString());
+                        wOData.Density = double.Parse(density);
+                        wOData.DensityTol = double.Parse(densityTol);
                         wOData.Description = reader["Description"].ToString();
                         wOData.VisualPartID = reader["VisualPartID"].ToString();
                         wOData.SliceNum = reader["SliceNum"].ToString();
@@ -57,7 +59,86 @@ namespace HEMASaw.DAO
             return wOData;
 
         }
+        public static QRCodeData GetQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, string sliceNum)
+        {
+            QRCodeData qRCodeData = new QRCodeData();
+            // Connection string to your SQL Server database
+            //string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
+            ////Name of your stored procedure
+            string storedProcedureName = "spGetQRDataFromSystem";
+            // Create a connection to the database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Open the connection
+                connection.Open();
 
+                // Create a command to execute the stored procedure
+                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                {
+                    // Set the command type to stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add the parameter to the command
+                    command.Parameters.AddWithValue("@workOrder", workOrder);
+                    command.Parameters.AddWithValue("@slice_batch", slicebatch);
+                    command.Parameters.AddWithValue("@block_batch", blockbatch);
+                    command.Parameters.AddWithValue("@sliceNum", sliceNum);
+
+                    // Execute the command
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        qRCodeData.QRCodeDate = "";
+                        qRCodeData.WO = workOrder;
+                        qRCodeData.BlockBatch = blockbatch;
+                        qRCodeData.SliceBatch = slicebatch;
+                        qRCodeData.Saw = reader["SawNum"].ToString();
+                        qRCodeData.Min = double.Parse(reader["MinThk"].ToString());
+                        qRCodeData.Max= double.Parse(reader["MaxThk"].ToString());
+                        qRCodeData.Ave = double.Parse(reader["AvgThk"].ToString());
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return qRCodeData;
+
+        }
+        public static DataTable SearchWO(int workOrder, string slicebatch, string blockbatch)
+        {
+            string storedProcedureName = "spGetSearchWO";
+            DataTable dataTable = new DataTable(); // Create a new DataTable to hold the results
+
+            // Create a connection to the database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Open the connection
+                connection.Open();
+
+                // Create a command to execute the stored procedure
+                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                {
+                    // Set the command type to stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add the parameter to the command
+                    command.Parameters.AddWithValue("@workOrder", workOrder);
+                    command.Parameters.AddWithValue("@slice_batch", slicebatch);
+                    command.Parameters.AddWithValue("@block_batch", blockbatch);
+
+                    // Execute the command
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        // Load the data from the reader into the DataTable
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable; // Return the filled DataTable
+        }
         public static List<User> GetUserList(Char isActive = 'Y')
         {
             List<User> users = new List<User>();
@@ -100,7 +181,6 @@ namespace HEMASaw.DAO
             return users;
 
         }
-
         public static User GetUserById(string employeeId)
         {
             User user = new User();
@@ -142,7 +222,6 @@ namespace HEMASaw.DAO
             return user;
 
         }
-
         public static void UpsertEmployeeRecord(User employee)
         {
             List<User> users = new List<User>();
@@ -178,15 +257,8 @@ namespace HEMASaw.DAO
                 }
             }
         }
-
         public static DataSet GetSliceSummaryLabel(int workOrder , string sliceBatch , string blockBatch)
         {
-
-            // Parameters for the stored procedure
-             workOrder = 1622280; // Replace with actual work order value
-             sliceBatch = "0000180214"; // Replace with actual slice batch value
-             blockBatch = ""; // Replace with actual block batch value
-
             // Create a new SqlConnection using the connection string
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

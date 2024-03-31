@@ -203,6 +203,8 @@
     <Content Include="App_Data\PrintLabel.cs" />
     <Content Include="assets\gill-logomark-red.svg" />
     <Content Include="assets\GLogo.jpg" />
+    <Content Include="BarCodeReader.aspx" />
+    <Content Include="BarcodeScannerPage.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -220,6 +222,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Login.aspx" />
     <Content Include="Report\SliceLabelReport.aspx" />
     <Content Include="WO\WOPage.aspx" />
     <Content Include="OpenTK.dll.config" />
@@ -278,8 +281,23 @@
     <Compile Include="App_Data\SliceLabelData.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BarCodeReader.aspx.cs">
+      <DependentUpon>BarCodeReader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BarCodeReader.aspx.designer.cs">
+      <DependentUpon>BarCodeReader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BarcodeScannerPage.aspx.cs">
+      <DependentUpon>BarcodeScannerPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BarcodeScannerPage.aspx.designer.cs">
+      <DependentUpon>BarcodeScannerPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DAO\HemaSawDAO.cs" />
     <Compile Include="DAO\HemasawModel.cs" />
+    <Compile Include="DAO\QRCode.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -289,6 +307,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\SliceLabelReport.aspx.cs">

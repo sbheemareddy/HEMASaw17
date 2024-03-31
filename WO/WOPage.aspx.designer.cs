@@ -42,13 +42,13 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.Button btnAcceptData;
 
         /// <summary>
-        /// btnKeyinWO control.
+        /// btnSearchWO control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnKeyinWO;
+        protected global::System.Web.UI.WebControls.Button btnSearchWO;
 
         /// <summary>
         /// txtWO control.
@@ -177,6 +177,24 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.TextBox txtLength;
 
         /// <summary>
+        /// rfvLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLength;
+
+        /// <summary>
+        /// revLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revLength;
+
+        /// <summary>
         /// txtWidth control.
         /// </summary>
         /// <remarks>
@@ -186,6 +204,24 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.TextBox txtWidth;
 
         /// <summary>
+        /// rfvWidth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvWidth;
+
+        /// <summary>
+        /// revWidth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revWidth;
+
+        /// <summary>
         /// txtWeight control.
         /// </summary>
         /// <remarks>
@@ -193,6 +229,24 @@ namespace HEMASaw.WO
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtWeight;
+
+        /// <summary>
+        /// rfvWeight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvWeight;
+
+        /// <summary>
+        /// revWeight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revWeight;
 
         /// <summary>
         /// txtTargetDensity control.

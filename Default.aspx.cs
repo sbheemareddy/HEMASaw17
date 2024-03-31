@@ -16,60 +16,14 @@ namespace HEMASaw
 {
     public partial class _Default : Page
     {
-        private int workOrder = 0;
-        protected void Page_Load(object sender, EventArgs e)
+         protected void Page_Load(object sender, EventArgs e)
         {
-            ParseAndPopulateTextBoxes("Date: 12/27/2023, WO#:1685996, Block#:123, Badge#:123, Slice#:3, Saw#:4, Min:0.622, Max:0.638, Ave:0.633");
-            //  PopulateSystemData(workOrder);
-            GenerateTelerikReport();
-
+            if (!IsPostBack)
+            {
+                txtQRScanData.Focus();
+            }
         }
 
-        private void GenerateTelerikReport()
-        {
-            // Create an instance of the report
-            Report report = new Report();
-
-            // Load the report definition file
-           // report.Load("Path/To/Your/Report.trdx");
-
-            // Create a data table to hold your data (replace with your actual data source)
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Cust", typeof(string));
-            dataTable.Columns.Add("Spec", typeof(string));
-            dataTable.Columns.Add("CustPO", typeof(string));
-            dataTable.Columns.Add("CustPN", typeof(string));
-            // Add more columns as needed
-
-            // Populate the data table with sample data (replace with your actual data)
-            dataTable.Rows.Add("SampleCust1", "SampleSpec1", "SampleCustPO1", "SampleCustPN1");
-            dataTable.Rows.Add("SampleCust2", "SampleSpec2", "SampleCustPO2", "SampleCustPN2");
-            // Add more rows as needed
-
-            // Bind the data table to the report
-            report.DataSource = dataTable;
-
-            // Generate the report document
-            ReportProcessor reportProcessor = new ReportProcessor();
-            InstanceReportSource reportSource = new InstanceReportSource();
-            reportSource.ReportDocument = report;
-           // Telerik.Reporting.Processing.ReportProcessingResult result = reportProcessor.RenderReport("PDF", reportSource, null);
-            reportProcessor.RenderReport("PDF", reportSource, null);
-
-            // Save the report document to a file
-            string outputPath = "Path/To/Save/Report.pdf";
-            //using (var fileStream = System.IO.File.OpenWrite(outputPath))
-            //{
-            //    fileStream.Write(result.DocumentBytes, 0, result.DocumentBytes.Length);
-            //}
-
-            Console.WriteLine("Report generation complete!");
-        }
-
-        protected void btnSubmit_Click(object sender, EventArgs e)
-        {
-            //Do somthing
-        }
         private void ParseAndPopulateTextBoxes(string inputText)
         {
             // Split the input text by commas to get individual key-value pairs
@@ -89,49 +43,86 @@ namespace HEMASaw
                     // Populate textboxes based on the key
                     switch (key)
                     {
-                        case "Date":
-                            txtDate.Text = value;
-                            break;
                         case "WO#":
-                            txtWO.Text = value;
-                            workOrder = int.Parse(value.ToString());
+                            txtWorkOrder.Text = value;
                             break;
                         case "Block#":
-                            txtBlock.Text = value;
-                            break;
-                        case "Badge#":
-                            txtBadge.Text = value;
+                            //blockbatch = value;
+                            txtBlockBatch.Text = value;
                             break;
                         case "Slice#":
-                            txtSlice.Text = value;
+                            // slicebatch = value;
+                            txtSliceBatch.Text = value;
                             break;
-                        case "Saw#":
-                            txtSaw.Text = value;
-                            break;
-                        case "Min":
-                            txtMin.Text = value;
-                            break;
-                        case "Max":
-                            txtMax.Text = value;
-                            break;
-                        case "Ave":
-                            txtAvg.Text = value;
-                            break;
+           
                     }
                 }
             }
         }
 
-        private void PopulateSystemData(int workOrder)
+        protected void btnSearch_Click(object sender, EventArgs e)
         {
-          //  WOStatus wOStatus= HemaSawDAO.GetSystemData(workOrder);
+            BindGridView(); 
+        }
 
-            //if (wOStatus !=null)
-            //{
-            //    txtStatus.Text = wOStatus.Status;
-            //    txtSlicingBatch.Text = wOStatus.Slice_Batch;
-            //    txtDescription.Text = wOStatus.Description;
-            //}
+        private DataTable PerformSearch(int workOrder, string blockBatch, string sliceBatch)
+        {
+
+             return HemaSawDAO.SearchWO(workOrder, sliceBatch, blockBatch);
+        }
+
+        protected void gvSearchResults_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvSearchResults.PageIndex = e.NewPageIndex;
+            // Rebind the GridView with the new page index
+            BindGridView(); 
+        }
+
+        private void BindGridView()
+        {
+            // Retrieve search criteria from the form
+            int workOrder = int.Parse(txtWorkOrder.Text.Trim().ToString());
+            string blockBatch = txtBlockBatch.Text.Trim();
+            string sliceBatch = txtSliceBatch.Text.Trim();
+
+            // Call a method to perform the search
+            DataTable searchResults = PerformSearch(workOrder, blockBatch, sliceBatch);
+
+            // Bind search results to DataGrid
+            gvSearchResults.DataSource = searchResults;
+            gvSearchResults.DataBind();
+        }
+
+        protected void gvSearchResults_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "View")
+            {
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                string workOrder = gvSearchResults.DataKeys[rowIndex]["Workorder"].ToString();
+                string sliceBatch = gvSearchResults.DataKeys[rowIndex]["Slice_Batch"].ToString();
+                string blockBatch = gvSearchResults.DataKeys[rowIndex]["Block_Batch"].ToString();
+                string sliceNum = gvSearchResults.DataKeys[rowIndex]["SliceNum"].ToString();
+
+                Session["Workorder"] = workOrder;
+                Session["Slice_Batch"] = sliceBatch;
+                Session["Block_Batch"] = blockBatch;
+                Session["SliceNum"] = sliceNum;
+                Session["QRScanData"] = txtQRScanData.Text;
+
+                Response.Redirect("~/WO/WOPage.aspx");
+            }
+        }
+
+        protected void txtQRScanData_TextChanged(object sender, EventArgs e)
+        {
+            string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633";
+            if (!string.IsNullOrWhiteSpace(txtQRScanData.Text))
+            {
+                ParseAndPopulateTextBoxes(TestQRScanValue);
+                BindGridView();
+            }
         }
     }
+
+
 }
