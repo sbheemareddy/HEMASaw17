@@ -5,6 +5,7 @@
             <asp:Button ID="btnQRCodeScan" runat="server" CausesValidation="false" Text="QR Code Scan" CssClass="btn" OnClick="btnQRCodeScan_Click" />
             <asp:Button ID="btnClearData" runat="server" CausesValidation="false" Text="Clear Data" CssClass="btn" OnClick="btnClearData_Click" />
             <asp:Button ID="btnAcceptData" runat="server" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClick="btnAcceptData_Click" />
+            <asp:Button ID="btnCheckDensity" runat="server" CausesValidation="true" Text="Check Density" CssClass="btn" OnClick="btnCheckDensity_Click" />
             <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />
         </div>
 
@@ -21,10 +22,11 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Expander#</label>
-                    <select class="fixed-size-Select">
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
+                        <asp:DropDownList ID="ddlOptions" runat="server" CssClass="fixed-size-Select">
+                            <asp:ListItem Value="1">1</asp:ListItem>
+                            <asp:ListItem Value="2">2</asp:ListItem>
+                            <asp:ListItem Value="3">3</asp:ListItem>
+                        </asp:DropDownList>
                 </div>
                 <div class="field">
                     <label for="Date" class="fixed-size-label">QR Date</label>
@@ -114,8 +116,12 @@
                     <asp:RegularExpressionValidator ID="revWeight" ControlToValidate="txtWeight" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" ValidationExpression="^\d+(\.\d+)?$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
+                <div class="field">
+                    <label class="fixed-size-label">Count</label>
+                    <asp:TextBox ID="txtCount" CssClass="fixed-size-input" runat="server"></asp:TextBox>
+                </div>
             </div>
-            <div class="card">
+            <div class="card" id ="densityDiv" runat="server">
                 <h6>Density</h6>
                 <div class="field">
                     <label class="fixed-size-label">Target Density</label>
@@ -126,18 +132,15 @@
                     <asp:TextBox ID="txtDensityTol" class="fixed-size-input-Readonly" ReadOnly="true" runat="server" />
                 </div>
                 <div class="field">
-                    <label class="fixed-size-label-long">Actual Density: Density PCF (Calculate)</label>
-
-                </div>
-                <div class="field">
-                    <label for="pcfcalculated" id="lblPCFCalculated" runat="server"></label>
+                    <label class="fixed-size-label">Actual Density</label>
+                    <label class="fixed-size-input-Readonly" id="lblPCFCalculated" runat="server"></label>
                 </div>
             </div>
         </div>
 
-        <div id="divpass" class="catchy-green" runat="server" visible="false">
+        <div id="divpass"  runat="server" visible="false">
             <div class="buttons">
-                <h2>Acceptance Passed.</h2>
+              <%--  <h2>Acceptance Passed.</h2>--%>
                 <asp:Button ID="btnPrintSliceLabel" runat="server" Text="Print Slice Tag" CssClass="btn" OnClientClick="redirectToSliceLabel(); return false;" />
                 <asp:Button ID="btnPrintSummaryLabel" runat="server" Text="Print Summary Tag" CssClass="btn" OnClientClick="redirectToSummaryLabel(); return false;" />
             </div>

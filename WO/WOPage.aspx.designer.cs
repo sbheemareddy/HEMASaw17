@@ -42,6 +42,15 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.Button btnAcceptData;
 
         /// <summary>
+        /// btnCheckDensity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCheckDensity;
+
+        /// <summary>
         /// btnSearchWO control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace HEMASaw.WO
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSaw;
+
+        /// <summary>
+        /// ddlOptions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOptions;
 
         /// <summary>
         /// txtQRCodeDate control.
@@ -247,6 +265,24 @@ namespace HEMASaw.WO
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator revWeight;
+
+        /// <summary>
+        /// txtCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCount;
+
+        /// <summary>
+        /// densityDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl densityDiv;
 
         /// <summary>
         /// txtTargetDensity control.

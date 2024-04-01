@@ -227,6 +227,7 @@
     <Content Include="OpenTK.dll.config" />
     <Content Include="Report\SliceLabel.trdx" />
     <Content Include="Report\SummaryLabel.trdx" />
+    <Content Include="Report\SliceLabel - Copy.trdx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

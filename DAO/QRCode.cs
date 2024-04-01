@@ -15,13 +15,15 @@ namespace HEMASaw.DAO
         public double Min { get; set; }
         public double Max { get; set; }
         public double Ave { get; set; }
+        public double SliceNum { get; set; }
+        public string BlockNumber { get; set; }
 
         // Constructor
-        public QRCodeData(int wo, string blockBatch, string sliceBatch, string saw, double min, double max, double ave,string qRCodeDate)
+        public QRCodeData(int wo, string blockBatch, string slicebatch, string saw, double min, double max, double ave,string qRCodeDate)
         {
             WO = wo;
             BlockBatch = blockBatch;
-            SliceBatch = sliceBatch;
+            SliceBatch = slicebatch;
             Saw = saw;
             Min = min;
             Max = max;

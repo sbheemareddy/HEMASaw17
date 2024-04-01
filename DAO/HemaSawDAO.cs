@@ -62,9 +62,6 @@ namespace HEMASaw.DAO
         public static QRCodeData GetQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, string sliceNum)
         {
             QRCodeData qRCodeData = new QRCodeData();
-            // Connection string to your SQL Server database
-            //string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
-            ////Name of your stored procedure
             string storedProcedureName = "spGetQRDataFromSystem";
             // Create a connection to the database
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -97,6 +94,7 @@ namespace HEMASaw.DAO
                         qRCodeData.Min = double.Parse(reader["MinThk"].ToString());
                         qRCodeData.Max= double.Parse(reader["MaxThk"].ToString());
                         qRCodeData.Ave = double.Parse(reader["AvgThk"].ToString());
+
                     }
 
                     reader.Close();
@@ -104,6 +102,50 @@ namespace HEMASaw.DAO
             }
 
             return qRCodeData;
+
+        }
+        public static DataTable GetUniqueQRRecord(QRCodeData qRCodeData)
+        {
+            DataTable dataTable = new DataTable(); 
+            string storedProcedureName = "spGetUniqueQRRecord";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Open the connection
+                connection.Open();
+
+                // Create a command to execute the stored procedure
+                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                {
+                    // Set the command type to stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add the parameter to the command
+                    command.Parameters.AddWithValue("@workOrder", qRCodeData.WO);
+                    command.Parameters.AddWithValue("@block_batch", qRCodeData.BlockBatch);
+                    command.Parameters.AddWithValue("@sliceNum", qRCodeData.SliceNum);
+                    command.Parameters.AddWithValue("@saw", qRCodeData.Saw);
+                    command.Parameters.AddWithValue("@max", qRCodeData.Max);
+                    command.Parameters.AddWithValue("@min", qRCodeData.Min);
+                    command.Parameters.AddWithValue("@ave", qRCodeData.Ave);
+                    // Execute the command
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        // Load the data from the reader into the DataTable
+                        dataTable.Load(reader);
+                    }
+                    //SqlDataReader reader = command.ExecuteReader();
+
+                    //while (reader.Read())
+                    //{
+                    //    dataTable.Load(reader);
+                    //}
+
+                    //reader.Close();
+                }
+            }
+
+            return dataTable;
 
         }
         public static DataTable SearchWO(int workOrder, string slicebatch, string blockbatch)
@@ -289,6 +331,48 @@ namespace HEMASaw.DAO
                         connection.Close();
 
                         return dataSet;
+                    }
+                }
+            }
+        }
+        public static void AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF)
+        {
+            // Create connection
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Open the connection
+                connection.Open();
+
+                // Create command
+                using (SqlCommand command = new SqlCommand("spAcceptSliceData", connection))
+                {
+                    // Set command type to stored procedure
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    // Add parameters
+                    command.Parameters.AddWithValue("@id", Id);
+                    command.Parameters.AddWithValue("@employeeID", EmployeeID);
+                    command.Parameters.AddWithValue("@expanderNum", ExpanderNum);
+                    command.Parameters.AddWithValue("@length", Length);
+                    command.Parameters.AddWithValue("@width", Width);
+                    command.Parameters.AddWithValue("@weight", Weight);
+                    command.Parameters.AddWithValue("@comments", Comments);
+                    command.Parameters.AddWithValue("@densityPCF", DensityPCF);
+                    command.Parameters.AddWithValue("@densityPSF", DensityPSF);
+
+                    // Execute the command
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Check if any rows were affected
+                    if (rowsAffected > 0)
+                    {
+                        // Rows were affected (updated successfully)
+                        Console.WriteLine("Stored procedure executed successfully. Rows affected: " + rowsAffected);
+                    }
+                    else
+                    {
+                        // No rows were affected (maybe the ID didn't match any record)
+                        Console.WriteLine("Stored procedure executed successfully, but no rows were affected.");
                     }
                 }
             }

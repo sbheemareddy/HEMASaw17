@@ -10,21 +10,21 @@ namespace HEMASaw.WO
 {
     public partial class WOPage : HemaBasePage
     {
-        //private int workOrder = 0;
-        //private string slicebatch = string.Empty;
-        //private string blockbatch = string.Empty;
+        string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
             {
+                densityDiv.Attributes["class"] = "card";
                 int workOrder = int.Parse(Session["Workorder"].ToString());
                 string sliceBatch = Session["Slice_Batch"].ToString();
                 string blockBatch = Session["Block_Batch"].ToString();
                 string sliceNum = Session["SliceNum"].ToString();
                 string qrScanData = Session["QRScanData"].ToString();
                 PopulateSystemData(workOrder, sliceBatch, blockBatch, sliceNum);
-                // string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633";
-
+  
+                //TestQRScanValue
                 if (!string.IsNullOrEmpty(qrScanData))
                 {
                     ParseAndPopulateTextBoxes(qrScanData);
@@ -33,17 +33,8 @@ namespace HEMASaw.WO
                 {
                     PopulateQRDataFromSystem(workOrder, sliceBatch, blockBatch, sliceNum);
                 }
-
-
-
-                // Use the retrieved values as needed
             }
-            //Session["EmpID"] = "0086";
-            //Session["EmployeeName"] = "MENDOZA, MARGARITO";
-            //ParseAndPopulateTextBoxes("Date: 12/27/2023, WO#:1685996, Block#:173318, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633");
-            //PopulateSystemData(workOrder , slicebatch, blockbatch);
-            //lblEmpID.InnerText = Session["EmpID"].ToString();
-            //lblEmpName.InnerText = Session["EmployeeName"].ToString();
+            densityDiv.Style["background-color"] = "#f0f0f0";
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -147,6 +138,7 @@ namespace HEMASaw.WO
             txtWeight.Text = string.Empty;
             txtWidth.Text = string.Empty;
             txtComments.Text = string.Empty;
+            divpass.Visible = false;
         }
 
         protected void btnAcceptData_Click(object sender, EventArgs e)
@@ -168,9 +160,12 @@ namespace HEMASaw.WO
 
             double DensityPCF = weight / CC;
 
+            double psFCC = (width * length ) / 144;
+
+            double DensityPSF = weight / psFCC;
+
 
             lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
-            //bool acceptDataSuccess = true;
 
             double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
 
@@ -180,12 +175,17 @@ namespace HEMASaw.WO
             {
                 // Data acceptance succeeded, keep the buttontolLower green
                 divpass.Visible = true;
-                divfail.Visible = false;
+                //divfail.Visible = false;
+                densityDiv.Style["background-color"] = "green";
+                int ID = int.Parse(Session["SliceID"].ToString());
+                string EmployeeID = Session["EmployeeID"].ToString();
+                HemaSawDAO.AcceptSliceData(ID,  EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF);
             }
             else
             {
                 divpass.Visible = false;
-                divfail.Visible = true;
+               // divfail.Visible = true;
+                densityDiv.Style["background-color"] = "Red";
             }
         }
 
@@ -212,6 +212,49 @@ namespace HEMASaw.WO
             var url = @"../Report/SliceLabelReport.aspx?reportName=SummaryLabel";
             Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
             Response.End();
+
+        }
+
+        protected void btnCheckDensity_Click(object sender, EventArgs e)
+        {
+            //Session["Thickness"] = wOData.Thickness.ToString();
+            double width = 0.0;
+            double.TryParse(txtWidth.Text, out width);
+
+            double weight = 0.0;
+            double.TryParse(txtWeight.Text, out weight);
+
+            double length = 0.0;
+            double.TryParse(txtLength.Text, out length);
+
+            double thickness = 0.0;
+            double.TryParse(Session["Thickness"].ToString(), out thickness);
+
+            double CC = (width * length * thickness) / 1728;
+
+            double DensityPCF = weight / CC;
+
+
+            lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
+            //bool acceptDataSuccess = true;
+
+            double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
+
+            double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
+
+            if (DensityPCF <= tolHigher && DensityPCF >= tolLower)
+            {
+                // Data acceptance succeeded, keep the buttontolLower green
+                //divpass.Visible = true;
+                //divfail.Visible = false;
+                densityDiv.Style["background-color"] = "green";
+            }
+            else
+            {
+               // divpass.Visible = false;
+                // divfail.Visible = true;
+                densityDiv.Style["background-color"] = "Red";
+            }
 
         }
     }

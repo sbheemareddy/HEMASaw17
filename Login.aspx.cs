@@ -13,7 +13,7 @@ namespace HEMASaw
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+            Session.Clear();
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

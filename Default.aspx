@@ -34,7 +34,7 @@
                     <asp:GridView ID="gvSearchResults" runat="server" AutoGenerateColumns="false" CssClass="table table-striped" 
                         AllowPaging="True" PageSize="5" PagerStyle-HorizontalAlign="Center" 
                         OnPageIndexChanging="gvSearchResults_PageIndexChanging" OnRowCommand="gvSearchResults_RowCommand" 
-                        OnDataBound="gvSearchResults_DataBound" DataKeyNames ="Workorder, Slice_Batch, Block_Batch, SliceNum">
+                        OnDataBound="gvSearchResults_DataBound" DataKeyNames ="Workorder, Slice_Batch, Block_Batch, SliceNum,ID">
                         <Columns>
                             <asp:BoundField DataField="Material" HeaderText="Material" />
                             <asp:BoundField DataField="Slice_Batch" HeaderText="Slice Order" />
