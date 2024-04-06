@@ -32,6 +32,10 @@ public class SliceLabelData
         public int Quantity { get; set; }
         public string SONumber { get; set; }
         public string MfgDate { get; set; }
+        public string OperatorName { get; set; }
+        public string DocNum { get; set; }
+        public string VisualPartID { get; set; }
+        public string SalesOrder { get; set; }
     }
     public static SliceLabelFields GetSliceLabelLabelData(DataRow reader)
     {
@@ -54,6 +58,10 @@ public class SliceLabelData
         sld.Quantity = Qty;
         sld.SONumber = reader["SalesOrder"].ToString(); ;
         sld.MfgDate = reader["Mfg_date"].ToString(); ;
+        sld.OperatorName = reader["OperatorName"].ToString(); 
+        sld.DocNum = reader["DocNum"].ToString();
+        sld.VisualPartID = reader["VisualPartID"].ToString();
+        sld.SalesOrder = reader["SalesOrder"].ToString();
         //};
 
         return sld;

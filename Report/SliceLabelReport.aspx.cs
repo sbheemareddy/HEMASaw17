@@ -34,7 +34,7 @@ public partial class SliceLabelReport : HemaBasePage
     public Report CustomizeReport(string filename, int workOrder ,string sliceBatch , string blockBatch , string sliceNum)
     {
 
-        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(workOrder, sliceBatch, blockBatch);
+        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(workOrder, sliceBatch, blockBatch, sliceNum);
 
         Report report = null;
         if (ds.Tables[0].Rows.Count > 0)

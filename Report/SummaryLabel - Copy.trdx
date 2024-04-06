@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report DataSourceName="sqlDataSource1" Width="3.014in" UnitOfMeasure="Inch" Name="SummaryTag" ShowSnapGrid="True" SnapToGrid="False" SnapToSnapLines="False" ShowDimensions="False" ShowWatermarks="False" xmlns="http://schemas.telerik.com/reporting/2023/3.0">
+  <Style TextAlign="Right">
+    <Font Size="8pt" />
+  </Style>
+  <DataSources>
+    <SqlDataSource QueryDesignerState="null" ParameterValues="{&quot;@workOrder&quot;:&quot;1622280&quot;,&quot;@slice_batch&quot;:&quot;0000180214&quot;}" ConnectionString="Data Source=10.10.2.43;Initial Catalog=HEMASaws;User Id=Sawsuser;Password=gill@2024;" ProviderName="System.Data.SqlClient" SelectCommand="dbo.spGetSliceLabel" SelectCommandType="StoredProcedure" Name="sqlDataSource1">
+      <Parameters>
+        <SqlDataSourceParameter DbType="Int32" Name="@workOrder">
+          <Value>
+            <String>1622280</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@slice_batch">
+          <Value>
+            <String>0000180214</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@block_batch" />
+      </Parameters>
+    </SqlDataSource>
+    <SqlDataSource QueryDesignerState="null" ParameterValues="{&quot;@id&quot;:&quot;8308297&quot;}" ConnectionString="centivnexiv23" SelectCommand="dbo.spGetSliceLabel" SelectCommandType="StoredProcedure" Name="IntegrationEnvironment">
+      <Parameters>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@workOrder">
+          <Value>
+            <String>1622280</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@slice_batch">
+          <Value>
+            <String>0000180214</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@block_batch">
+          <Value>
+            <String>0000180214</String>
+          </Value>
+        </SqlDataSourceParameter>
+      </Parameters>
+    </SqlDataSource>
+  </DataSources>
+  <PageSettings PaperKind="Custom" PaperSize="3.25in, 5in" Landscape="False" ContinuousPaper="False">
+    <Margins>
+      <MarginsU Left="0.25in" Right="0.25in" Top="0.1in" Bottom="0.1in" />
+    </Margins>
+  </PageSettings>
+  <StyleSheet>
+    <StyleRule>
+      <Style Color="Black">
+        <Font Name="Tahoma" Size="18pt" Bold="True" Italic="False" Underline="False" Strikeout="False" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="Title" />
+      </Selectors>
+    </StyleRule>
+    <StyleRule>
+      <Style Color="Black" VerticalAlign="Middle">
+        <Font Name="Tahoma" Size="10pt" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="Caption" />
+      </Selectors>
+    </StyleRule>
+    <StyleRule>
+      <Style VerticalAlign="Middle">
+        <Font Name="Tahoma" Size="9pt" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="Data" />
+      </Selectors>
+    </StyleRule>
+    <StyleRule>
+      <Style VerticalAlign="Middle">
+        <Font Name="Tahoma" Size="8pt" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="PageInfo" />
+      </Selectors>
+    </StyleRule>
+  </StyleSheet>
+  <Groups>
+    <Group Name="Slice Tag Header">
+      <GroupHeader>
+        <GroupHeaderSection Height="0.2in" Name="Summary Tag Header">
+          <Style BackgroundColor="White" TextAlign="Center">
+            <BorderStyle Default="None" />
+            <Padding Left="0.1in" Right="0in" Top="0in" Bottom="0in" />
+          </Style>
+          <Items>
+            <TextBox Width="2.999in" Height="0.2in" Left="0in" Top="0in" Value="Summary Tag" CanGrow="False" Name="textBox26">
+              <Style TextAlign="Center" VerticalAlign="Middle">
+                <Font Size="14pt" Bold="True" />
+                <BorderWidth Default="0in" />
+              </Style>
+            </TextBox>
+          </Items>
+        </GroupHeaderSection>
+      </GroupHeader>
+    </Group>
+	<Group Name="Material">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Material#">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="1.00in" Height="0.2in" Left="0in" Top="0in" Value="Material:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="1.75in" Height="0.2in" Left="0.8in" Top="0in" Value="= Fields.Material" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+    <Group Name="Mtl Barcode">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.75in" Name="Mtl Barcode">
+				  <Style TextAlign="Center" />
+				  <Items>
+					  <Barcode Width="1.992in" Height="0.65in" Left="0.55in" Top="0.05in" Value="= Fields.Material + ''&#xD;&#xA;&#xD;&#xA;" Module="1px" Checksum="False" Name="barcode1">
+						  <Style TextAlign="Center" VerticalAlign="Bottom" LineWidth="1pt">
+							  <Font Size="8pt" Bold="True" />
+						  </Style>
+						  <Encoder>
+							  <Code39Encoder />
+						  </Encoder>
+					  </Barcode>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Quantity">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Quantity">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="1.00in" Height="0.2in" Left="0in" Top="0in" Value="QTY:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="1.75in" Height="0.2in" Left="0.8in" Top="0in" Value="= Fields.Quantity" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Description">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Description">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="1.00in" Height="0.2in" Left="0in" Top="0in" Value="Description:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="1.75in" Height="0.2in" Left="0.8in" Top="0in" Value="= Fields.Description" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Spec">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Spec:">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="0.677in" Height="0.2in" Left="0in" Top="0in" Value="Spec:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="2.26in" Height="0.2in" Left="0.422in" Top="0in" Value="" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Cust P/N">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Cust P/N:">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="0.677in" Height="0.2in" Left="0in" Top="0in" Value="Cust P/N:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="2.041in" Height="0.2in" Left="0.682in" Top="0in" Value="" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Slicing Batch">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Slicing Batch">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="1.00in" Height="0.2in" Left="0in" Top="0in" Value="Slicing Batch#:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="1.75in" Height="0.2in" Left="0.85in" Top="0in" Value="= Fields.SliceBatch" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.04in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Slice Batch Barcode">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Slice Batch Barcode">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <Barcode Width="1.992in" Height="0.65in" Left="0.55in" Top="0.05in" Value="= Fields.SliceBatch + ''&#xD;&#xA;&#xD;&#xA;" Module="1px" Checksum="False" Name="barcode1">
+						  <Style TextAlign="Center" VerticalAlign="Bottom" LineWidth="1pt">
+							  <Font Size="8pt" Bold="True" />
+						  </Style>
+						  <Encoder>
+							  <Code39Encoder />
+						  </Encoder>
+					  </Barcode>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="S.O.#">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="S.O.#">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <Barcode Value="= Fields.SONumber" Type="Code128" Width="2.50in" Height="0.2in" Left="0.0in" Top="0in" Name="SONumber">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </Barcode>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Block Batch#">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Block Batch#">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="1.00in" Height="0.2in" Left="0in" Top="0in" Value="Block Batch#:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="1.75in" Height="0.2in" Left="0.8in" Top="0in" Value="= Fields.BlockBatch" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Mfg Date">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Mfg Date">
+				  <Style>
+					  <Padding Left="0.01in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="0.50in" Height="0.2in" Left="0.00in" Top="0in" Value="Mfg Date:" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="1.50in" Height="0.2in" Left="0.5in" Top="0in" Value="= Fields.MfgDate" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.01in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+	<Group Name="Density">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="Density">
+				  <Style>
+					  <Padding Left="0.01in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="0.80in" Height="0.2in" Left="0in" Top="0in" Value="Density :" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="0.30in" Height="0.2in" Left="0.85in" Top="0in" Value="= Fields.DensityPCF" CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.01in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+    <Group Name="Cust">
+      <GroupHeader>
+        <GroupHeaderSection Height="0.2in" Name="Cust:">
+          <Style>
+            <Padding Left="0.03in" />
+          </Style>
+          <Items>
+            <TextBox Width="0.677in" Height="0.2in" Left="0in" Top="0in" Value="Customer:" Name="textBox1">
+              <Style TextAlign="Left" VerticalAlign="Middle">
+                <Font Size="9pt" Bold="True" />
+              </Style>
+            </TextBox>
+            <TextBox Width="2.26in" Height="0.2in" Left="0.422in" Top="0in" Value="" CanGrow="False" Name="textBox2">
+              <Style TextAlign="Left" VerticalAlign="Middle">
+                <Font Size="9pt" />
+                <Padding Left="0.03in" />
+              </Style>
+            </TextBox>
+          </Items>
+        </GroupHeaderSection>
+      </GroupHeader>
+    </Group>
+    <Group Name="Cust PO">
+      <GroupHeader>
+        <GroupHeaderSection Height="0.2in" Name="Cust PO:">
+          <Style>
+            <Padding Left="0.03in" />
+          </Style>
+          <Items>
+            <TextBox Width="0.677in" Height="0.2in" Left="0in" Top="0in" Value="Cust PO:" Name="textBox1">
+              <Style TextAlign="Left" VerticalAlign="Middle">
+                <Font Size="9pt" Bold="True" />
+              </Style>
+            </TextBox>
+            <TextBox Width="2in" Height="0.2in" Left="0.724in" Top="0in" Value="" CanGrow="False" Name="textBox2">
+              <Style TextAlign="Left" VerticalAlign="Middle">
+                <Font Size="9pt" />
+                <Padding Left="0.03in" />
+              </Style>
+            </TextBox>
+          </Items>
+        </GroupHeaderSection>
+      </GroupHeader>
+    </Group>
+    <Group Name="QC Approval">
+      <GroupHeader>
+        <GroupHeaderSection Height="0.2in" Name="QC Approval">
+          <Style>
+            <Padding Left="0.03in" />
+          </Style>
+          <Items>
+            <TextBox Width="1.00in" Height="0.2in" Left="0in" Top="0in" Value="QC Approval:" Name="textBox1">
+              <Style TextAlign="Left" VerticalAlign="Middle">
+                <Font Size="9pt" Bold="True" />
+              </Style>
+            </TextBox>
+            <TextBox Width="1.75in" Height="0.2in" Left="0.8in" Top="0in" Value="__________________________" CanGrow="False" Name="textBox2">
+              <Style TextAlign="Left" VerticalAlign="Middle">
+                <Font Size="9pt" />
+                <Padding Left="0.03in" />
+              </Style>
+            </TextBox>
+          </Items>
+        </GroupHeaderSection>
+      </GroupHeader>
+    </Group>
+	<Group Name="F137">
+		  <GroupHeader>
+			  <GroupHeaderSection Height="0.2in" Name="F137">
+				  <Style>
+					  <Padding Left="0.03in" />
+				  </Style>
+				  <Items>
+					  <TextBox Width="0.677in" Height="0.2in" Left="0in" Top="0in" Value="F137-1 - 10/18" Name="textBox1">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" />
+						  </Style>
+					  </TextBox>
+					  <TextBox Width="2.26in" Height="0.2in" Left="0.422in" Top="0in" Value="= Fields.SliceNum"  CanGrow="False" Name="textBox2">
+						  <Style TextAlign="Left" VerticalAlign="Middle">
+							  <Font Size="9pt" />
+							  <Padding Left="0.03in" />
+						  </Style>
+					  </TextBox>
+				  </Items>
+			  </GroupHeaderSection>
+		  </GroupHeader>
+	  </Group>
+  </Groups>
+</Report>

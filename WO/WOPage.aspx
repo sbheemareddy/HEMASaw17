@@ -11,17 +11,17 @@
 
         <div class="container">
             <div class="card">
-                <h6>Work Order</h6>
+                <h6>WO Details</h6>
                 <div class="field">
-                    <label class="fixed-size-label">WO#</label>
+                    <label class="fixed-size-label">Work Order</label>
                     <asp:TextBox ID="txtWO" ReadOnly="true" class="fixed-size-input-Readonly" runat="server" />
                 </div>
                 <div class="field">
-                    <label class="fixed-size-label">Saw#</label>
+                    <label class="fixed-size-label">Saw Number</label>
                     <asp:TextBox ID="txtSaw" ReadOnly="true" class="fixed-size-input-Readonly" runat="server" />
                 </div>
                 <div class="field">
-                    <label class="fixed-size-label">Expander#</label>
+                    <label class="fixed-size-label">Expander</label>
                         <asp:DropDownList ID="ddlOptions" runat="server" CssClass="fixed-size-Select">
                             <asp:ListItem Value="1">1</asp:ListItem>
                             <asp:ListItem Value="2">2</asp:ListItem>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="card">
-                <h6>Part ID</h6>
+                <h6>Part Details</h6>
                 <div class="field">
                     <label class="fixed-size-label">Material</label>
                     <asp:TextBox ID="txtMaterial" class="fixed-size-input-Readonly" ReadOnly="true" runat="server" />
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="card">
-                <h6>Block Batch#</h6>
+                <h6>Block Details</h6>
                 <div class="field">
                     <label class="fixed-size-label">Block Batch#</label>
                     <asp:TextBox ID="txtBlockBatch" ReadOnly="true" class="fixed-size-input-Readonly" runat="server" />
@@ -93,7 +93,7 @@
             <div class="card">
                 <h6>Dimension</h6>
                 <div class="field">
-                    <label class="fixed-size-label">Length#</label>
+                    <label class="fixed-size-label">Length</label>
                     <asp:TextBox ID="txtLength" CssClass="fixed-size-input" runat="server"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvLength" ControlToValidate="txtLength" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>

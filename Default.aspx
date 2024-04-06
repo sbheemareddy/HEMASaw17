@@ -18,7 +18,7 @@
                         ErrorMessage="<span class='error-message'>*</span>" ValidationExpression="^\d+$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
                 <div class="col-md-3">
-                    <label for="txtSliceBatch">Slice Order #</label>
+                    <label for="txtSliceBatch">Slice Batch #</label>
                     <asp:TextBox ID="txtSliceBatch" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
                 <div class="col-md-3">

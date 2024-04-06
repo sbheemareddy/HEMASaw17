@@ -1,43 +1,47 @@
-USE [HEMASaws]
-GO
-ALTER PROCEDURE [dbo].[spGetSliceLabel]   
-	@workOrder int ,
-	@slice_batch	varchar(10)=null,
-	@block_batch varchar(10) = null
-AS  
-BEGIN  
- -- SET NOCOUNT ON added to prevent extra result sets from  
- SET NOCOUNT ON;  
+ALTER PROCEDURE [dbo].[spGetSliceLabel]     
+ @workOrder int ,  
+ @slice_batch varchar(10)=null,  
+ @block_batch varchar(10) = null ,
+ @sliceNum int
+AS    
+BEGIN    
+ -- SET NOCOUNT ON added to prevent extra result sets from    
+ SET NOCOUNT ON;    
+  
+  IF (@slice_batch ='')  
+  set  @slice_batch = null  
+  
+  IF (@block_batch ='')  
+  set  @block_batch = null  
+ select   
+  woh.Material  
+  ,woh.Slice_Batch  
+  ,woh.Block_Batch  
+  ,woh.WorkOrder  
+  ,woh.Release_Date  
+  ,CAST(woh.Scheduled_Qty  AS INT) AS Scheduled_Qty 
+  ,woh.SalesOrder  
+  ,woh.Mfg_date  
+  ,Im.[Description]  
+  ,SD.DensityPCF  
+  ,SD.DensityPSF  
+  ,CAST(SD.MinThk AS DECIMAL(10,3)) AS MinThk
+  ,CAST(SD.MaxThk AS DECIMAL(10,3)) AS MaxThk
+  ,CAST(SD.AvgThk AS DECIMAL(10,3)) AS AvgThk
+  ,    CAST(Sd.SawNum AS VARCHAR(10)) + ' - ' + CAST(SD.SliceNum AS VARCHAR(10)) AS SliceNum
+  , (select Lastname + ' ' + FirstName from Employee where EmployeeID = sd.EmployeeID) as 'OperatorName'
+  --,'GUTIERREZ  GONZALO' as 'EmployeeName'
+  ,'F137-2 - 10/22' as DocNum
+ from WorkOrderHeader WOH  
+ Inner Join itemmaster IM on IM.Material = WOH.Material  
+ Inner Join SliceData SD on SD.WorkOrder =WOH.WorkOrder  
+ where woh.WorkOrder =@workOrder  
+ and woh.Slice_batch =@slice_batch  
+ and ( woh.Block_Batch = @block_batch)  
+ and sd.SliceNum = @sliceNum
+END   
 
-	 IF (@slice_batch ='')
-		set  @slice_batch = null
+--select distinct EmployeeID from SliceData
+--select * from Employee
 
-	 IF (@block_batch ='')
-		set  @block_batch = null
-	select 
-		Top 1
-		woh.Material
-		,woh.Slice_Batch
-		,woh.Block_Batch
-		,woh.WorkOrder
-		,woh.Release_Date
-		,woh.Scheduled_Qty
-		,woh.SalesOrder
-		,woh.Mfg_date
-		,Im.[Description]
-		,SD.DensityPCF
-		,SD.DensityPSF
-		,SD.MinThk
-		,SD.MaxThk
-		,SD.AvgThk
-		,SD.SliceNum
-	from WorkOrderHeader WOH
-	Inner Join itemmaster IM on IM.Material = WOH.Material
-	Inner Join SliceData SD on SD.WorkOrder =WOH.WorkOrder
-	where woh.WorkOrder =@workOrder
-	and woh.Slice_batch =@slice_batch
-	and ( woh.Block_Batch = @block_batch OR woh.Block_Batch IS NULL)
-END 
-GO
-
-
+--0111
