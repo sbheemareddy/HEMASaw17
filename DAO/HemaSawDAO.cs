@@ -15,29 +15,21 @@ namespace HEMASaw.DAO
         public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, string sliceNum)
         {
             WOData wOData = new WOData();
-            // Connection string to your SQL Server database
-            //string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
-            ////Name of your stored procedure
             string storedProcedureName = "spGetSystemData";
-            // Create a connection to the database
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Open the connection
                 connection.Open();
 
-                // Create a command to execute the stored procedure
                 using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
                 {
-                    // Set the command type to stored procedure
                     command.CommandType = CommandType.StoredProcedure;
 
-                    // Add the parameter to the command
                     command.Parameters.AddWithValue("@workOrder", workOrder);
                     command.Parameters.AddWithValue("@slice_batch", slicebatch);
                     command.Parameters.AddWithValue("@block_batch", blockbatch);
                     command.Parameters.AddWithValue("@sliceNum", sliceNum);
 
-                    // Execute the command
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -52,6 +44,12 @@ namespace HEMASaw.DAO
                         wOData.VisualPartID = reader["VisualPartID"].ToString();
                         wOData.SliceNum = reader["SliceNum"].ToString();
                         wOData.Thickness = reader["Thickness"].ToString();
+                        wOData.TargetCellCount = reader["TargetCellCount"].ToString();
+                        wOData.MinCellCount = reader["MinCellCount"].ToString();
+                        wOData.MaxCellCount = reader["MaxCellCount"].ToString();
+                        wOData.Length = double.Parse(reader["Length"].ToString());
+                        wOData.Width = double.Parse(reader["Width"].ToString());
+                        wOData.Weight = double.Parse(reader["Weight"].ToString());
                     }
 
                     reader.Close();

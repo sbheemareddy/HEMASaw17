@@ -37,10 +37,10 @@
                         OnDataBound="gvSearchResults_DataBound" DataKeyNames ="Workorder, Slice_Batch, Block_Batch, SliceNum,ID">
                         <Columns>
                             <asp:BoundField DataField="Material" HeaderText="Material" />
-                            <asp:BoundField DataField="Slice_Batch" HeaderText="Slice Order" />
-                            <asp:BoundField DataField="VisualPartID" HeaderText="VisualPartID" />
+                            <asp:BoundField DataField="Slice_Batch" HeaderText="Slice Batch" />
+                            <asp:BoundField DataField="VisualPartID" HeaderText="Part ID" />
                             <asp:BoundField DataField="Description" HeaderText="Description" />
-                            <asp:BoundField DataField="SliceNum" HeaderText="SliceNum" />
+                            <asp:BoundField DataField="SliceNum" HeaderText="Slice Num" />
                             <asp:BoundField DataField="Thickness" HeaderText="Thickness" />
                             <asp:TemplateField HeaderText="View">
                                 <ItemTemplate>

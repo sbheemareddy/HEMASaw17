@@ -60,6 +60,60 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.Button btnSearchWO;
 
         /// <summary>
+        /// txtTargetDensity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTargetDensity;
+
+        /// <summary>
+        /// txtDensityTol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDensityTol;
+
+        /// <summary>
+        /// txtTargetCellCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTargetCellCount;
+
+        /// <summary>
+        /// txtMinCellCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMinCellCount;
+
+        /// <summary>
+        /// txtMaxCellCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMaxCellCount;
+
+        /// <summary>
+        /// hidDataChanged control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidDataChanged;
+
+        /// <summary>
         /// txtWO control.
         /// </summary>
         /// <remarks>
@@ -267,13 +321,31 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.RegularExpressionValidator revWeight;
 
         /// <summary>
-        /// txtCount control.
+        /// txtCellCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCount;
+        protected global::System.Web.UI.WebControls.TextBox txtCellCount;
+
+        /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+
+        /// <summary>
+        /// RegularExpressionValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
 
         /// <summary>
         /// densityDiv control.
@@ -285,22 +357,22 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl densityDiv;
 
         /// <summary>
-        /// txtTargetDensity control.
+        /// lblTargetDensity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTargetDensity;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTargetDensity;
 
         /// <summary>
-        /// txtDensityTol control.
+        /// lblTgtCellCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDensityTol;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTgtCellCount;
 
         /// <summary>
         /// lblPCFCalculated control.
@@ -310,6 +382,15 @@ namespace HEMASaw.WO
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblPCFCalculated;
+
+        /// <summary>
+        /// lblAcceptanceMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAcceptanceMsg;
 
         /// <summary>
         /// divpass control.

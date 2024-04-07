@@ -35,6 +35,8 @@ namespace HEMASaw.WO
                 }
             }
             densityDiv.Style["background-color"] = "#f0f0f0";
+            lblAcceptanceMsg.InnerHtml = string.Empty;
+            hidDataChanged.Value = "0";
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -105,7 +107,21 @@ namespace HEMASaw.WO
                 txtTargetDensity.Text = wOData.Density.ToString();
                 txtDensityTol.Text = wOData.DensityTol.ToString();
                 txtCutSlice.Text = wOData.SliceNum.ToString();
+                txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
+                txtMinCellCount.Text = wOData.MinCellCount.ToString();
+                txtMaxCellCount.Text = wOData.MaxCellCount.ToString();
+                txtLength.Text = wOData.Length.ToString();
+                txtWidth.Text = wOData.Width.ToString();
+                txtWeight.Text = wOData.Weight.ToString();
+
+                Session["widthOrig"] = wOData.Width.ToString();
+                Session["weightOrig"] = wOData.Weight.ToString();
+                Session["lengthOrig"] = wOData.Length.ToString();
                 Session["Thickness"] = wOData.Thickness.ToString();
+                Session["SystemData"] = wOData;
+                lblTargetDensity.InnerHtml = $"Target Density: <b>{wOData.Density}</b> Density Tol: <b>{wOData.DensityTol}</b>";
+                lblTgtCellCount.InnerHtml = $"Target Cell Count: <b>{wOData.TargetCellCount}</b> Min: <b>{wOData.MinCellCount}</b> Max: <b>{wOData.MaxCellCount}</b>";
+
             }
         }
 
@@ -123,7 +139,6 @@ namespace HEMASaw.WO
                 txtMin.Text = qRCodeData.Min.ToString();
                 txtMax.Text = qRCodeData.Max.ToString();
                 txtAve.Text = qRCodeData.Ave.ToString();
-
             }
         }
 
@@ -138,6 +153,7 @@ namespace HEMASaw.WO
             txtWeight.Text = string.Empty;
             txtWidth.Text = string.Empty;
             txtComments.Text = string.Empty;
+            txtCellCount.Text = string.Empty;
             divpass.Visible = false;
         }
 
@@ -146,7 +162,7 @@ namespace HEMASaw.WO
             //Session["Thickness"] = wOData.Thickness.ToString();
             double width = 0.0;
             double.TryParse(txtWidth.Text, out width);
-
+   
             double weight = 0.0;
             double.TryParse(txtWeight.Text, out weight);
 
@@ -173,9 +189,8 @@ namespace HEMASaw.WO
 
             if (DensityPCF <= tolHigher && DensityPCF >= tolLower)
             {
-                // Data acceptance succeeded, keep the buttontolLower green
                 divpass.Visible = true;
-                //divfail.Visible = false;
+                lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
                 densityDiv.Style["background-color"] = "green";
                 int ID = int.Parse(Session["SliceID"].ToString());
                 string EmployeeID = Session["EmployeeID"].ToString();
@@ -184,7 +199,7 @@ namespace HEMASaw.WO
             else
             {
                 divpass.Visible = false;
-               // divfail.Visible = true;
+                lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
                 densityDiv.Style["background-color"] = "Red";
             }
         }
@@ -217,7 +232,6 @@ namespace HEMASaw.WO
 
         protected void btnCheckDensity_Click(object sender, EventArgs e)
         {
-            //Session["Thickness"] = wOData.Thickness.ToString();
             double width = 0.0;
             double.TryParse(txtWidth.Text, out width);
 
@@ -234,28 +248,55 @@ namespace HEMASaw.WO
 
             double DensityPCF = weight / CC;
 
-
             lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
-            //bool acceptDataSuccess = true;
 
             double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
 
             double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
 
-            if (DensityPCF <= tolHigher && DensityPCF >= tolLower)
+            int minCellCount = int.Parse(txtMinCellCount.Text.Trim());
+            int maxCellCount = int.Parse(txtMaxCellCount.Text.Trim());
+            int cellCount = int.Parse(txtCellCount.Text.Trim());
+
+            bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
+            if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount )
             {
-                // Data acceptance succeeded, keep the buttontolLower green
-                //divpass.Visible = true;
-                //divfail.Visible = false;
+                lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
                 densityDiv.Style["background-color"] = "green";
             }
             else
             {
-               // divpass.Visible = false;
-                // divfail.Visible = true;
                 densityDiv.Style["background-color"] = "Red";
+                lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
             }
+            divpass.Visible = false;
 
+        }
+
+        protected void txtLength_TextChanged(object sender, EventArgs e)
+        {
+            HasDataChanged();
+        }
+
+        protected void txtWidth_TextChanged(object sender, EventArgs e)
+        {
+            HasDataChanged();
+        }
+
+        protected void txtWeight_TextChanged(object sender, EventArgs e)
+        {
+            HasDataChanged();
+        }
+        private void HasDataChanged ()
+        {
+           if (Session["widthOrig"].ToString() != txtWidth.Text.Trim() || Session["lengthOrig"].ToString() != txtLength.Text.Trim() || Session["weightOrig"].ToString() != txtWeight.Text.Trim())
+            { 
+                hidDataChanged.Value = "1";
+            }
+            else
+            {
+                hidDataChanged.Value = "0";
+            }
         }
     }
 }

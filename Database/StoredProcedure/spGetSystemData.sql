@@ -1,6 +1,7 @@
-Use HemaSaws
+USE [HEMASaws]
+GO
 
-ALTER PROCEDURE [dbo].[spGetQRDataFromSystem]         
+ALTER PROCEDURE [dbo].[spGetSystemData]         
  @workOrder int ,      
  @slice_batch varchar(10),      
  @block_batch varchar(10),
@@ -24,14 +25,22 @@ BEGIN
  im.VisualPartID ,       
  im.Description,      
  sd.SliceNum,      
- sd.Thickness
+ sd.Thickness,
+ im.TargetCellCount,	
+ im.MinCellCount,	
+ im.MaxCellCount
  FROM [HEMASaws].[dbo].WorkOrderHeader woh        
  INNER JOIN [HEMASaws].[dbo].[ItemMaster] im on im.Material= woh.Material        
- INNER JOIN [HEMASaws].[dbo].[SliceData] sd on sd.WorkOrder =woh.WorkOrder       
+ INNER JOIN [HEMASaws].[dbo].[SliceData] sd on sd.WorkOrder =woh.WorkOrder   
  WHERE woh.WorkOrder = @workOrder        
  and (woh.Slice_Batch = @slice_batch  OR  woh.Slice_Batch is null)  
  and (woh.Block_Batch = @block_batch  OR  woh.Block_Batch is null)
  and (sd.SliceNum =@sliceNum)
     
 END 
+
+
+
+
+
 

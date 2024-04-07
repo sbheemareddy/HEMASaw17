@@ -31,5 +31,11 @@ namespace HEMASaw.DAO
         public string Description { get; set; }
         public string SliceNum { get; set; }
         public string Thickness { get; set; }
+        public string TargetCellCount { get; set; }
+        public string MinCellCount { get; set; }
+        public string MaxCellCount { get; set; }
+        public double Length { get; set; }
+        public double Width { get; set; }
+        public double Weight { get; set; }
     }
 }

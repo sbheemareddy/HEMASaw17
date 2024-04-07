@@ -12,12 +12,12 @@
     <div class="content">
         <h2>Login</h2>
         <div class="form-group">
-            <asp:Label ID="lblUsername" runat="server" Text="Username" AssociatedControlID="txtEmployeeID"></asp:Label>
+            <asp:Label ID="lblUsername" runat="server" Text="Emp Id" AssociatedControlID="txtEmployeeID" class="fixed-size-label"></asp:Label>
             <asp:TextBox ID="txtEmployeeID" runat="server" CssClass="form-control" placeholder="Enter your username"></asp:TextBox>
             <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ControlToValidate="txtEmployeeID" ErrorMessage="*" CssClass="text-danger"></asp:RequiredFieldValidator>
         </div>
         <div class="form-group">
-            <asp:Label ID="lblPassword" runat="server" Text="Password" AssociatedControlID="txtPassword"></asp:Label>
+            <asp:Label ID="lblPassword" runat="server" Text="Password" AssociatedControlID="txtPassword" class="fixed-size-label"></asp:Label>
             <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="Enter your password"></asp:TextBox>
             <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="*" CssClass="text-danger"></asp:RequiredFieldValidator>
         </div>
