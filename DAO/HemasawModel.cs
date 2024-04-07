@@ -15,6 +15,10 @@ namespace HEMASaw.DAO
         public DateTime? TermDate { get; set; }
         public int EmployeeRole { get; set; }
         public string EmployeeRoleDesc { get; set; }
+        public string EmployeePassword { get; set; }
+        public bool FirstTimeLogin { get; set; }
+        public bool bChangePassword { get; set; }
+        public string HashedPassword { get; set; }
     }
 
     public class WOData

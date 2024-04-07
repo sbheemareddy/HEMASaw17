@@ -45,12 +45,12 @@
         </tr>
         <tr>
             <td>Term Date</td>
-            <td style="padding-left: 15px;width:15px;">
+            <td style="width:15px;">
                 <asp:TextBox ID="txtTermDate" class="fixed-size-input-long" type="date" runat="server"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <td>Employee Role</td>
+            <td>Role</td>
             <td style="td-spacing">
                 <asp:DropDownList ID="ddlEmployeeRole" runat="server">
                     <asp:ListItem Text="Operator" Value="1"></asp:ListItem>
@@ -58,16 +58,41 @@
                 </asp:DropDownList>
             </td>
         </tr>
+        <tr id="changePassword" style="display: none;" ClientIDMode="Static" runat="server">
+            <td>Change Password</td>
+            <td >
+                <asp:CheckBox ID="chkChangePassword" runat="server" onchange="togglePasswordVisibility()"></asp:CheckBox>
+            </td>
+        </tr>
+        <tr id="passwordRow" style="display: none;" ClientIDMode="Static" runat="server">
+            <td>Password</td>
+            <td style="td-spacing">
+                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" class="fixed-size-input-long" placeholder="Enter your new password"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="*" CssClass="text-danger"></asp:RequiredFieldValidator>
+               <%-- <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="Password must be at least 8 characters long and contain at least one letter and one number" ValidationExpression="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" CssClass="text-danger"></asp:RegularExpressionValidator>--%>
+            </td>
+        </tr>
         <tr>
             <td colspan="4">
                 <div class="buttons">
                 <asp:Button ID="btnSave" runat="server" CssClass="btn" Text="Save" OnClick="btnSave_Click"
                     ValidationGroup="SaveValidationGroup" />
-                <asp:Button ID="btnBack" runat="server" CssClass="btn" Text="Back" OnClick="btnBack_Click" />
+                <asp:Button ID="btnBack" runat="server" CssClass="btn" Text="Back" OnClick="btnBack_Click" CausesValidation="false" />
                 </div>
             </td>
         </tr>
     </table>
 </div>
+<script type="text/javascript">
+        function togglePasswordVisibility() {
+            var passwordRow = document.getElementById("passwordRow");
+            var chkChangePassword = document.getElementById("<%= chkChangePassword.ClientID %>");
 
+            if (chkChangePassword.checked) {
+                passwordRow.style.display = "table-row";
+            } else {
+                passwordRow.style.display = "none";
+            }
+        }
+    </script>
 </asp:Content>

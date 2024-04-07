@@ -22,6 +22,7 @@ BEGIN
   ,CAST(woh.Scheduled_Qty  AS INT) AS Scheduled_Qty 
   ,woh.SalesOrder  
   ,woh.Mfg_date  
+  ,woh.VisualPartID
   ,Im.[Description]  
   ,SD.DensityPCF  
   ,SD.DensityPSF  
@@ -30,7 +31,6 @@ BEGIN
   ,CAST(SD.AvgThk AS DECIMAL(10,3)) AS AvgThk
   ,    CAST(Sd.SawNum AS VARCHAR(10)) + ' - ' + CAST(SD.SliceNum AS VARCHAR(10)) AS SliceNum
   , (select Lastname + ' ' + FirstName from Employee where EmployeeID = sd.EmployeeID) as 'OperatorName'
-  --,'GUTIERREZ  GONZALO' as 'EmployeeName'
   ,'F137-2 - 10/22' as DocNum
  from WorkOrderHeader WOH  
  Inner Join itemmaster IM on IM.Material = WOH.Material  
@@ -41,7 +41,3 @@ BEGIN
  and sd.SliceNum = @sliceNum
 END   
 
---select distinct EmployeeID from SliceData
---select * from Employee
-
---0111

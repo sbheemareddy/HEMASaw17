@@ -203,11 +203,22 @@
     <Content Include="App_Data\PrintLabel.cs" />
     <Content Include="assets\gill-logomark-red.svg" />
     <Content Include="assets\GLogo.jpg" />
+    <Content Include="ChangePassword.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Database\StoredProcedure\Alter Employee.sql" />
+    <Content Include="Database\StoredProcedure\spAcceptSliceData.sql" />
+    <Content Include="Database\StoredProcedure\spGetEmployee.sql" />
+    <Content Include="Database\StoredProcedure\spGetSearchWO.sql" />
+    <Content Include="Database\StoredProcedure\spGetSliceLabel.sql" />
+    <Content Include="Database\StoredProcedure\spGetSystemData.sql" />
+    <Content Include="Database\StoredProcedure\spGetUniqueQRRecord.sql" />
+    <Content Include="Database\StoredProcedure\spGetUserByID.sql" />
+    <Content Include="Database\StoredProcedure\spGetUserList.sql" />
+    <Content Include="Database\StoredProcedure\UpsertEmployee.sql" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -282,6 +293,13 @@
     <Compile Include="App_Data\SliceLabelData.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DAO\HemaSawDAO.cs" />
     <Compile Include="DAO\HemasawModel.cs" />
     <Compile Include="DAO\QRCode.cs" />

@@ -203,7 +203,7 @@ select {
 }
 
 input {
-    width: 100%;
+    /*width: 100%;*/
     padding: 6px;
     box-sizing: border-box;
     margin-bottom: 5px;
@@ -263,18 +263,19 @@ button {
     font-weight: bold;
 }
 
-
-
-
-
-
-
 .card {
     width: calc(30% - 5px);
     margin-bottom: 10px;
     background-color: #f0f0f0;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-changepassword {
+    margin-bottom: 10px;
+/*    background-color: #f0f0f0;*/
+    padding: 10px;
+ /*   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
 }
 
 .field {
@@ -406,7 +407,7 @@ h6 {
     align-items: center;*/
     height: 75vh; /* Set the height of the container to full viewport height */
     padding-left:40%;
-    padding-top:3%;
+  /*  padding-top:1%;*/
 }
 
 .check-box-width {
@@ -443,5 +444,6 @@ h6 {
     align-items: center;
     min-height: 75vh;
 }
+
 
 

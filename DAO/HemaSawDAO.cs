@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HEMASaw.DAO
 {
@@ -256,6 +258,8 @@ namespace HEMASaw.DAO
                         user.TermDate = reader["TermDate"] == DBNull.Value ? null : (DateTime?)reader["TermDate"];
                         user.EmployeeRoleDesc = reader["employeeRole"].ToString().ToUpper() == "1" ? "Operator" : "Supervisor";
                         user.EmployeeRole = int.Parse(reader["employeeRole"].ToString());
+                        user.EmployeePassword = reader["Password"].ToString();
+                        user.FirstTimeLogin = bool.Parse(reader["bFirstTimeLogin"].ToString());
                     }
                     reader.Close();
                 }
@@ -287,6 +291,8 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
                     command.Parameters.AddWithValue("@TermDate", employee.TermDate <= SqlDateTime.MinValue.Value ? null : employee.TermDate);
                     command.Parameters.AddWithValue("@employeeRole", employee.EmployeeRole);
+                    command.Parameters.AddWithValue("@bFirstTimeLogin", employee.bChangePassword);
+                    command.Parameters.AddWithValue("@Password", employee.HashedPassword);
                     try
                     {
                         command.ExecuteNonQuery();
@@ -378,5 +384,81 @@ namespace HEMASaw.DAO
                 }
             }
         }
+        public static bool UpdatePassword(string employeeID, string password)
+        {
+            string saltedPasswordHash = GetHashedPassword(password);
+
+            // Define the stored procedure name
+            string storedProcedureName = "spUpdateEmployeePassword";
+
+            // Create and open connection
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Create command object
+                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                {
+                    // Specify that command is a stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters and set their values
+                    command.Parameters.AddWithValue("@EmployeeID", employeeID);
+                    command.Parameters.AddWithValue("@Password", saltedPasswordHash);
+                    // Execute the stored procedure
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Check if any rows were affected
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public static string GetHashedPassword(string password)
+        {
+            // Generate a random salt
+            string salt = GenerateSalt();
+
+            // Compute the hash of the password with the salt
+            string hashedPassword = ComputeHash(password, salt);
+
+            // Concatenate salt and hashed password with a delimiter
+            string saltedPasswordHash = hashedPassword + ":" + salt;
+            return saltedPasswordHash;
+        }
+
+        public static string GenerateSalt()
+        {
+            byte[] saltBytes = new byte[16];
+            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+            {
+                rngCsp.GetBytes(saltBytes);
+            }
+            return Convert.ToBase64String(saltBytes);
+        }
+        public static string ComputeHash(string password, string salt)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // Combine password and salt, then compute the hash
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password + salt));
+
+                // Convert byte array to a string representation
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
     }
 }

@@ -11,27 +11,31 @@ namespace HEMASaw.Users
 {
     public partial class CreateUser : HemaBasePage
     {
-        protected void Page_Load(object sender, EventArgs e)
+            protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
             {
-                if (!IsPostBack)
+                // Check if the page is in edit mode
+                if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
                 {
-                    // Check if the page is in edit mode
-                    if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
-                    {
-                        string userId = Request.QueryString["userId"].ToString();
-                        // Load user details for editing
-                        LoadUserDetails(userId);
-                        // Change title and button text for editing
-                        litTitle.Text = "Edit User";
-                        btnSave.Text = "Update";
-                    }
-                    else
-                    {
-                        // Change title for creating
-                        litTitle.Text = "Create User";
-                    }
+                    string userId = Request.QueryString["userId"].ToString();
+                    // Load user details for editing
+                    LoadUserDetails(userId);
+                    // Change title and button text for editing
+                    litTitle.Text = "Edit User";
+                    btnSave.Text = "Update";
+                    changePassword.Attributes["style"] = "table-row;";
+                    passwordRow.Attributes["style"] = "display: none;";
+                }
+                else
+                {
+                    // Change title for creating
+                    litTitle.Text = "Create User";
+                    changePassword.Attributes["style"] = "display: none;";
+                    passwordRow.Attributes["style"] = "table-row;";
                 }
             }
+        }
 
             protected void btnSave_Click(object sender, EventArgs e)
             {
@@ -46,11 +50,16 @@ namespace HEMASaw.Users
                 employee.Active = chkActive.Checked;
                 employee.TermDate = strTermDate;
                 employee.EmployeeRole = int.Parse(ddlEmployeeRole.SelectedValue);
+                employee.bChangePassword = chkChangePassword.Checked;
+                employee.HashedPassword = HemaSawDAO.GetHashedPassword(txtPassword.Text.Trim());
                 HemaSawDAO.UpsertEmployeeRecord(employee);
+                if (chkChangePassword.Checked)
+                {
+                    HemaSawDAO.UpdatePassword(txtEmployeeID.Text.Trim(), txtPassword.Text.Trim());
+                }
                 Response.Redirect("users.aspx");
             }
 
-            // Method to load user details for editing
             private void LoadUserDetails(string userId)
             {
                 // Populate input fields with user details
@@ -63,7 +72,7 @@ namespace HEMASaw.Users
                 ddlEmployeeRole.SelectedValue = user.EmployeeRole.ToString();
             }
 
-        protected void btnBack_Click(object sender, EventArgs e)
+            protected void btnBack_Click(object sender, EventArgs e)
         {
             Response.Redirect("Users.aspx");
         }
