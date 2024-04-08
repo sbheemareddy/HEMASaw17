@@ -12,7 +12,7 @@ namespace HEMASaw.WO
 {
     public partial class WOPage : HemaBasePage
     {
-        string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633";
+       // string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:, Badge#:123, Slice#:000173837A, Saw#:4, Min:0.622, Max:0.638, Ave:0.633";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -116,14 +116,15 @@ namespace HEMASaw.WO
                 txtLength.Text = wOData.Length.ToString();
                 txtWidth.Text = wOData.Width.ToString();
                 txtWeight.Text = wOData.Weight.ToString();
+               // txtQRCodeDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
 
                 Session["widthOrig"] = wOData.Width.ToString();
                 Session["weightOrig"] = wOData.Weight.ToString();
                 Session["lengthOrig"] = wOData.Length.ToString();
                 Session["Thickness"] = wOData.Thickness.ToString();
                 Session["SystemData"] = wOData;
-                lblTargetDensity.InnerHtml = $"Target Density: <b>{wOData.Density}</b> Density Tol: <b>{wOData.DensityTol}</b>";
-                lblTgtCellCount.InnerHtml = $"Target Cell Count: <b>{wOData.TargetCellCount}</b> Min: <b>{wOData.MinCellCount}</b> Max: <b>{wOData.MaxCellCount}</b>";
+                lblTargetDensity.InnerHtml = $"Target Density:&nbsp;&nbsp;&nbsp;<b>{wOData.Density}</b>&nbsp;&nbsp;&nbsp;Density Tol:&nbsp;&nbsp;&nbsp;<b>{wOData.DensityTol}</b>";
+                lblTgtCellCount.InnerHtml = $"Target Cell Count:&nbsp;&nbsp;&nbsp;<b>{wOData.TargetCellCount}</b>&nbsp;&nbsp;&nbsp;Min:&nbsp;&nbsp;&nbsp;<b>{wOData.MinCellCount}</b>&nbsp;&nbsp;&nbsp;Max:&nbsp;&nbsp;&nbsp;<b>{wOData.MaxCellCount}</b>";
 
             }
         }
@@ -142,6 +143,8 @@ namespace HEMASaw.WO
                 txtMin.Text = qRCodeData.Min.ToString();
                 txtMax.Text = qRCodeData.Max.ToString();
                 txtAve.Text = qRCodeData.Ave.ToString();
+                txtQRCodeDate.Text = qRCodeData.QRCodeDate.ToString();
+
             }
         }
 

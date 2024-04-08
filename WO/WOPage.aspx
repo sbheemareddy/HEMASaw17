@@ -133,7 +133,7 @@
                         ErrorMessage="<span class='error-message'>*</span>" ValidationExpression="^\d+(\.\d+)?$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
                 <div class="field">
-                    <label class="fixed-size-label">Count</label>
+                    <label class="fixed-size-label">Cell Count</label>
                     <asp:TextBox ID="txtCellCount" CssClass="fixed-size-input" runat="server"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtCellCount" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>

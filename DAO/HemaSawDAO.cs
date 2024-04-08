@@ -86,7 +86,15 @@ namespace HEMASaw.DAO
 
                     while (reader.Read())
                     {
-                        qRCodeData.QRCodeDate = "";
+                        string qrCodeDateStr = reader["QRCodeDate"].ToString();
+                        string formattedDate = string.Empty;
+                        DateTime qrCodeDate;
+                        if (DateTime.TryParse(qrCodeDateStr, out qrCodeDate))
+                        {
+                            formattedDate = qrCodeDate.ToString("dd-MM-yyyy");
+                            // Use formattedDate as needed
+                        }
+                        qRCodeData.QRCodeDate = formattedDate;
                         qRCodeData.WO = workOrder;
                         qRCodeData.BlockBatch = blockbatch;
                         qRCodeData.SliceBatch = slicebatch;
@@ -94,7 +102,7 @@ namespace HEMASaw.DAO
                         qRCodeData.Min = double.Parse(reader["MinThk"].ToString());
                         qRCodeData.Max= double.Parse(reader["MaxThk"].ToString());
                         qRCodeData.Ave = double.Parse(reader["AvgThk"].ToString());
-
+                        qRCodeData.Ave = double.Parse(reader["AvgThk"].ToString());
                     }
 
                     reader.Close();
@@ -110,39 +118,25 @@ namespace HEMASaw.DAO
             string storedProcedureName = "spGetUniqueQRRecord";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Open the connection
                 connection.Open();
 
-                // Create a command to execute the stored procedure
                 using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
                 {
-                    // Set the command type to stored procedure
                     command.CommandType = CommandType.StoredProcedure;
 
-                    // Add the parameter to the command
                     command.Parameters.AddWithValue("@workOrder", qRCodeData.WO);
-                    command.Parameters.AddWithValue("@block_batch", qRCodeData.BlockBatch);
+                    command.Parameters.AddWithValue("@block_batch", (qRCodeData.BlockBatch != null) ? qRCodeData.BlockBatch : string.Empty);
                     command.Parameters.AddWithValue("@sliceNum", qRCodeData.SliceNum);
-                    command.Parameters.AddWithValue("@saw", qRCodeData.Saw);
+                    command.Parameters.AddWithValue("@saw", (qRCodeData.Saw != null) ? qRCodeData.Saw : string.Empty);
                     command.Parameters.AddWithValue("@max", qRCodeData.Max);
                     command.Parameters.AddWithValue("@min", qRCodeData.Min);
                     command.Parameters.AddWithValue("@ave", qRCodeData.Ave);
-                    // Execute the command
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        // Load the data from the reader into the DataTable
                         dataTable.Load(reader);
                     }
-                    //SqlDataReader reader = command.ExecuteReader();
-
-                    //while (reader.Read())
-                    //{
-                    //    dataTable.Load(reader);
-                    //}
-
-                    //reader.Close();
-                }
+                 }
             }
 
             return dataTable;

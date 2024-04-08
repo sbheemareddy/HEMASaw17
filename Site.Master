@@ -57,7 +57,7 @@
                                 </li>
                             <% } %>
                             <li class="nav-item">
-                                <a class="nav-link text-black" href="#" onclick="logout()">Logout</a>
+                                <a class="nav-link text-black" href="../logout.aspx" >Logout</a>
                             </li>
                         <% } %>
                     </ul>
@@ -242,7 +242,10 @@ body {
     <script>
         function logout() {
             // Redirect to the server-side sign-out method
-            window.location.href = "logout.aspx";
+            var absoluteUrl = window.location.href;
+            alert(absoluteUrl);
+            window.location.href = absoluteUrl.replace(/\/[^\/]*$/, '/logout.aspx');
+
         }
     </script>
 

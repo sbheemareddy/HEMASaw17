@@ -16,7 +16,7 @@ namespace HEMASaw
 {
     public partial class _Default : HemaBasePage
     {
-        string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:123, Badge#:123, Slice#:1, Saw#:10, Min:0.38420, Max:0.38200, Ave:0.38220";
+        //string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:123, Badge#:123, Slice#:1, Saw#:10, Min:0.38420, Max:0.38200, Ave:0.38220";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -150,7 +150,7 @@ namespace HEMASaw
         {
             if (!string.IsNullOrWhiteSpace(txtQRScanData.Text))
             {
-              QRCodeData qRCodeData =  ParseAndPopulateTextBoxes(TestQRScanValue);
+              QRCodeData qRCodeData =  ParseAndPopulateTextBoxes(txtQRScanData.Text);
               RedirectToWOPage(qRCodeData);
               BindGridView();
             }
@@ -166,8 +166,8 @@ namespace HEMASaw
                 Session["Block_Batch"] = dataTable.Rows[0]["Block_Batch"].ToString(); 
                 Session["SliceNum"] = dataTable.Rows[0]["SliceNum"].ToString();
                 Session["SliceID"] = dataTable.Rows[0]["Id"].ToString();
-                // Session["QRScanData"] = txtQRScanData.Text;
-                Session["QRScanData"] = TestQRScanValue;
+                Session["QRScanData"] = txtQRScanData.Text;
+               // Session["QRScanData"] = TestQRScanValue;
                 Response.Redirect("~/WO/WOPage.aspx");
             }
         }

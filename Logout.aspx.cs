@@ -39,7 +39,7 @@ namespace HEMASaw
             // Sign out the user
             FormsAuthentication.SignOut();
             // Redirect to the login page
-            Response.Redirect("~/login.aspx");
+            Response.Redirect("login.aspx");
         }
     }
 }

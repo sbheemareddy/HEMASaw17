@@ -63,5 +63,10 @@ namespace HEMASaw
         {
             return HemaSawDAO.UpdatePassword(employeeID, password);
         }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Login.aspx");
+        }
     }
 }
