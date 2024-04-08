@@ -64,15 +64,6 @@ namespace HEMASaw
             }
         }
 
-        private string GetStoredPasswordHash(string employeeID)
-        {
-            // Here you would retrieve the stored salted password hash from your database
-            // Replace this with your actual database retrieval logic
-            // Example: SELECT PasswordHash FROM Users WHERE EmployeeID = @employeeID
-            // Make sure to store the salt and the hashed password together, separated by a delimiter
-            return "StoredHashedPassword:StoredSalt";
-        }
-
         private User GetEmployeeByID(string employeeID)
         {
             var user = HemaSawDAO.GetUserById(employeeID);

@@ -52,8 +52,8 @@ namespace HEMASaw
 
                 if (!string.IsNullOrEmpty(storedPasswordHash))
                 {
-                    string hashedPassword = HemaSawDAO.ComputeHash(currentPassword, storedPasswordHash.Split(':')[0]);
-                    return (hashedPassword == storedPasswordHash.Split(':')[1]);
+                    string hashedPassword = HemaSawDAO.ComputeHash(currentPassword, storedPasswordHash.Split(':')[1]);
+                    return (hashedPassword == storedPasswordHash.Split(':')[0]);
                 }
             }
                 return false;

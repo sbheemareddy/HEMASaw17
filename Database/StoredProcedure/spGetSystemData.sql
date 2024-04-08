@@ -1,7 +1,19 @@
 USE [HEMASaws]
 GO
 
-ALTER PROCEDURE [dbo].[spGetSystemData]         
+/****** Object:  StoredProcedure [dbo].[spGetSystemData]    Script Date: 08-04-2024 07:13:34 AM ******/
+DROP PROCEDURE [dbo].[spGetSystemData]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetSystemData]    Script Date: 08-04-2024 07:13:34 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[spGetSystemData]         
  @workOrder int ,      
  @slice_batch varchar(10),      
  @block_batch varchar(10),
@@ -26,6 +38,9 @@ BEGIN
  im.Description,      
  sd.SliceNum,      
  sd.Thickness,
+ sd.[Length],
+ sd.Width,
+ sd.[Weight],
  im.TargetCellCount,	
  im.MinCellCount,	
  im.MaxCellCount
@@ -38,9 +53,6 @@ BEGIN
  and (sd.SliceNum =@sliceNum)
     
 END 
-
-
-
-
+GO
 
 

@@ -1,6 +1,20 @@
+USE [HEMASaws]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetUniqueQRRecord]    Script Date: 08-04-2024 07:13:57 AM ******/
+DROP PROCEDURE [dbo].[spGetUniqueQRRecord]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetUniqueQRRecord]    Script Date: 08-04-2024 07:13:57 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 
 --spGetUniqueQRRecord 1685996,'123',1,10,0.382,0.3842,0.3822
-ALTER PROCEDURE [dbo].[spGetUniqueQRRecord]             
+CREATE PROCEDURE [dbo].[spGetUniqueQRRecord]             
  @workOrder int ,          
  @block_batch varchar(10),    
  @sliceNum int ,
@@ -41,3 +55,6 @@ and MaxThk =  @max
 and AvgThk =@ave
        
 END     
+GO
+
+

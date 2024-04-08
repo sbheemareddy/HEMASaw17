@@ -340,7 +340,7 @@ namespace HEMASaw.DAO
                 }
             }
         }
-        public static void AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF)
+        public static void AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF, int CellCount , DateTime QrCodeDate)
         {
             // Create connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -364,6 +364,8 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@comments", Comments);
                     command.Parameters.AddWithValue("@densityPCF", DensityPCF);
                     command.Parameters.AddWithValue("@densityPSF", DensityPSF);
+                    command.Parameters.AddWithValue("@QrCodeDate", QrCodeDate);
+                    command.Parameters.AddWithValue("@CellCount", CellCount);
 
                     // Execute the command
                     int rowsAffected = command.ExecuteNonQuery();

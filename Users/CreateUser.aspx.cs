@@ -53,10 +53,6 @@ namespace HEMASaw.Users
                 employee.bChangePassword = chkChangePassword.Checked;
                 employee.HashedPassword = HemaSawDAO.GetHashedPassword(txtPassword.Text.Trim());
                 HemaSawDAO.UpsertEmployeeRecord(employee);
-                if (chkChangePassword.Checked)
-                {
-                    HemaSawDAO.UpdatePassword(txtEmployeeID.Text.Trim(), txtPassword.Text.Trim());
-                }
                 Response.Redirect("users.aspx");
             }
 

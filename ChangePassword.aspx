@@ -32,10 +32,10 @@
                         </div>
                         <div class="row">
                             <div class="col text-center">
-                                <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="btn btn-primary" />
+                                <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="btn btn-primary"  CausesValidation="false"
                             </div>
                             <div class="col text-center">
-                                <asp:Button ID="btnChangePassword" runat="server" Text="Change Password" OnClick="btnChangePassword_Click" CssClass="btn btn-primary" CausesValidation="false" />
+                                <asp:Button ID="btnChangePassword" runat="server" Text="Change Password" OnClick="btnChangePassword_Click" CssClass="btn btn-primary"  CausesValidation="false" />
                             </div>
                         </div>
                     </div>

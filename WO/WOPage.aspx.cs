@@ -1,6 +1,8 @@
 ﻿using HEMASaw.DAO;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -36,6 +38,7 @@ namespace HEMASaw.WO
             }
             densityDiv.Style["background-color"] = "#f0f0f0";
             lblAcceptanceMsg.InnerHtml = string.Empty;
+            divpass.Visible = false;
             hidDataChanged.Value = "0";
         }
 
@@ -154,54 +157,80 @@ namespace HEMASaw.WO
             txtWidth.Text = string.Empty;
             txtComments.Text = string.Empty;
             txtCellCount.Text = string.Empty;
+            lblPCFCalculated.InnerText = string.Empty;
             divpass.Visible = false;
         }
 
         protected void btnAcceptData_Click(object sender, EventArgs e)
         {
-            //Session["Thickness"] = wOData.Thickness.ToString();
-            double width = 0.0;
-            double.TryParse(txtWidth.Text, out width);
-   
-            double weight = 0.0;
-            double.TryParse(txtWeight.Text, out weight);
-
-            double length = 0.0;
-            double.TryParse(txtLength.Text, out length);
-
-            double thickness = 0.0;
-            double.TryParse(Session["Thickness"].ToString(), out thickness);
-
-            double CC = (width * length * thickness)  / 1728;
-
-            double DensityPCF = weight / CC;
-
-            double psFCC = (width * length ) / 144;
-
-            double DensityPSF = weight / psFCC;
-
-
-            lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
-
-            double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
-
-            double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
-
-            if (DensityPCF <= tolHigher && DensityPCF >= tolLower)
+            if (Page.IsValid)
             {
-                divpass.Visible = true;
-                lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
-                densityDiv.Style["background-color"] = "green";
-                int ID = int.Parse(Session["SliceID"].ToString());
-                string EmployeeID = Session["EmployeeID"].ToString();
-                HemaSawDAO.AcceptSliceData(ID,  EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF);
+                double width = 0.0;
+                double.TryParse(txtWidth.Text, out width);
+
+                double weight = 0.0;
+                double.TryParse(txtWeight.Text, out weight);
+
+                double length = 0.0;
+                double.TryParse(txtLength.Text, out length);
+
+                double thickness = 0.0;
+                double.TryParse(Session["Thickness"].ToString(), out thickness);
+
+                double CC = (width * length * thickness) / 1728;
+
+                double DensityPCF = weight / CC;
+
+                double psFCC = (width * length) / 144;
+
+                double DensityPSF = weight / psFCC;
+
+
+                lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
+
+                double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
+
+                double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
+
+                int minCellCount = int.Parse(txtMinCellCount.Text.Trim());
+                int maxCellCount = int.Parse(txtMaxCellCount.Text.Trim());
+                int cellCount = int.Parse(txtCellCount.Text.Trim());
+
+                DateTime qrCodeDate;
+                if (string.IsNullOrEmpty(txtQRCodeDate.Text.Trim()) || !DateTime.TryParse(txtQRCodeDate.Text.Trim(), out qrCodeDate))
+                {
+                    qrCodeDate = DateTime.Today;
+                }
+                else
+                {
+                    // Check if the parsed date is within the acceptable range
+                    if (qrCodeDate < SqlDateTime.MinValue.Value || qrCodeDate > SqlDateTime.MaxValue.Value)
+                    {
+                        // If the parsed date is out of range, set it to the minimum or maximum allowed value
+                        qrCodeDate = (qrCodeDate < SqlDateTime.MinValue.Value) ? SqlDateTime.MinValue.Value : SqlDateTime.MaxValue.Value;
+                    }
+                }
+
+                //DateTime.TryParseExact(txtQRCodeDate.Text.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out qrCodeDate);
+
+                bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
+                if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount)
+                {
+                    divpass.Visible = true;
+                    lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
+                    densityDiv.Style["background-color"] = "green";
+                    int ID = int.Parse(Session["SliceID"].ToString());
+                    string EmployeeID = Session["EmployeeID"].ToString();
+                    HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate);
+                }
+                else
+                {
+                    divpass.Visible = false;
+                    lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
+                    densityDiv.Style["background-color"] = "Red";
+                }
             }
-            else
-            {
-                divpass.Visible = false;
-                lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
-                densityDiv.Style["background-color"] = "Red";
-            }
+            
         }
 
         protected void btnSearchWO_Click(object sender, EventArgs e)
@@ -287,6 +316,7 @@ namespace HEMASaw.WO
         {
             HasDataChanged();
         }
+   
         private void HasDataChanged ()
         {
            if (Session["widthOrig"].ToString() != txtWidth.Text.Trim() || Session["lengthOrig"].ToString() != txtLength.Text.Trim() || Session["weightOrig"].ToString() != txtWeight.Text.Trim())

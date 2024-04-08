@@ -1,10 +1,24 @@
+USE [HEMASaws]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetSearchWO]    Script Date: 08-04-2024 07:12:19 AM ******/
+DROP PROCEDURE [dbo].[spGetSearchWO]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetSearchWO]    Script Date: 08-04-2024 07:12:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 --    spGetSearchWO 1685996, '000173837A' ,''    
 -- =============================================          
 -- Author:            
 -- Create date: 02/29/2024          
 -- Description: gets the System Data for the work Order          
 -- =============================================          
-ALTER PROCEDURE [dbo].[spGetSearchWO]           
+CREATE PROCEDURE [dbo].[spGetSearchWO]           
  @workOrder int ,        
  @slice_batch varchar(10),        
  @block_batch varchar(10)        
@@ -83,3 +97,6 @@ IF ( @slice_batch is NOT Null and @block_batch is NOT NULL)
  END  
   
  END  
+GO
+
+

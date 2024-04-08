@@ -150,8 +150,6 @@ namespace HEMASaw
         {
             if (!string.IsNullOrWhiteSpace(txtQRScanData.Text))
             {
-                
-                
               QRCodeData qRCodeData =  ParseAndPopulateTextBoxes(TestQRScanValue);
               RedirectToWOPage(qRCodeData);
               BindGridView();
@@ -167,6 +165,7 @@ namespace HEMASaw
                 Session["Slice_Batch"] = dataTable.Rows[0]["Slice_Batch"].ToString(); 
                 Session["Block_Batch"] = dataTable.Rows[0]["Block_Batch"].ToString(); 
                 Session["SliceNum"] = dataTable.Rows[0]["SliceNum"].ToString();
+                Session["SliceID"] = dataTable.Rows[0]["Id"].ToString();
                 // Session["QRScanData"] = txtQRScanData.Text;
                 Session["QRScanData"] = TestQRScanValue;
                 Response.Redirect("~/WO/WOPage.aspx");
@@ -177,7 +176,6 @@ namespace HEMASaw
         {
             if (gvSearchResults.Rows.Count == 0)
             {
-                // No search results, display the message
                 gvSearchResults.EmptyDataText = "No work orders for the search criteria.";
             }
         }

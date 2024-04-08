@@ -1,4 +1,18 @@
-ALTER PROCEDURE [dbo].[spGetSliceLabel]     
+USE [HEMASaws]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetSliceLabel]    Script Date: 08-04-2024 07:12:50 AM ******/
+DROP PROCEDURE [dbo].[spGetSliceLabel]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetSliceLabel]    Script Date: 08-04-2024 07:12:50 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spGetSliceLabel]     
  @workOrder int ,  
  @slice_batch varchar(10)=null,  
  @block_batch varchar(10) = null ,
@@ -40,4 +54,11 @@ BEGIN
  and ( woh.Block_Batch = @block_batch)  
  and sd.SliceNum = @sliceNum
 END   
+
+--select distinct EmployeeID from SliceData
+--select * from Employee
+
+--0111
+GO
+
 

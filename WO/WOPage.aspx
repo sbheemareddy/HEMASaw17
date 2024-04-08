@@ -4,7 +4,7 @@
         <div class="buttons">
             <asp:Button ID="btnQRCodeScan" runat="server" CausesValidation="false" Text="QR Code Scan" CssClass="btn" OnClick="btnQRCodeScan_Click" />
             <asp:Button ID="btnClearData" runat="server" CausesValidation="false" Text="Clear Data" CssClass="btn" OnClick="btnClearData_Click" />
-            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClick="btnAcceptData_Click" OnClientClick="return OpenModalPopUp();" />
+            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="return OpenModalPopUp();" OnClick="btnAcceptData_Click"  />
             <asp:Button ID="btnCheckDensity" runat="server" CausesValidation="true" Text="Check Density" CssClass="btn" OnClick="btnCheckDensity_Click" />
             <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />
         </div>
@@ -218,15 +218,15 @@
                     // Show the modal
                     modal.style.display = "block";
                     // Set the popup message
-                    popupMessage.innerHTML = "Are you sure you want to change the data?";
+                    popupMessage.innerHTML = "Are you sure you want to change the length/width/weight?";
             }
-
+            return true;
         }
 
         // When the user clicks on <span> (x) or cancel button, close the modal
         span.onclick = function () {
             modal.style.display = "none";
-            return true;
+            return false;
         }
 
         cancelButton.onclick = function () {
@@ -236,8 +236,15 @@
 
         // When the user clicks on accept button, submit the form
         acceptButton.onclick = function () {
+            document.getElementById('hidDataChanged').value = '0'
             modal.style.display = "none";
-            document.forms[0].submit(); // Submit the form
+            // Get the reference to the button
+            var btnAcceptData = document.getElementById('btnAcceptData');
+            // Trigger the click event programmatically
+            btnAcceptData.click();
+            btnAcceptData.dispatchEvent(new Event('click'));
+            //document.forms[0].submit(); // Submit the form
+            return true;
         }
 
 

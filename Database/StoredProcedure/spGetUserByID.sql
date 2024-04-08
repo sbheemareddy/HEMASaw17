@@ -1,9 +1,23 @@
+USE [HEMASaws]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetUserByID]    Script Date: 08-04-2024 07:14:16 AM ******/
+DROP PROCEDURE [dbo].[spGetUserByID]
+GO
+
+/****** Object:  StoredProcedure [dbo].[spGetUserByID]    Script Date: 08-04-2024 07:14:16 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 -- =============================================    
 -- Author:      
 -- Create date: 02/29/2024    
 -- Description: upsert the Employee Data    
 -- =============================================    
-ALTER PROCEDURE spGetUserByID    
+CREATE PROCEDURE [dbo].[spGetUserByID]    
     @EmployeeID varchar(10)    
 AS    
 BEGIN    
@@ -18,6 +32,7 @@ SELECT top 1 [EmployeeID]
 	  ,[bFirstTimeLogin]
   FROM [dbo].[Employee]    
   where EmployeeID = @employeeID    
-END    
+END   
+GO
 
 

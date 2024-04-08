@@ -1,19 +1,24 @@
 USE [HEMASaws]
 GO
 
-/****** Object:  StoredProcedure [dbo].[UpsertEmployee]    Script Date: 07-04-2024 05:49:52 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpsertEmployee]    Script Date: 08-04-2024 07:15:15 AM ******/
+DROP PROCEDURE [dbo].[UpsertEmployee]
+GO
+
+/****** Object:  StoredProcedure [dbo].[UpsertEmployee]    Script Date: 08-04-2024 07:15:15 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 -- =============================================
 -- Author:		
 -- Create date: 02/29/2024
 -- Description:	upsert the Employee Data
 -- =============================================
-ALTER PROCEDURE [dbo].[UpsertEmployee]
+CREATE PROCEDURE [dbo].[UpsertEmployee]
     @EmployeeID VARCHAR(10),
     @FirstName VARCHAR(30),
     @LastName VARCHAR(30),
@@ -52,7 +57,6 @@ BEGIN
         VALUES (@EmployeeID, @FirstName, @LastName, @Active, ISNULL(@CreateDate, GETDATE()), @TermDate, @employeeRole, @Password,1 )
     END
 END
-
-
+GO
 
 
