@@ -199,8 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ExceptionLogging.cs" />
-    <Content Include="App_Data\General.cs" />
-    <Content Include="App_Data\PrintLabel.cs" />
     <Content Include="assets\gill-logomark-red.svg" />
     <Content Include="assets\GLogo.jpg" />
     <Content Include="ChangePassword.aspx" />
@@ -367,6 +365,7 @@
     <Compile Include="Users\Users.aspx.designer.cs">
       <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utility\SessionData.cs" />
     <Compile Include="WO\WOPage.aspx.cs">
       <DependentUpon>WOPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

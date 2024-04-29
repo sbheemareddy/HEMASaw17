@@ -1,10 +1,12 @@
 ﻿using HEMASaw.DAO;
+using HEMASaw.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -19,11 +21,16 @@ namespace HEMASaw.WO
             if(!IsPostBack)
             {
                 densityDiv.Attributes["class"] = "card";
-                int workOrder = int.Parse(Session["Workorder"].ToString());
-                string sliceBatch = Session["Slice_Batch"].ToString();
-                string blockBatch = Session["Block_Batch"].ToString();
-                string sliceNum = Session["SliceNum"].ToString();
-                string qrScanData = Session["QRScanData"].ToString();
+                //int workOrder = int.Parse(Session["Workorder"].ToString());
+                //string sliceBatch = Session["Slice_Batch"].ToString();
+                //string blockBatch = Session["Block_Batch"].ToString();
+                //string sliceNum = Session["SliceNum"].ToString();
+                //string qrScanData = Session["QRScanData"].ToString();
+
+                SessionData sessionData = new SessionData();
+
+                // Get the session values using the GetSessionValues method
+                var (workOrder, sliceBatch, blockBatch, sliceNum, qrScanData) = sessionData.GetSessionValues(this.Session);
                 PopulateSystemData(workOrder, sliceBatch, blockBatch, sliceNum);
   
                 //TestQRScanValue
@@ -39,7 +46,7 @@ namespace HEMASaw.WO
             densityDiv.Style["background-color"] = "#f0f0f0";
             lblAcceptanceMsg.InnerHtml = string.Empty;
             divpass.Visible = false;
-            hidDataChanged.Value = "0";
+            //hidDataChanged.Value = "0";
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -98,7 +105,7 @@ namespace HEMASaw.WO
             }
         }
 
-        private void PopulateSystemData(int workOrder, string slicebatch, string blockbatch, string sliceNum)
+        private void PopulateSystemData(int workOrder, string slicebatch, string blockbatch, int sliceNum)
         {
             WOData wOData = HemaSawDAO.GetSystemData(workOrder, slicebatch, blockbatch, sliceNum);
 
@@ -126,10 +133,16 @@ namespace HEMASaw.WO
                 lblTargetDensity.InnerHtml = $"Target Density:&nbsp;&nbsp;&nbsp;<b>{wOData.Density}</b>&nbsp;&nbsp;&nbsp;Density Tol:&nbsp;&nbsp;&nbsp;<b>{wOData.DensityTol}</b>";
                 lblTgtCellCount.InnerHtml = $"Target Cell Count:&nbsp;&nbsp;&nbsp;<b>{wOData.TargetCellCount}</b>&nbsp;&nbsp;&nbsp;Min:&nbsp;&nbsp;&nbsp;<b>{wOData.MinCellCount}</b>&nbsp;&nbsp;&nbsp;Max:&nbsp;&nbsp;&nbsp;<b>{wOData.MaxCellCount}</b>";
 
-            }
+                btnPrevious.Enabled = wOData.HasPrevious;
+                btnFirst.Enabled = wOData.HasPrevious;
+                btnLast.Enabled = wOData.HasNext;
+                btnNext.Enabled = wOData.HasNext;
+                btnLast.Attributes["LastSliceNum"] = wOData.LastSliceNum.ToString();
+            //LastSliceNum
+        }
         }
 
-        private void PopulateQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, string sliceNum)
+        private void PopulateQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, int sliceNum)
         {
             QRCodeData qRCodeData  = HemaSawDAO.GetQRDataFromSystem(workOrder, slicebatch, blockbatch, sliceNum);
 
@@ -330,6 +343,42 @@ namespace HEMASaw.WO
             {
                 hidDataChanged.Value = "0";
             }
+        }
+
+        protected void btnFirst_Click(object sender, EventArgs e)
+        {
+            SessionData sessionData = new SessionData();
+            // Get the session values using the GetSessionValues method
+            var (workOrder, sliceBatch, blockBatch, sliceNum, qrScanData) = sessionData.GetSessionValues(this.Session);
+            PopulateSystemData(workOrder, sliceBatch, blockBatch, 1);
+        }
+
+        protected void btnPrevious_Click(object sender, EventArgs e)
+        {
+            SessionData sessionData = new SessionData();
+            // Get the session values using the GetSessionValues method
+            var (workOrder, sliceBatch, blockBatch, sliceNum, qrScanData) = sessionData.GetSessionValues(this.Session);
+            int prevSliceNum = int.Parse(txtCutSlice.Text) - 1;
+            PopulateSystemData(workOrder, sliceBatch, blockBatch, prevSliceNum);
+
+        }
+
+        protected void btnNext_Click(object sender, EventArgs e)
+        {
+            SessionData sessionData = new SessionData();
+            // Get the session values using the GetSessionValues method
+            var (workOrder, sliceBatch, blockBatch, sliceNum, qrScanData) = sessionData.GetSessionValues(this.Session);
+            int nextSliceNum = int.Parse(txtCutSlice.Text)+1;
+            PopulateSystemData(workOrder, sliceBatch, blockBatch, nextSliceNum);
+        }
+
+        protected void btnLast_Click(object sender, EventArgs e)
+        {
+            SessionData sessionData = new SessionData();
+            // Get the session values using the GetSessionValues method
+            var (workOrder, sliceBatch, blockBatch, sliceNum, qrScanData) = sessionData.GetSessionValues(this.Session);
+            int lastSliceNum = int.Parse(btnLast.Attributes["LastSliceNum"]);
+            PopulateSystemData(workOrder, sliceBatch, blockBatch, lastSliceNum);
         }
     }
 }

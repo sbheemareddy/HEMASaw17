@@ -7,7 +7,12 @@
             <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="return OpenModalPopUp();" OnClick="btnAcceptData_Click"  />
             <asp:Button ID="btnCheckDensity" runat="server" CausesValidation="true" Text="Check Density" CssClass="btn" OnClick="btnCheckDensity_Click" />
             <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />
+            <div id="divpass"  runat="server" visible="false">
+                <asp:Button ID="btnPrintSliceLabel" runat="server" Text="Print Slice Tag" CssClass="btn" OnClientClick="redirectToSliceLabel(); return false;" />
+                <asp:Button ID="btnPrintSummaryLabel" runat="server" Text="Print Summary Tag" CssClass="btn" OnClientClick="redirectToSummaryLabel(); return false;" />
+            </div>
         </div>
+
         <div class="buttons">
             <asp:TextBox ID="txtTargetDensity"   runat="server" Visible="false" />
             <asp:TextBox ID="txtDensityTol" runat="server" Visible="false" />
@@ -159,16 +164,15 @@
                  <h4 style="padding-left:50px"><label class="fixed-size-label-long" style="font-weight:900" id="lblAcceptanceMsg" runat="server">Acceptance Passed</label></h4>
             </div>
         </div>
-
-        <div id="divpass"  runat="server" visible="false">
-            <div class="buttons">
-              <%--  <h2>Acceptance Passed.</h2>--%>
-                <asp:Button ID="btnPrintSliceLabel" runat="server" Text="Print Slice Tag" CssClass="btn" OnClientClick="redirectToSliceLabel(); return false;" />
-                <asp:Button ID="btnPrintSummaryLabel" runat="server" Text="Print Summary Tag" CssClass="btn" OnClientClick="redirectToSummaryLabel(); return false;" />
-            </div>
-        </div>
         <div id="divfail" class="catchy-red" visible="false" runat="server">
             <h2>Acceptance Failed</h2>
+        </div>
+
+        <div class="buttons">
+            <asp:Button ID="btnFirst" runat="server" Enabled="false" CausesValidation="false" Text="First" CssClass="btn" OnClick="btnFirst_Click" />
+            <asp:Button ID="btnPrevious" runat="server" Enabled="false" CausesValidation="false" Text="Previous" CssClass="btn" OnClick="btnPrevious_Click" />
+            <asp:Button ID="btnNext" runat="server" Enabled="false" ClientIDMode="Static" CausesValidation="false" Text="Next" CssClass="btn" OnClientClick="return OpenModalPopUp();" OnClick="btnNext_Click"  />
+            <asp:Button ID="btnLast" LastSliceNum="1" runat="server" Enabled="false" CausesValidation="false" Text="Last" CssClass="btn" OnClick="btnLast_Click" />
         </div>
 
     </div>
@@ -220,7 +224,16 @@
                     // Set the popup message
                     popupMessage.innerHTML = "Are you sure you want to change the length/width/weight?";
             }
-            return true;
+            if (bDataChanged == '0') {
+                // Get the reference to the button
+                var btnAcceptData = document.getElementById('btnAcceptData');
+                //document.forms[0].submit(); // Submit the form
+                // Trigger the click event programmatically
+                btnAcceptData.click();
+                btnAcceptData.dispatchEvent(new Event('click'));
+                return true;
+            }
+
         }
 
         // When the user clicks on <span> (x) or cancel button, close the modal
@@ -236,14 +249,14 @@
 
         // When the user clicks on accept button, submit the form
         acceptButton.onclick = function () {
-            document.getElementById('hidDataChanged').value = '0'
             modal.style.display = "none";
+            document.getElementById('hidDataChanged').value = '0'
             // Get the reference to the button
             var btnAcceptData = document.getElementById('btnAcceptData');
+            //document.forms[0].submit(); // Submit the form
             // Trigger the click event programmatically
             btnAcceptData.click();
             btnAcceptData.dispatchEvent(new Event('click'));
-            //document.forms[0].submit(); // Submit the form
             return true;
         }
 

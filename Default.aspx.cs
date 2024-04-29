@@ -20,10 +20,10 @@ namespace HEMASaw
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
+            //if (!IsPostBack)
+            //{
                 txtQRScanData.Focus();
-            }
+            //}
         }
 
         private QRCodeData ParseAndPopulateTextBoxes(string inputText)
@@ -87,10 +87,10 @@ namespace HEMASaw
             BindGridView(); 
         }
 
-        private DataTable PerformSearch(int workOrder, string blockBatch, string sliceBatch)
+        private DataTable PerformSearch(int workOrder, string blockBatch, string sliceBatch, int sliceNum)
         {
 
-             return HemaSawDAO.SearchWO(workOrder, sliceBatch, blockBatch);
+             return HemaSawDAO.SearchWO(workOrder, sliceBatch, blockBatch, sliceNum);
         }
 
         protected void gvSearchResults_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -108,10 +108,13 @@ namespace HEMASaw
             string blockBatch = txtBlockBatch.Text.Trim();
             string sliceBatch = txtSliceBatch.Text.Trim();
 
+            int sliceNum = -1;
+            int.TryParse(txtSliceNum.Text.Trim().ToString().ToUpper(), out sliceNum);
+
             if (workOrder>0)
             {
                 // Call a method to perform the search
-                DataTable searchResults = PerformSearch(workOrder, blockBatch, sliceBatch);
+                DataTable searchResults = PerformSearch(workOrder, blockBatch, sliceBatch,sliceNum);
 
                 // Bind search results to DataGrid
                 gvSearchResults.DataSource = searchResults;
@@ -178,6 +181,16 @@ namespace HEMASaw
             {
                 gvSearchResults.EmptyDataText = "No work orders for the search criteria.";
             }
+        }
+
+        protected void btnClear_Click(object sender, EventArgs e)
+        {           
+            txtQRScanData.Text = string.Empty;
+            txtWorkOrder.Text = string.Empty;
+            txtBlockBatch.Text = string.Empty;
+            txtSliceBatch.Text = string.Empty;            
+            txtSliceNum.Text = string.Empty;
+            txtQRScanData.Focus();
         }
     }
 

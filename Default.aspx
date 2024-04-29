@@ -5,11 +5,11 @@
         <div style="margin-top: 10px; min-height: 75vh;">
             <h2>Search Workorder</h2>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="txtWorkOrder">QR Scan</label>
                     <asp:TextBox ID="txtQRScanData" runat="server" ClientIDMode="Static" OnTextChanged="txtQRScanData_TextChanged" CssClass="form-control"></asp:TextBox>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="txtWorkOrder">Work Order #</label>
                     <asp:TextBox ID="txtWorkOrder" runat="server" CssClass="form-control"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvWorkOrder" ControlToValidate="txtWorkOrder" runat="server"
@@ -17,16 +17,21 @@
                     <asp:RegularExpressionValidator ID="revWorkOrder" ControlToValidate="txtWorkOrder" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" ValidationExpression="^\d+$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="txtSliceBatch">Slice Batch #</label>
                     <asp:TextBox ID="txtSliceBatch" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="txtBlockBatch">Block Batch #</label>
                     <asp:TextBox ID="txtBlockBatch" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
+                <div class="col-md-2">
+                    <label for="txtSliceNum">Slice #</label>
+                    <asp:TextBox ID="txtSliceNum" runat="server" CssClass="form-control"></asp:TextBox>
+                </div>
                 <div class="col-md-3">
                     <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                    <asp:Button ID="btnClear" runat="server" Text="Clear" CssClass="btn btn-primary" OnClick="btnClear_Click" CausesValidation="false" />
                 </div>
             </div>
             <div class="row mt-3">
@@ -70,7 +75,7 @@
             color: red;
         }
     </style>
-     <script>
+    <script>
         document.getElementById('txtQRScanData').addEventListener('input', function (event) {
             // This function will be called whenever the value of the textbox changes
             var scannedData = event.target.value;

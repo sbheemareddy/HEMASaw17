@@ -5,6 +5,7 @@ using System.Web;
 
 namespace HEMASaw.DAO
 {
+    [Serializable]
     public class User
     {
         public string EmployeeID { get; set; }
@@ -37,5 +38,8 @@ namespace HEMASaw.DAO
         public double Length { get; set; }
         public double Width { get; set; }
         public double Weight { get; set; }
+        public bool HasPrevious { get; set; }
+        public bool HasNext { get; set; }
+        public int LastSliceNum { get; set; }
     }
 }

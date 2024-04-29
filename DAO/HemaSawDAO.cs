@@ -12,7 +12,7 @@ namespace HEMASaw.DAO
     public static class HemaSawDAO
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
-        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, string sliceNum)
+        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, int sliceNum)
         {
             WOData wOData = new WOData();
             string storedProcedureName = "spGetSystemData";
@@ -50,6 +50,9 @@ namespace HEMASaw.DAO
                         wOData.Length = double.Parse(reader["Length"].ToString());
                         wOData.Width = double.Parse(reader["Width"].ToString());
                         wOData.Weight = double.Parse(reader["Weight"].ToString());
+                        wOData.HasPrevious = Boolean.Parse(reader["hasPrevious"].ToString());
+                        wOData.HasNext = Boolean.Parse(reader["hasLast"].ToString());
+                        wOData.LastSliceNum = int.Parse(reader["LastSliceNum"].ToString());
                     }
 
                     reader.Close();
@@ -59,7 +62,7 @@ namespace HEMASaw.DAO
             return wOData;
 
         }
-        public static QRCodeData GetQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, string sliceNum)
+        public static QRCodeData GetQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, int sliceNum)
         {
             QRCodeData qRCodeData = new QRCodeData();
             string storedProcedureName = "spGetQRDataFromSystem";
@@ -142,7 +145,7 @@ namespace HEMASaw.DAO
             return dataTable;
 
         }
-        public static DataTable SearchWO(int workOrder, string slicebatch, string blockbatch)
+        public static DataTable SearchWO(int workOrder, string slicebatch, string blockbatch, int sliceNum)
         {
             string storedProcedureName = "spGetSearchWO";
             DataTable dataTable = new DataTable(); // Create a new DataTable to hold the results
@@ -163,6 +166,7 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@workOrder", workOrder);
                     command.Parameters.AddWithValue("@slice_batch", slicebatch);
                     command.Parameters.AddWithValue("@block_batch", blockbatch);
+                    command.Parameters.AddWithValue("@sliceNum", sliceNum);
 
                     // Execute the command
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -175,7 +179,7 @@ namespace HEMASaw.DAO
 
             return dataTable; // Return the filled DataTable
         }
-        public static List<User> GetUserList(Char isActive = 'Y')
+        public static List<User> GetUserList(Char isActive = '1')
         {
             List<User> users = new List<User>();
             string storedProcedureName = "spGetUserList";
