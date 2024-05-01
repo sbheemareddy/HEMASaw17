@@ -1,11 +1,11 @@
 USE [HEMASaws]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spGetSliceLabel]    Script Date: 08-04-2024 07:12:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[spGetSliceLabel]    Script Date: 01-05-2024 07:56:28 PM ******/
 DROP PROCEDURE [dbo].[spGetSliceLabel]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spGetSliceLabel]    Script Date: 08-04-2024 07:12:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[spGetSliceLabel]    Script Date: 01-05-2024 07:56:28 PM ******/
 SET ANSI_NULLS ON
 GO
 

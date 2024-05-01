@@ -41,5 +41,6 @@ namespace HEMASaw.DAO
         public bool HasPrevious { get; set; }
         public bool HasNext { get; set; }
         public int LastSliceNum { get; set; }
+        public string Comments { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using HEMASaw.DAO;
 using Telerik.Reporting;
 using Telerik.Reporting.Processing;
 using Report = Telerik.Reporting.Report;
+using HEMASaw.Utility;
 
 namespace HEMASaw
 {
@@ -26,7 +27,7 @@ namespace HEMASaw
             //}
         }
 
-        private QRCodeData ParseAndPopulateTextBoxes(string inputText)
+        private void ParseAndPopulateTextBoxes(string inputText)
         {
             // Split the input text by commas to get individual key-value pairs
             string[] keyValuePairs = inputText.Split(',');
@@ -48,38 +49,28 @@ namespace HEMASaw
                     {
                         case "WO#":
                             txtWorkOrder.Text = value;
-                            qRCodeData.WO = int.Parse(value);
                             break;
                         case "Block#":
                             txtBlockBatch.Text = value;
-                            qRCodeData.BlockBatch = value;
                             break;
                         case "Slice#":
-                            qRCodeData.SliceNum = double.Parse(value);
                             txtSliceBatch.Text = value;
                             break;
                         case "Date":
-                            qRCodeData.QRCodeDate = value;
                             break;
                         case "Badge#":
                               break;
                         case "Saw#":
-                            qRCodeData.Saw = value;
                             break;
                         case "Min":
-                            qRCodeData.Min = double.Parse(value);
                             break;
                         case "Max":
-                            qRCodeData.Max = double.Parse(value);
                             break;
                         case "Ave":
-                            qRCodeData.Ave = double.Parse(value);
                             break;
                     }
                 }
             }
-
-            return qRCodeData;
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -153,9 +144,11 @@ namespace HEMASaw
         {
             if (!string.IsNullOrWhiteSpace(txtQRScanData.Text))
             {
-              QRCodeData qRCodeData =  ParseAndPopulateTextBoxes(txtQRScanData.Text);
-              RedirectToWOPage(qRCodeData);
-              BindGridView();
+                ParseAndPopulateTextBoxes(txtQRScanData.Text);
+                SessionData sesssionData = new SessionData();
+                QRCodeData qRCodeData = sesssionData.GetQRCodeData(txtQRScanData.Text.Trim());
+                RedirectToWOPage(qRCodeData);
+                BindGridView();
             }
         }
 
@@ -170,7 +163,6 @@ namespace HEMASaw
                 Session["SliceNum"] = dataTable.Rows[0]["SliceNum"].ToString();
                 Session["SliceID"] = dataTable.Rows[0]["Id"].ToString();
                 Session["QRScanData"] = txtQRScanData.Text;
-               // Session["QRScanData"] = TestQRScanValue;
                 Response.Redirect("~/WO/WOPage.aspx");
             }
         }

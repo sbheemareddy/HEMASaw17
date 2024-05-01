@@ -12,7 +12,7 @@ namespace HEMASaw.DAO
     public static class HemaSawDAO
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
-        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, int sliceNum)
+        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, int sliceNum , bool isScannedWO)
         {
             WOData wOData = new WOData();
             string storedProcedureName = "spGetSystemData";
@@ -29,6 +29,7 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@slice_batch", slicebatch);
                     command.Parameters.AddWithValue("@block_batch", blockbatch);
                     command.Parameters.AddWithValue("@sliceNum", sliceNum);
+                    command.Parameters.AddWithValue("@IsScanned", isScannedWO);
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -53,6 +54,7 @@ namespace HEMASaw.DAO
                         wOData.HasPrevious = Boolean.Parse(reader["hasPrevious"].ToString());
                         wOData.HasNext = Boolean.Parse(reader["hasLast"].ToString());
                         wOData.LastSliceNum = int.Parse(reader["LastSliceNum"].ToString());
+                        wOData.Comments = reader["Comments"].ToString();
                     }
 
                     reader.Close();
@@ -338,7 +340,7 @@ namespace HEMASaw.DAO
                 }
             }
         }
-        public static void AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF, int CellCount , DateTime QrCodeDate)
+        public static void AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF, int CellCount , DateTime QrCodeDate , QRCodeData qRCodeData)
         {
             // Create connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -364,6 +366,13 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@densityPSF", DensityPSF);
                     command.Parameters.AddWithValue("@QrCodeDate", QrCodeDate);
                     command.Parameters.AddWithValue("@CellCount", CellCount);
+                    command.Parameters.AddWithValue("@workOrder", qRCodeData.WO);
+                    command.Parameters.AddWithValue("@block_batch", (qRCodeData.BlockBatch != null) ? qRCodeData.BlockBatch : string.Empty);
+                    command.Parameters.AddWithValue("@sliceNum", qRCodeData.SliceNum);
+                    command.Parameters.AddWithValue("@saw", (qRCodeData.Saw != null) ? qRCodeData.Saw : string.Empty);
+                    command.Parameters.AddWithValue("@max", qRCodeData.Max);
+                    command.Parameters.AddWithValue("@min", qRCodeData.Min);
+                    command.Parameters.AddWithValue("@ave", qRCodeData.Ave);
 
                     // Execute the command
                     int rowsAffected = command.ExecuteNonQuery();

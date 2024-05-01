@@ -21,27 +21,24 @@ namespace HEMASaw.WO
             if(!IsPostBack)
             {
                 densityDiv.Attributes["class"] = "card";
-                //int workOrder = int.Parse(Session["Workorder"].ToString());
-                //string sliceBatch = Session["Slice_Batch"].ToString();
-                //string blockBatch = Session["Block_Batch"].ToString();
-                //string sliceNum = Session["SliceNum"].ToString();
-                //string qrScanData = Session["QRScanData"].ToString();
-
                 SessionData sessionData = new SessionData();
 
                 // Get the session values using the GetSessionValues method
                 var (workOrder, sliceBatch, blockBatch, sliceNum, qrScanData) = sessionData.GetSessionValues(this.Session);
-                PopulateSystemData(workOrder, sliceBatch, blockBatch, sliceNum);
-  
+
                 //TestQRScanValue
+                bool isScannedWO = false;
                 if (!string.IsNullOrEmpty(qrScanData))
                 {
                     ParseAndPopulateTextBoxes(qrScanData);
+                    isScannedWO = true;
                 }
                 else
                 {
                     PopulateQRDataFromSystem(workOrder, sliceBatch, blockBatch, sliceNum);
                 }
+
+                PopulateSystemData(workOrder, sliceBatch, blockBatch, sliceNum, isScannedWO);
             }
             densityDiv.Style["background-color"] = "#f0f0f0";
             lblAcceptanceMsg.InnerHtml = string.Empty;
@@ -61,11 +58,9 @@ namespace HEMASaw.WO
 
                 if (keyValue.Length == 2)
                 {
-                    // Trim whitespace from key and value
                     string key = keyValue[0].Trim();
                     string value = keyValue[1].Trim();
 
-                    // Populate textboxes based on the key
                     switch (key)
                     {
                         case "Date":
@@ -73,18 +68,14 @@ namespace HEMASaw.WO
                             break;
                         case "WO#":
                             txtWO.Text = value;
-                            //workOrder = int.Parse(value.ToString());
                             break;
                         case "Block#":
-                            //blockbatch = value;
                             txtBlockBatch.Text = value;
-                            // txtBlock.Text = value;
                             break;
                         case "Badge#":
 
                             break;
                         case "Slice#":
-                           // slicebatch = value;
                             txtSliceBatch.Text = value;
 
                             break;
@@ -105,9 +96,9 @@ namespace HEMASaw.WO
             }
         }
 
-        private void PopulateSystemData(int workOrder, string slicebatch, string blockbatch, int sliceNum)
+        private void PopulateSystemData(int workOrder, string slicebatch, string blockbatch, int sliceNum,bool isScannedWO = false)
         {
-            WOData wOData = HemaSawDAO.GetSystemData(workOrder, slicebatch, blockbatch, sliceNum);
+            WOData wOData = HemaSawDAO.GetSystemData(workOrder, slicebatch, blockbatch, sliceNum, isScannedWO);
 
             if (wOData != null)
             {
@@ -123,7 +114,8 @@ namespace HEMASaw.WO
                 txtLength.Text = wOData.Length.ToString();
                 txtWidth.Text = wOData.Width.ToString();
                 txtWeight.Text = wOData.Weight.ToString();
-               // txtQRCodeDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
+                txtComments.Text = wOData.Comments.ToString();
+                // txtQRCodeDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
 
                 Session["widthOrig"] = wOData.Width.ToString();
                 Session["weightOrig"] = wOData.Weight.ToString();
@@ -237,7 +229,9 @@ namespace HEMASaw.WO
                     densityDiv.Style["background-color"] = "green";
                     int ID = int.Parse(Session["SliceID"].ToString());
                     string EmployeeID = Session["EmployeeID"].ToString();
-                    HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate);
+                    SessionData sessionData = new SessionData();
+                    QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
+                    HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
                 }
                 else
                 {

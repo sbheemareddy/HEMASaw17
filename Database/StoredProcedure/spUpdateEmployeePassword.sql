@@ -1,11 +1,11 @@
 USE [HEMASaws]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spUpdateEmployeePassword]    Script Date: 08-04-2024 07:14:52 AM ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateEmployeePassword]    Script Date: 01-05-2024 08:00:06 PM ******/
 DROP PROCEDURE [dbo].[spUpdateEmployeePassword]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spUpdateEmployeePassword]    Script Date: 08-04-2024 07:14:52 AM ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateEmployeePassword]    Script Date: 01-05-2024 08:00:06 PM ******/
 SET ANSI_NULLS ON
 GO
 
