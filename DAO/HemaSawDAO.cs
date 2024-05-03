@@ -340,7 +340,7 @@ namespace HEMASaw.DAO
                 }
             }
         }
-        public static void AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF, int CellCount , DateTime QrCodeDate , QRCodeData qRCodeData)
+        public static int AcceptSliceData(int Id , string EmployeeID, string ExpanderNum,double Length, double Width, double Weight, string Comments, double DensityPCF, double DensityPSF, int CellCount , DateTime QrCodeDate , QRCodeData qRCodeData)
         {
             // Create connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -374,20 +374,23 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@min", qRCodeData.Min);
                     command.Parameters.AddWithValue("@ave", qRCodeData.Ave);
 
+                    // Add a parameter to hold the return value
+                    SqlParameter returnParameter = new SqlParameter
+                    {
+                        ParameterName = "@sliceID",
+                        SqlDbType = SqlDbType.Int,
+                        Direction = ParameterDirection.ReturnValue
+                    };
+                    command.Parameters.Add(returnParameter);
+
                     // Execute the command
                     int rowsAffected = command.ExecuteNonQuery();
 
-                    // Check if any rows were affected
-                    if (rowsAffected > 0)
-                    {
-                        // Rows were affected (updated successfully)
-                        Console.WriteLine("Stored procedure executed successfully. Rows affected: " + rowsAffected);
-                    }
-                    else
-                    {
-                        // No rows were affected (maybe the ID didn't match any record)
-                        Console.WriteLine("Stored procedure executed successfully, but no rows were affected.");
-                    }
+                    // Retrieve the return value
+                    int SliceID = (int)command.Parameters["@sliceID"].Value;
+
+                    return SliceID;
+                 
                 }
             }
         }

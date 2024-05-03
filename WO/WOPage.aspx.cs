@@ -43,7 +43,7 @@ namespace HEMASaw.WO
             densityDiv.Style["background-color"] = "#f0f0f0";
             lblAcceptanceMsg.InnerHtml = string.Empty;
             divpass.Visible = false;
-            //hidDataChanged.Value = "0";
+            //HasDataChanged();
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -222,23 +222,29 @@ namespace HEMASaw.WO
                 //DateTime.TryParseExact(txtQRCodeDate.Text.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out qrCodeDate);
 
                 bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
-                if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount)
-                {
-                    divpass.Visible = true;
-                    lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
-                    densityDiv.Style["background-color"] = "green";
-                    int ID = int.Parse(Session["SliceID"].ToString());
-                    string EmployeeID = Session["EmployeeID"].ToString();
-                    SessionData sessionData = new SessionData();
-                    QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
-                    HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
-                }
-                else
-                {
-                    divpass.Visible = false;
-                    lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
-                    densityDiv.Style["background-color"] = "Red";
-                }
+                //if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount)
+                //{
+                //divpass.Visible = true;
+                //lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
+                //densityDiv.Style["background-color"] = "green";
+
+                densityDiv.Style["background-color"] = "#f0f0f0";
+                lblAcceptanceMsg.InnerHtml = string.Empty;
+                divpass.Visible = true;
+                int ID = int.Parse(Session["SliceID"].ToString());
+                string EmployeeID = Session["EmployeeID"].ToString();
+                SessionData sessionData = new SessionData();
+                QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
+                int SliceId= HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
+                Session["SliceID"] = SliceId;
+
+                //}
+                //else
+                //{
+                //    divpass.Visible = false;
+                //    lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
+                //    densityDiv.Style["background-color"] = "Red";
+                //}
             }
             
         }

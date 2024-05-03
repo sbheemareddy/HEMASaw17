@@ -4,9 +4,9 @@
         <div class="buttons">
             <asp:Button ID="btnQRCodeScan" runat="server" CausesValidation="false" Text="QR Code Scan" CssClass="btn" OnClick="btnQRCodeScan_Click" />
             <asp:Button ID="btnClearData" runat="server" CausesValidation="false" Text="Clear Data" CssClass="btn" OnClick="btnClearData_Click" />
-            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="return OpenModalPopUp();" OnClick="btnAcceptData_Click"  />
+            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="showModal();" OnClick="btnAcceptData_Click"  />
             <asp:Button ID="btnCheckDensity" runat="server" CausesValidation="true" Text="Check Density" CssClass="btn" OnClick="btnCheckDensity_Click" />
-            <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />
+<%--            <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />--%>
             <div id="divpass"  runat="server" visible="false">
                 <asp:Button ID="btnPrintSliceLabel" runat="server" Text="Print Slice Tag" CssClass="btn" OnClientClick="redirectToSliceLabel(); return false;" />
                 <asp:Button ID="btnPrintSummaryLabel" runat="server" Text="Print Summary Tag" CssClass="btn" OnClientClick="redirectToSummaryLabel(); return false;" />
@@ -25,7 +25,7 @@
         <div id="myModal" class="modal">
           <div class="modal-content">
             <span class="close">&times;</span>
-            <p id="popupMessage"></p>
+            <p id="popupMessage">Are you sure you want to change the length/width/weight?</p>
             <button id="acceptButton" class="buttons">Accept</button>
             <button id="cancelButton" class="buttons">Cancel</button>
           </div>
@@ -199,7 +199,7 @@
         var cancelButton = document.getElementById("cancelButton");
 
         // When the page loads, attach click event listener to the btnAcceptData button
-       <%-- window.onload = function () {
+  <%--     window.onload = function () {
             var btnAcceptData = document.getElementById('<%= btnAcceptData.ClientID %>');
             btnAcceptData.addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent default form submission
@@ -222,10 +222,12 @@
                     // Show the modal
                     modal.style.display = "block";
                     // Set the popup message
-                    popupMessage.innerHTML = "Are you sure you want to change the length/width/weight?";
+                popupMessage.innerHTML = "Are you sure you want to change the length/width/weight?";
+                return true;
             }
             if (bDataChanged == '0') {
                 // Get the reference to the button
+ 
                 var btnAcceptData = document.getElementById('btnAcceptData');
                 //document.forms[0].submit(); // Submit the form
                 // Trigger the click event programmatically
@@ -250,17 +252,69 @@
         // When the user clicks on accept button, submit the form
         acceptButton.onclick = function () {
             modal.style.display = "none";
-            document.getElementById('hidDataChanged').value = '0'
             // Get the reference to the button
             var btnAcceptData = document.getElementById('btnAcceptData');
-            //document.forms[0].submit(); // Submit the form
-            // Trigger the click event programmatically
             btnAcceptData.click();
-            btnAcceptData.dispatchEvent(new Event('click'));
+            btnAcceptData.dispatchEvent(new Event('OnClick'));
+            document.getElementById('hidDataChanged').value = '0'
             return true;
         }
 
 
+
+        // Get modal element and buttons
+                    var modal = document.getElementById('myModal');
+                    var acceptButton = document.getElementById('acceptButton');
+                    var cancelButton = document.getElementById('cancelButton');
+                    var closeButton = document.querySelector('.close');
+
+                    // Function to show the modal
+                    function showModal() {
+                           var bDataChanged = document.getElementById('hidDataChanged').value;
+                        if (bDataChanged == '1') {
+                            event.preventDefault(); // Prevent default form submission
+                            // Show the modal
+                            modal.style.display = "block";
+                          }
+                        //if (bDataChanged == '0') {
+                        //    // Get the reference to the button
+                        //    alert(bDataChanged);
+                        //    var btnAcceptData = document.getElementById('btnAcceptData');
+                        //    //document.forms[0].submit(); // Submit the form
+                        //    // Trigger the click event programmatically
+                        //    btnAcceptData.click();
+                        //    btnAcceptData.dispatchEvent(new Event('click'));
+                        //}
+                    }
+
+                    // Function to close the modal
+                    function closeModal() {
+                        modal.style.display = 'none';
+        }
+
+                    // Function to handle accept button click
+                    function handleAccept() {
+                        // Get the reference to the button
+                        document.getElementById('hidDataChanged').value = '0'
+                        //var btnAcceptData = document.getElementById('btnAcceptData');
+                        //btnAcceptData.click();
+                        //btnAcceptData.dispatchEvent(new Event('click'));
+                        closeModal(); // Close the modal
+                        showModal();
+
+                    }
+
+                    // Function to handle cancel button click
+                    function handleCancel() {
+                        console.log('Cancelled');
+                    // Add your custom code here for the cancel action
+                    closeModal(); // Close the modal
+        }
+
+                    // Add event listeners for button clicks
+                    acceptButton.addEventListener('click', handleAccept);
+                    cancelButton.addEventListener('click', handleCancel);
+                    closeButton.addEventListener('click', closeModal);
 
     </script>
 </asp:Content>
