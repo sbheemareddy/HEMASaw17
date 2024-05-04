@@ -115,6 +115,8 @@ namespace HEMASaw.WO
                 txtWidth.Text = wOData.Width.ToString();
                 txtWeight.Text = wOData.Weight.ToString();
                 txtComments.Text = wOData.Comments.ToString();
+                // Assuming wOData.CellCount is an integer
+                txtCellCount.Text =( wOData.CellCount.ToString() == "0" ? "" : wOData.CellCount.ToString());
                 // txtQRCodeDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
 
                 Session["widthOrig"] = wOData.Width.ToString();
@@ -202,7 +204,12 @@ namespace HEMASaw.WO
 
                 int minCellCount = int.Parse(txtMinCellCount.Text.Trim());
                 int maxCellCount = int.Parse(txtMaxCellCount.Text.Trim());
-                int cellCount = int.Parse(txtCellCount.Text.Trim());
+                int cellCount;
+                if (!int.TryParse(txtCellCount.Text.Trim(), out cellCount))
+                {
+                    cellCount = 0; // Set cellCount to 0 if parsing fails or if the input is empty
+                }
+
 
                 DateTime qrCodeDate;
                 if (string.IsNullOrEmpty(txtQRCodeDate.Text.Trim()) || !DateTime.TryParse(txtQRCodeDate.Text.Trim(), out qrCodeDate))
@@ -221,7 +228,7 @@ namespace HEMASaw.WO
 
                 //DateTime.TryParseExact(txtQRCodeDate.Text.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out qrCodeDate);
 
-                bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
+               // bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
                 //if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount)
                 //{
                 //divpass.Visible = true;
@@ -301,10 +308,11 @@ namespace HEMASaw.WO
 
             int minCellCount = int.Parse(txtMinCellCount.Text.Trim());
             int maxCellCount = int.Parse(txtMaxCellCount.Text.Trim());
-            int cellCount = int.Parse(txtCellCount.Text.Trim());
+            // int cellCount = int.Parse(txtCellCount.Text.Trim());
 
-            bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
-            if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount )
+            //bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
+            //if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount )
+            if (DensityPCF <= tolHigher && DensityPCF >= tolLower)
             {
                 lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
                 densityDiv.Style["background-color"] = "green";

@@ -55,6 +55,7 @@ namespace HEMASaw.DAO
                         wOData.HasNext = Boolean.Parse(reader["hasLast"].ToString());
                         wOData.LastSliceNum = int.Parse(reader["LastSliceNum"].ToString());
                         wOData.Comments = reader["Comments"].ToString();
+                        wOData.CellCount = reader["CellCount"].ToString();
                     }
 
                     reader.Close();
@@ -373,6 +374,7 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@max", qRCodeData.Max);
                     command.Parameters.AddWithValue("@min", qRCodeData.Min);
                     command.Parameters.AddWithValue("@ave", qRCodeData.Ave);
+                    command.Parameters.AddWithValue("@badge", qRCodeData.Badge);
 
                     // Add a parameter to hold the return value
                     SqlParameter returnParameter = new SqlParameter

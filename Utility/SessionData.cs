@@ -65,6 +65,7 @@ namespace HEMASaw.Utility
                             qRCodeData.QRCodeDate = value;
                             break;
                         case "Badge#":
+                            qRCodeData.Badge = value;
                             break;
                         case "Saw#":
                             qRCodeData.Saw = value;

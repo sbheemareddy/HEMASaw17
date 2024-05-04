@@ -4,7 +4,7 @@
         <div class="buttons">
             <asp:Button ID="btnQRCodeScan" runat="server" CausesValidation="false" Text="QR Code Scan" CssClass="btn" OnClick="btnQRCodeScan_Click" />
             <asp:Button ID="btnClearData" runat="server" CausesValidation="false" Text="Clear Data" CssClass="btn" OnClick="btnClearData_Click" />
-            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="showModal();" OnClick="btnAcceptData_Click"  />
+            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="return showModal();acceptClick();" OnClick="btnAcceptData_Click"  />
             <asp:Button ID="btnCheckDensity" runat="server" CausesValidation="true" Text="Check Density" CssClass="btn" OnClick="btnCheckDensity_Click" />
 <%--            <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />--%>
             <div id="divpass"  runat="server" visible="false">
@@ -24,10 +24,10 @@
         <!-- Popup Modal -->
         <div id="myModal" class="modal">
           <div class="modal-content">
-            <span class="close">&times;</span>
+            <span id="closeButton" class="close">&times;</span>
             <p id="popupMessage">Are you sure you want to change the length/width/weight?</p>
-            <button id="acceptButton" class="buttons">Accept</button>
-            <button id="cancelButton" class="buttons">Cancel</button>
+             <asp:Button ID="acceptButton" runat="server"  Text="Accept" CssClass="btn" Style="margin-bottom: 20px; background-color: rgb(15, 161, 15);"  OnClick="btnAcceptData_Click"  />
+              <asp:Button ID="cancelButton" runat="server"  Text="Cancel" CssClass="btn" Style="background-color: rgb(15, 161, 15);" />
           </div>
         </div>
         <div class="container">
@@ -140,8 +140,8 @@
                 <div class="field">
                     <label class="fixed-size-label">Cell Count</label>
                     <asp:TextBox ID="txtCellCount" CssClass="fixed-size-input" runat="server"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtCellCount" runat="server"
-                        ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
+                <%--    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtCellCount" runat="server"
+                        ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>--%>
                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtCellCount" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" ValidationExpression="^\d+(\.\d+)?$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
@@ -191,130 +191,51 @@
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
 
-        // Get the message element
-        var popupMessage = document.getElementById("popupMessage");
+        // Get modal element and buttons
+        var modal = document.getElementById('myModal');
+        var acceptButton = document.getElementById('acceptButton');
+        var cancelButton = document.getElementById('cancelButton');
+        var closeButton = document.getElementsByClassName("close")[0];
 
-        // Get the accept and cancel buttons
-        var acceptButton = document.getElementById("acceptButton");
-        var cancelButton = document.getElementById("cancelButton");
-
-        // When the page loads, attach click event listener to the btnAcceptData button
-  <%--     window.onload = function () {
-            var btnAcceptData = document.getElementById('<%= btnAcceptData.ClientID %>');
-            btnAcceptData.addEventListener('click', function (event) {
+        // Function to show the modal
+        function showModal() {
+            var bDataChanged = document.getElementById('hidDataChanged').value;
+             if (bDataChanged == '1') {
                 event.preventDefault(); // Prevent default form submission
-
                 // Show the modal
                 modal.style.display = "block";
-
-                // Set the popup message
-                popupMessage.innerHTML = "Are you sure you want to change the data?";
-            });
-        }--%>
-
-
-        function OpenModalPopUp() {
-            //console.log(document.getElementById('hidDataChanged').value);
-            //alert(document.getElementById('hidDataChanged').value);
-            var bDataChanged = document.getElementById('hidDataChanged').value;
-            if (bDataChanged =='1') {
-                    event.preventDefault(); // Prevent default form submission
-                    // Show the modal
-                    modal.style.display = "block";
-                    // Set the popup message
-                popupMessage.innerHTML = "Are you sure you want to change the length/width/weight?";
-                return true;
-            }
+                }
             if (bDataChanged == '0') {
-                // Get the reference to the button
- 
-                var btnAcceptData = document.getElementById('btnAcceptData');
-                //document.forms[0].submit(); // Submit the form
-                // Trigger the click event programmatically
-                btnAcceptData.click();
-                btnAcceptData.dispatchEvent(new Event('click'));
                 return true;
             }
-
-        }
-
-        // When the user clicks on <span> (x) or cancel button, close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-            return false;
-        }
-
-        cancelButton.onclick = function () {
-            modal.style.display = "none";
-            return false;
-        }
-
-        // When the user clicks on accept button, submit the form
-        acceptButton.onclick = function () {
-            modal.style.display = "none";
-            // Get the reference to the button
-            var btnAcceptData = document.getElementById('btnAcceptData');
-            btnAcceptData.click();
-            btnAcceptData.dispatchEvent(new Event('OnClick'));
-            document.getElementById('hidDataChanged').value = '0'
             return true;
         }
 
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = 'none';
+}
 
-
-        // Get modal element and buttons
-                    var modal = document.getElementById('myModal');
-                    var acceptButton = document.getElementById('acceptButton');
-                    var cancelButton = document.getElementById('cancelButton');
-                    var closeButton = document.querySelector('.close');
-
-                    // Function to show the modal
-                    function showModal() {
-                           var bDataChanged = document.getElementById('hidDataChanged').value;
-                        if (bDataChanged == '1') {
-                            event.preventDefault(); // Prevent default form submission
-                            // Show the modal
-                            modal.style.display = "block";
-                          }
-                        //if (bDataChanged == '0') {
-                        //    // Get the reference to the button
-                        //    alert(bDataChanged);
-                        //    var btnAcceptData = document.getElementById('btnAcceptData');
-                        //    //document.forms[0].submit(); // Submit the form
-                        //    // Trigger the click event programmatically
-                        //    btnAcceptData.click();
-                        //    btnAcceptData.dispatchEvent(new Event('click'));
-                        //}
-                    }
-
-                    // Function to close the modal
-                    function closeModal() {
-                        modal.style.display = 'none';
+        // Function to handle accept button click
+        function handleAccept() {
+            document.getElementById('hidDataChanged').value = 0;
+            // Get the reference to the button
+            closeModal(); // Close the modal
+            acceptClick();
+           
         }
 
-                    // Function to handle accept button click
-                    function handleAccept() {
-                        // Get the reference to the button
-                        document.getElementById('hidDataChanged').value = '0'
-                        //var btnAcceptData = document.getElementById('btnAcceptData');
-                        //btnAcceptData.click();
-                        //btnAcceptData.dispatchEvent(new Event('click'));
-                        closeModal(); // Close the modal
-                        showModal();
+        // Function to handle cancel button click
+        function handleCancel() {
+            console.log('Cancelled');
+        // Add your custom code here for the cancel action
+        closeModal(); // Close the modal
+}
 
-                    }
-
-                    // Function to handle cancel button click
-                    function handleCancel() {
-                        console.log('Cancelled');
-                    // Add your custom code here for the cancel action
-                    closeModal(); // Close the modal
-        }
-
-                    // Add event listeners for button clicks
-                    acceptButton.addEventListener('click', handleAccept);
-                    cancelButton.addEventListener('click', handleCancel);
-                    closeButton.addEventListener('click', closeModal);
+        // Add event listeners for button clicks
+        acceptButton.addEventListener('click', handleAccept);
+        cancelButton.addEventListener('click', handleCancel);
+        closeButton.addEventListener('click', closeModal);
 
     </script>
 </asp:Content>

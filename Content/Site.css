@@ -490,6 +490,21 @@ h6 {
 /*    width: 500px;*/
 }
 
+.Popbutton {
+    padding: 10px;
+    background-color: rgb(15, 161, 15);
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.Popbutton:hover {
+    background-color: rgb(20, 176, 20);
+    transform: scale(1.02);
+}
 
 
 

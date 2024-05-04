@@ -35,6 +35,7 @@ namespace HEMASaw.DAO
         public string TargetCellCount { get; set; }
         public string MinCellCount { get; set; }
         public string MaxCellCount { get; set; }
+        public string CellCount { get; set; }
         public double Length { get; set; }
         public double Width { get; set; }
         public double Weight { get; set; }

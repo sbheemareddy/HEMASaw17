@@ -10,6 +10,7 @@ namespace HEMASaw.DAO
         public string QRCodeDate { get; set; }
         public int WO { get; set; }
         public string BlockBatch { get; set; }
+        public string Badge { get; set; }
         public string SliceBatch { get; set; }
         public string Saw { get; set; }
         public double Min { get; set; }
