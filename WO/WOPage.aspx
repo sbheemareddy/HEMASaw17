@@ -24,10 +24,10 @@
         <!-- Popup Modal -->
         <div id="myModal" class="modal">
           <div class="modal-content">
-            <span id="closeButton" class="close">&times;</span>
+            <span id="closeButton" class="close" onclick="closeModal()">&times;</span>
             <p id="popupMessage">Are you sure you want to change the length/width/weight?</p>
              <asp:Button ID="acceptButton" runat="server"  Text="Accept" CssClass="btn" Style="margin-bottom: 20px; background-color: rgb(15, 161, 15);"  OnClick="btnAcceptData_Click"  />
-              <asp:Button ID="cancelButton" runat="server"  Text="Cancel" CssClass="btn" Style="background-color: rgb(15, 161, 15);" />
+              <asp:Button ID="cancelButton" CausesValidation="false" runat="server"  Text="Cancel" CssClass="btn" Style="background-color: rgb(15, 161, 15);" />
           </div>
         </div>
         <div class="container">

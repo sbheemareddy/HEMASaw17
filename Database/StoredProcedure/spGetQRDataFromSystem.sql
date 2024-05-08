@@ -1,11 +1,11 @@
 USE [HEMASaws]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spGetQRDataFromSystem]    Script Date: 01-05-2024 07:55:06 PM ******/
+/****** Object:  StoredProcedure [dbo].[spGetQRDataFromSystem]    Script Date: 08-05-2024 05:48:29 PM ******/
 DROP PROCEDURE [dbo].[spGetQRDataFromSystem]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spGetQRDataFromSystem]    Script Date: 01-05-2024 07:55:06 PM ******/
+/****** Object:  StoredProcedure [dbo].[spGetQRDataFromSystem]    Script Date: 08-05-2024 05:48:29 PM ******/
 SET ANSI_NULLS ON
 GO
 

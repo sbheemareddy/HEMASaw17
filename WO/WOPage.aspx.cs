@@ -111,9 +111,12 @@ namespace HEMASaw.WO
                 txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
                 txtMinCellCount.Text = wOData.MinCellCount.ToString();
                 txtMaxCellCount.Text = wOData.MaxCellCount.ToString();
-                txtLength.Text = wOData.Length.ToString();
-                txtWidth.Text = wOData.Width.ToString();
-                txtWeight.Text = wOData.Weight.ToString();
+                //txtLength.Text = wOData.Length.ToString();
+                txtLength.Text = (wOData.Length.ToString() == "0" ? "" : wOData.Length.ToString());
+                //txtWidth.Text = wOData.Width.ToString();
+                txtWidth.Text = (wOData.Width.ToString() == "0" ? "" : wOData.Width.ToString());
+                //txtWeight.Text = wOData.Weight.ToString();
+                txtWeight.Text = (wOData.Weight.ToString() == "0" ? "" : wOData.Weight.ToString());
                 txtComments.Text = wOData.Comments.ToString();
                 // Assuming wOData.CellCount is an integer
                 txtCellCount.Text =( wOData.CellCount.ToString() == "0" ? "" : wOData.CellCount.ToString());
@@ -173,6 +176,8 @@ namespace HEMASaw.WO
 
         protected void btnAcceptData_Click(object sender, EventArgs e)
         {
+            rfvWidth.Validate();
+            rfvWeight.Validate();
             if (Page.IsValid)
             {
                 double width = 0.0;
