@@ -111,16 +111,15 @@ namespace HEMASaw.WO
                 txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
                 txtMinCellCount.Text = wOData.MinCellCount.ToString();
                 txtMaxCellCount.Text = wOData.MaxCellCount.ToString();
-                //txtLength.Text = wOData.Length.ToString();
                 txtLength.Text = (wOData.Length.ToString() == "0" ? "" : wOData.Length.ToString());
-                //txtWidth.Text = wOData.Width.ToString();
                 txtWidth.Text = (wOData.Width.ToString() == "0" ? "" : wOData.Width.ToString());
-                //txtWeight.Text = wOData.Weight.ToString();
                 txtWeight.Text = (wOData.Weight.ToString() == "0" ? "" : wOData.Weight.ToString());
                 txtComments.Text = wOData.Comments.ToString();
-                // Assuming wOData.CellCount is an integer
                 txtCellCount.Text =( wOData.CellCount.ToString() == "0" ? "" : wOData.CellCount.ToString());
-                // txtQRCodeDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
+
+                txtLength.Attributes["data-orig-value"] = wOData.Length.ToString();
+                txtWeight.Attributes["data-orig-value"] = wOData.Weight.ToString();
+                txtWidth.Attributes["data-orig-value"] = wOData.Width.ToString();
 
                 Session["widthOrig"] = wOData.Width.ToString();
                 Session["weightOrig"] = wOData.Weight.ToString();
@@ -135,8 +134,7 @@ namespace HEMASaw.WO
                 btnLast.Enabled = wOData.HasNext;
                 btnNext.Enabled = wOData.HasNext;
                 btnLast.Attributes["LastSliceNum"] = wOData.LastSliceNum.ToString();
-            //LastSliceNum
-        }
+            }
         }
 
         private void PopulateQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, int sliceNum)
@@ -247,16 +245,18 @@ namespace HEMASaw.WO
                 string EmployeeID = Session["EmployeeID"].ToString();
                 SessionData sessionData = new SessionData();
                 QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
-                int SliceId= HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
-                Session["SliceID"] = SliceId;
 
-                //}
-                //else
-                //{
-                //    divpass.Visible = false;
-                //    lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
-                //    densityDiv.Style["background-color"] = "Red";
-                //}
+                if (IsValidDecimal(DensityPCF.ToString()) && IsValidDecimal(DensityPSF.ToString()))
+                {
+                    int SliceId = HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
+                    Session["SliceID"] = SliceId;
+                }
+                else
+                {
+                    divpass.Visible = false;
+                    lblAcceptanceMsg.InnerHtml = "Error in QR Code, retry scanning again.";
+                    densityDiv.Style["background-color"] = "Red";
+                }
             }
             
         }
@@ -333,20 +333,20 @@ namespace HEMASaw.WO
 
         protected void txtLength_TextChanged(object sender, EventArgs e)
         {
-            HasDataChanged();
+            HasDataChanged(sender);
         }
 
         protected void txtWidth_TextChanged(object sender, EventArgs e)
         {
-            HasDataChanged();
+            HasDataChanged(sender);
         }
 
         protected void txtWeight_TextChanged(object sender, EventArgs e)
         {
-            HasDataChanged();
+            HasDataChanged(sender);
         }
    
-        private void HasDataChanged ()
+        private void HasDataChanged (object sender)
         {
            if (Session["widthOrig"].ToString() != txtWidth.Text.Trim() || Session["lengthOrig"].ToString() != txtLength.Text.Trim() || Session["weightOrig"].ToString() != txtWeight.Text.Trim())
             { 
@@ -356,6 +356,22 @@ namespace HEMASaw.WO
             {
                 hidDataChanged.Value = "0";
             }
+            // Cast the sender to a TextBox type
+            TextBox textBox = sender as TextBox;
+
+            // Check if the cast was successful
+            if (textBox != null)
+            {
+                // Set focus to the TextBox
+                textBox.Focus();
+            }
+
+        }
+
+        public bool IsValidDecimal(string value)
+        {
+            decimal result;
+            return decimal.TryParse(value, out result);
         }
 
         protected void btnFirst_Click(object sender, EventArgs e)
@@ -393,6 +409,8 @@ namespace HEMASaw.WO
             int lastSliceNum = int.Parse(btnLast.Attributes["LastSliceNum"]);
             PopulateSystemData(workOrder, sliceBatch, blockBatch, lastSliceNum);
         }
+
+ 
     }
 }
 

@@ -4,7 +4,7 @@
         <div class="buttons">
             <asp:Button ID="btnQRCodeScan" runat="server" CausesValidation="false" Text="QR Code Scan" CssClass="btn" OnClick="btnQRCodeScan_Click" />
             <asp:Button ID="btnClearData" runat="server" CausesValidation="false" Text="Clear Data" CssClass="btn" OnClick="btnClearData_Click" />
-            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="return showModal();acceptClick();" OnClick="btnAcceptData_Click"  />
+            <asp:Button ID="btnAcceptData" runat="server" ClientIDMode="Static" CausesValidation="true" Text="Accept Data" CssClass="btn" OnClientClick="return showModal();" OnClick="btnAcceptData_Click"  />
             <asp:Button ID="btnCheckDensity" runat="server" CausesValidation="true" Text="Check Density" CssClass="btn" OnClick="btnCheckDensity_Click" />
 <%--            <asp:Button ID="btnSearchWO" runat="server" CausesValidation="false" Text="Search" CssClass="btn" OnClick="btnSearchWO_Click" />--%>
             <div id="divpass"  runat="server" visible="false">
@@ -115,7 +115,7 @@
                 <h6>Dimension</h6>
                 <div class="field">
                     <label class="fixed-size-label">Length</label>
-                    <asp:TextBox ID="txtLength" CssClass="fixed-size-input" runat="server" OnTextChanged="txtLength_TextChanged" AutoPostBack="true"></asp:TextBox>
+                    <asp:TextBox ID="txtLength" ClientIDMode="Static" CssClass="fixed-size-input" data-orig-value="" runat="server" OnTextChanged="txtWidth_TextChanged" ></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvLength" ControlToValidate="txtLength" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revLength" ControlToValidate="txtLength" runat="server"
@@ -123,7 +123,7 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Width</label>
-                    <asp:TextBox ID="txtWidth" CssClass="fixed-size-input" runat="server" OnTextChanged="txtWidth_TextChanged" AutoPostBack="true"></asp:TextBox>
+                    <asp:TextBox ID="txtWidth" ClientIDMode="Static" CssClass="fixed-size-input" data-orig-value="" OnTextChanged="txtWidth_TextChanged" runat="server"  ></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvWidth" ControlToValidate="txtWidth" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revWidth" ControlToValidate="txtWidth" runat="server"
@@ -131,7 +131,7 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Weight</label>
-                    <asp:TextBox ID="txtWeight" CssClass="fixed-size-input" runat="server" OnTextChanged="txtWeight_TextChanged" AutoPostBack="true"></asp:TextBox>
+                    <asp:TextBox ID="txtWeight" ClientIDMode="Static" data-orig-value="" CssClass="fixed-size-input" runat="server" OnTextChanged="txtWidth_TextChanged" ></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvWeight" ControlToValidate="txtWeight" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revWeight" ControlToValidate="txtWeight" runat="server"
@@ -169,7 +169,7 @@
         </div>
 
         <div class="buttons">
-            <asp:Button ID="btnFirst" runat="server" Enabled="false" CausesValidation="false" Text="First" CssClass="btn" OnClick="btnFirst_Click" />
+            <asp:Button ID="btnFirst" runat="server" Enabled="false" CausesValidation="false" Text="First" CssClass="btn" OnClick="btnFirst_Click"  />
             <asp:Button ID="btnPrevious" runat="server" Enabled="false" CausesValidation="false" Text="Previous" CssClass="btn" OnClick="btnPrevious_Click" />
             <asp:Button ID="btnNext" runat="server" Enabled="false" ClientIDMode="Static" CausesValidation="false" Text="Next" CssClass="btn" OnClientClick="return OpenModalPopUp();" OnClick="btnNext_Click"  />
             <asp:Button ID="btnLast" LastSliceNum="1" runat="server" Enabled="false" CausesValidation="false" Text="Last" CssClass="btn" OnClick="btnLast_Click" />
@@ -199,6 +199,7 @@
 
         // Function to show the modal
         function showModal() {
+            checkDataChanged();
             var bDataChanged = document.getElementById('hidDataChanged').value;
              if (bDataChanged == '1') {
                 event.preventDefault(); // Prevent default form submission
@@ -236,6 +237,26 @@
         acceptButton.addEventListener('click', handleAccept);
         cancelButton.addEventListener('click', handleCancel);
         closeButton.addEventListener('click', closeModal);
+
+
+        function checkDataChanged() {
+            var widthCurrent = document.getElementById('txtWidth').value.trim();
+            var lengthCurrent = document.getElementById('txtLength').value.trim();
+            var weightCurrent = document.getElementById('txtWeight').value.trim();
+
+         
+            var widthOrig = document.getElementById('txtWidth').dataset.origValue;
+            var lengthOrig = document.getElementById('txtLength').dataset.origValue;
+            var weightOrig = document.getElementById('txtWeight').dataset.origValue;
+
+            var hidDataChanged = document.getElementById('hidDataChanged');
+
+            if (widthOrig !== widthCurrent || lengthOrig !== lengthCurrent || weightOrig !== weightCurrent) {
+                hidDataChanged.value = "1";
+            } else {
+                hidDataChanged.value = "0";
+            }
+        }
 
     </script>
 </asp:Content>
