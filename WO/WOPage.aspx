@@ -93,7 +93,7 @@
                     <label class="fixed-size-label">Comments</label>
                 </div>
                 <div class="field">
-                    <asp:TextBox ID="txtComments" class="fixed-size-input-long" runat="server" />
+                    <asp:TextBox ID="txtComments" onkeypress="return event.keyCode != 13;" class="fixed-size-input-long" runat="server" />
                 </div>
             </div>
             <div class="card">
@@ -115,7 +115,7 @@
                 <h6>Dimension</h6>
                 <div class="field">
                     <label class="fixed-size-label">Length</label>
-                    <asp:TextBox ID="txtLength" ClientIDMode="Static" CssClass="fixed-size-input" data-orig-value="" runat="server" OnTextChanged="txtWidth_TextChanged" ></asp:TextBox>
+                    <asp:TextBox ID="txtLength" onkeypress="return event.keyCode != 13;" ClientIDMode="Static" CssClass="fixed-size-input" data-orig-value="" runat="server" OnTextChanged="txtWidth_TextChanged" ></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvLength" ControlToValidate="txtLength" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revLength" ControlToValidate="txtLength" runat="server"
@@ -123,7 +123,7 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Width</label>
-                    <asp:TextBox ID="txtWidth" ClientIDMode="Static" CssClass="fixed-size-input" data-orig-value="" OnTextChanged="txtWidth_TextChanged" runat="server"  ></asp:TextBox>
+                    <asp:TextBox ID="txtWidth" onkeypress="return event.keyCode != 13;" ClientIDMode="Static" CssClass="fixed-size-input" data-orig-value="" OnTextChanged="txtWidth_TextChanged" runat="server"  ></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvWidth" ControlToValidate="txtWidth" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revWidth" ControlToValidate="txtWidth" runat="server"
@@ -131,7 +131,7 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Weight</label>
-                    <asp:TextBox ID="txtWeight" ClientIDMode="Static" data-orig-value="" CssClass="fixed-size-input" runat="server" OnTextChanged="txtWidth_TextChanged" ></asp:TextBox>
+                    <asp:TextBox ID="txtWeight" onkeypress="return event.keyCode != 13;" ClientIDMode="Static" data-orig-value="" CssClass="fixed-size-input" runat="server" OnTextChanged="txtWidth_TextChanged" ></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvWeight" ControlToValidate="txtWeight" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revWeight" ControlToValidate="txtWeight" runat="server"
@@ -139,7 +139,7 @@
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Cell Count</label>
-                    <asp:TextBox ID="txtCellCount" CssClass="fixed-size-input" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtCellCount" onkeypress="return event.keyCode != 13;" CssClass="fixed-size-input" runat="server"></asp:TextBox>
                 <%--    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtCellCount" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>--%>
                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtCellCount" runat="server"
@@ -240,6 +240,7 @@
 
 
         function checkDataChanged() {
+
             var widthCurrent = document.getElementById('txtWidth').value.trim();
             var lengthCurrent = document.getElementById('txtLength').value.trim();
             var weightCurrent = document.getElementById('txtWeight').value.trim();
@@ -250,13 +251,22 @@
             var weightOrig = document.getElementById('txtWeight').dataset.origValue;
 
             var hidDataChanged = document.getElementById('hidDataChanged');
-
-            if (widthOrig !== widthCurrent || lengthOrig !== lengthCurrent || weightOrig !== weightCurrent) {
+            if (widthOrig == '0' || lengthOrig == '0' || weightOrig == '0') {
+                hidDataChanged.value = "0";
+            }
+            else if (widthOrig !== widthCurrent || lengthOrig !== lengthCurrent || weightOrig !== weightCurrent || disableAlert == false) {
                 hidDataChanged.value = "1";
             } else {
                 hidDataChanged.value = "0";
             }
         }
 
+        document.addEventListener('keypress', function (e) {
+            if (e.keyCode === 13 || e.which === 13) {
+                e.preventDefault();
+                return false;
+            }
+
+        });
     </script>
 </asp:Content>

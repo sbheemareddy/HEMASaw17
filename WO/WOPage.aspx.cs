@@ -152,7 +152,6 @@ namespace HEMASaw.WO
                 txtMax.Text = qRCodeData.Max.ToString();
                 txtAve.Text = qRCodeData.Ave.ToString();
                 txtQRCodeDate.Text = qRCodeData.QRCodeDate.ToString();
-
             }
         }
 
@@ -245,7 +244,7 @@ namespace HEMASaw.WO
                 string EmployeeID = Session["EmployeeID"].ToString();
                 SessionData sessionData = new SessionData();
                 QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
-
+                PopulateQRDataFromScreen(qrscanData);
                 if (IsValidDecimal(DensityPCF.ToString()) && IsValidDecimal(DensityPSF.ToString()))
                 {
                     int SliceId = HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
@@ -259,6 +258,15 @@ namespace HEMASaw.WO
                 }
             }
             
+        }
+
+        private void PopulateQRDataFromScreen(QRCodeData qrscanData)
+        {
+            qrscanData.Ave = double.Parse(txtAve.Text);
+            qrscanData.Max = double.Parse(txtMax.Text);
+            qrscanData.Min = double.Parse(txtMin.Text);
+            qrscanData.SliceNum = double.Parse(txtCutSlice.Text);
+            qrscanData.Saw = txtSaw.Text;
         }
 
         protected void btnSearchWO_Click(object sender, EventArgs e)

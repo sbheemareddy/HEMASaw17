@@ -19,6 +19,7 @@ namespace HEMASaw
     {
         //string TestQRScanValue = "Date: 12/27/2023, WO#:1685996, Block#:123, Badge#:123, Slice#:1, Saw#:10, Min:0.38420, Max:0.38200, Ave:0.38220";
 
+        private const string strEmptyDataText = "No work orders for the search criteria.";
         protected void Page_Load(object sender, EventArgs e)
         {
             //if (!IsPostBack)
@@ -75,7 +76,7 @@ namespace HEMASaw
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            BindGridView(); 
+            BindGridView(strEmptyDataText); 
         }
 
         private DataTable PerformSearch(int workOrder, string blockBatch, string sliceBatch, int sliceNum)
@@ -88,10 +89,10 @@ namespace HEMASaw
         {
             gvSearchResults.PageIndex = e.NewPageIndex;
             // Rebind the GridView with the new page index
-            BindGridView(); 
+            BindGridView(strEmptyDataText); 
         }
 
-        private void BindGridView()
+        private void BindGridView(string emptyDataText)
         {
             // Retrieve search criteria from the form
             int workOrder = 0;
@@ -101,7 +102,7 @@ namespace HEMASaw
 
             int sliceNum = -1;
             int.TryParse(txtSliceNum.Text.Trim().ToString().ToUpper(), out sliceNum);
-
+            gvSearchResults.EmptyDataText = emptyDataText;
             if (workOrder>0)
             {
                 // Call a method to perform the search
@@ -110,11 +111,12 @@ namespace HEMASaw
                 // Bind search results to DataGrid
                 gvSearchResults.DataSource = searchResults;
                 gvSearchResults.DataBind();
+               
             }
             else
             {
+                gvSearchResults.DataSource = null;
                 gvSearchResults.DataBind();
-                gvSearchResults.EmptyDataText = "No work orders for the search criteria.";
             }
 
         }
@@ -134,7 +136,7 @@ namespace HEMASaw
                 Session["Slice_Batch"] = sliceBatch;
                 Session["Block_Batch"] = blockBatch;
                 Session["SliceNum"] = sliceNum;
-                Session["QRScanData"] = txtQRScanData.Text;
+                Session["QRScanData"] = string.Empty;
                 Session["SliceID"] = sliceID;
                 Response.Redirect("~/WO/WOPage.aspx");
             }
@@ -148,7 +150,7 @@ namespace HEMASaw
                 SessionData sesssionData = new SessionData();
                 QRCodeData qRCodeData = sesssionData.GetQRCodeData(txtQRScanData.Text.Trim());
                 RedirectToWOPage(qRCodeData);
-                BindGridView();
+                BindGridView(strEmptyDataText);
             }
         }
 
@@ -182,9 +184,8 @@ namespace HEMASaw
             txtBlockBatch.Text = string.Empty;
             txtSliceBatch.Text = string.Empty;            
             txtSliceNum.Text = string.Empty;
+            BindGridView(string.Empty);
             txtQRScanData.Focus();
         }
     }
-
-
 }
