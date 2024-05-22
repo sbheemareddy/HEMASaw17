@@ -267,10 +267,9 @@
 							<Font Size="9pt" Bold="True" />
 						</Style>
 					</TextBox>
-					<TextBox Width="0.30in" Height="0.2in" Left="0.85in" Top="0.05in" Value="= Fields.DensityPCF" CanGrow="False" Name="textBox2">
+					<TextBox Width="0.30in" Height="0.2in" Left="0.80in" Top="0.05in" Value="= Fields.DensityPCF" CanGrow="False" Name="textBox2">
 						<Style TextAlign="Left" VerticalAlign="Middle">
 							<Font Size="9pt" />
-							<Padding Left="0.01in" />
 						</Style>
 					</TextBox>
 					<TextBox Width="0.30in" Height="0.2in" Left="1.6in" Top="0.05in" Value="PSF" Name="textBox1">
@@ -331,29 +330,32 @@
 				  <Items>
 					  <TextBox Width="0.80in" Height="0.2in" Left="0in" Top="0.005in" Value="" Name="textBox1">
 						  <Style TextAlign="Left" VerticalAlign="Middle" Color="White">
-							  <Font Size="9pt" Bold="True">
+							  <Font Size="9pt" Bold="True" Color="White">
 							  </Font>
 							  <Padding Left="0.01in" />
 						  </Style>
 					  </TextBox>
 					  <TextBox Width="0.50in" Height="0.2in" Left="0.85in" Top="0.005in" Value="= Fields.AvgThickness" CanGrow="False" Name="textBox2">
-						  <Style TextAlign="Left"  VerticalAlign="Middle">
-							  <Font Size="9pt" Bold="True">
+						  <Style TextAlign="Left" Color="White" VerticalAlign="Middle">
+							  <Font Size="9pt" Bold="True" Color="White">
 							  </Font>
+							  <BackgroundColor>Black</BackgroundColor>
 							  <Padding Left="0.01in" />
 						  </Style>
 					  </TextBox>
 					  <TextBox Width="0.50in" Height="0.2in" Left="1.25in" Top="0.005in" Value="= Fields.MinThickness" Name="textBox1">
-						  <Style TextAlign="Left" VerticalAlign="Middle"  >
-							  <Font Size="9pt" Bold="True">
+						  <Style TextAlign="Left" VerticalAlign="Middle" Color="White" >
+							  <Font Size="9pt" Bold="True" Color="White">
 							  </Font>
+							  <BackgroundColor>Black</BackgroundColor>
 							  <Padding Left="0.01in" />
 						  </Style>
 					  </TextBox>
 					  <TextBox Width="0.50in" Height="0.2in" Left="1.65in" Top="0.005in" Value="= Fields.MaxThickness" CanGrow="False" Name="textBox2">
-						  <Style TextAlign="Left" VerticalAlign="Middle">
-							  <Font Size="9pt" Bold="True" >
+						  <Style TextAlign="Left" VerticalAlign="Middle" Color="White">
+							  <Font Size="9pt" Bold="True" Color="White">
 							  </Font>
+							  <BackgroundColor>Black</BackgroundColor>
 							  <Padding Left="0.01in" />
 						  </Style>
 					  </TextBox>

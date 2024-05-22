@@ -22,19 +22,20 @@ public partial class SliceLabelReport : HemaBasePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        int SliceID = int.Parse(Session["SliceID"].ToString());
         int workOrder = int.Parse(Session["Workorder"].ToString());
         string sliceBatch = Session["Slice_Batch"].ToString();
         string blockBatch = Session["Block_Batch"].ToString();
         string sliceNum = Session["SliceNum"].ToString();
         string reportName = Path.ChangeExtension(Request.QueryString["reportName"], ".trdx");
-        Report report = CustomizeReport(reportName,workOrder,sliceBatch,blockBatch,sliceNum);
+        Report report = CustomizeReport(reportName,workOrder,sliceBatch,blockBatch,sliceNum , SliceID);
         RenderinPage(report);
     }
 
-    public Report CustomizeReport(string filename, int workOrder ,string sliceBatch , string blockBatch , string sliceNum)
+    public Report CustomizeReport(string filename, int workOrder ,string sliceBatch , string blockBatch , string sliceNum , int SliceID)
     {
 
-        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(workOrder, sliceBatch, blockBatch, sliceNum);
+        DataSet ds = HemaSawDAO.GetSliceSummaryLabel(workOrder, sliceBatch, blockBatch, sliceNum, SliceID);
 
         Report report = null;
         if (ds.Tables[0].Rows.Count > 0)
@@ -42,6 +43,19 @@ public partial class SliceLabelReport : HemaBasePage
             DataRow data = ds.Tables[0].Rows[0];
             SliceLabelData.SliceLabelFields sliceLabelFields = SliceLabelData.GetSliceLabelLabelData(data);
             //Deserialize the .trdx report and set datasource
+            if (sliceLabelFields.DenInToleranceRange == "0" && sliceLabelFields.ThickInToleranceRange == "0" && filename.ToLower() == "slicelabel.trdx")
+            {
+                filename = "SliceLabelDenThicTolFail.trdx";
+            }
+            else if (sliceLabelFields.DenInToleranceRange == "0" && filename.ToLower() == "slicelabel.trdx")
+            {
+                filename = "SliceLabelDenTolFail.trdx";
+            }
+            else if (sliceLabelFields.ThickInToleranceRange == "0" && filename.ToLower() == "slicelabel.trdx")
+            {
+                filename = "SliceLabelThicTolFail.trdx";
+            }
+            
             report = GetTelerikReportFromXml(filename);
             report.DataSource = sliceLabelFields;
 

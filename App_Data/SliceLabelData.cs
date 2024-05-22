@@ -36,6 +36,8 @@ public class SliceLabelData
         public string DocNum { get; set; }
         public string VisualPartID { get; set; }
         public string SalesOrder { get; set; }
+        public string DenInToleranceRange { get; set; }
+        public string ThickInToleranceRange { get; set; }
     }
     public static SliceLabelFields GetSliceLabelLabelData(DataRow reader)
     {
@@ -62,6 +64,8 @@ public class SliceLabelData
         sld.DocNum = reader["DocNum"].ToString();
         sld.VisualPartID = reader["VisualPartID"].ToString();
         sld.SalesOrder = reader["SalesOrder"].ToString();
+        sld.DenInToleranceRange = reader["DenInToleranceRange"].ToString();
+        sld.ThickInToleranceRange = reader["ThickInToleranceRange"].ToString();
         //};
 
         return sld;

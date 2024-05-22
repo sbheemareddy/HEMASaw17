@@ -160,12 +160,17 @@ namespace HEMASaw
             if (dataTable != null && dataTable.Rows.Count == 1)
             {
                 Session["Workorder"] = dataTable.Rows[0]["Workorder"].ToString();
-                Session["Slice_Batch"] = dataTable.Rows[0]["Slice_Batch"].ToString(); 
-                Session["Block_Batch"] = dataTable.Rows[0]["Block_Batch"].ToString(); 
+                Session["Slice_Batch"] = dataTable.Rows[0]["Slice_Batch"].ToString();
+                Session["Block_Batch"] = dataTable.Rows[0]["Block_Batch"].ToString();
                 Session["SliceNum"] = dataTable.Rows[0]["SliceNum"].ToString();
                 Session["SliceID"] = dataTable.Rows[0]["Id"].ToString();
                 Session["QRScanData"] = txtQRScanData.Text;
                 Response.Redirect("~/WO/WOPage.aspx");
+            }
+            else
+            {
+                gvSearchResults.DataSource = dataTable;
+                gvSearchResults.DataBind();
             }
         }
 

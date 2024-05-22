@@ -304,7 +304,7 @@ namespace HEMASaw.DAO
                 }
             }
         }
-        public static DataSet GetSliceSummaryLabel(int workOrder , string sliceBatch , string blockBatch,string sliceNum)
+        public static DataSet GetSliceSummaryLabel(int workOrder , string sliceBatch , string blockBatch,string sliceNum, int SliceID)
         {
             // Create a new SqlConnection using the connection string
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -320,6 +320,7 @@ namespace HEMASaw.DAO
                     command.Parameters.Add("@slice_batch", SqlDbType.VarChar).Value = sliceBatch;
                     command.Parameters.Add("@block_batch", SqlDbType.VarChar).Value = blockBatch;
                     command.Parameters.Add("@sliceNum", SqlDbType.SmallInt).Value = int.Parse(sliceNum);
+                    command.Parameters.Add("@sliceID", SqlDbType.SmallInt).Value = SliceID;
 
                     // Create a new SqlDataAdapter to execute the command and fill a DataSet
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
