@@ -64,11 +64,11 @@ namespace HEMASaw.Users
                 txtFirstName.Text = user.FirstName;
                 txtLastName.Text = user.LastName;
                 chkActive.Checked = user.Active;
-                txtTermDate.Text = user.TermDate.HasValue ? user.TermDate.Value.ToString() : string.Empty;
+                txtTermDate.Text = user.TermDate.HasValue ? user.TermDate.Value.ToString("yyyy-MM-dd") : string.Empty;
                 ddlEmployeeRole.SelectedValue = user.EmployeeRole.ToString();
             }
 
-            protected void btnBack_Click(object sender, EventArgs e)
+        protected void btnBack_Click(object sender, EventArgs e)
         {
             Response.Redirect("Users.aspx");
         }

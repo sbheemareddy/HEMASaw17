@@ -45,6 +45,7 @@ namespace HEMASaw.DAO
                         wOData.VisualPartID = reader["VisualPartID"].ToString();
                         wOData.SliceNum = reader["SliceNum"].ToString();
                         wOData.Thickness = reader["Thickness"].ToString();
+                        wOData.ThicknessTol = reader["ThicknessTol"].ToString();
                         wOData.TargetCellCount = reader["TargetCellCount"].ToString();
                         wOData.MinCellCount = reader["MinCellCount"].ToString();
                         wOData.MaxCellCount = reader["MaxCellCount"].ToString();
@@ -433,7 +434,6 @@ namespace HEMASaw.DAO
                 }
             }
         }
-
         public static string GetHashedPassword(string password)
         {
             // Generate a random salt
@@ -446,7 +446,6 @@ namespace HEMASaw.DAO
             string saltedPasswordHash = hashedPassword + ":" + salt;
             return saltedPasswordHash;
         }
-
         public static string GenerateSalt()
         {
             byte[] saltBytes = new byte[16];
@@ -472,6 +471,5 @@ namespace HEMASaw.DAO
                 return builder.ToString();
             }
         }
-
     }
 }

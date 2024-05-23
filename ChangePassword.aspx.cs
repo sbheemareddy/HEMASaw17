@@ -19,28 +19,41 @@ namespace HEMASaw
             string employeeID = txtEmployeeId.Text.Trim();
             string currentPassword = txtCurrentPassword.Text.Trim();
             string newPassword = txtNewPassword.Text.Trim();
+            string ConfirmNewPassword = txtConfirmNewPassword.Text.Trim();
 
-            if (IsValidCurrentPassword(currentPassword))
+            if (ConfirmNewPassword == newPassword)
             {
-                if (UpdatePassword(employeeID, newPassword))
+
+                if (IsValidCurrentPassword(currentPassword))
                 {
-                    lblMessage.Text = "Password changed successfully.";
-                    lblMessage.ForeColor = System.Drawing.Color.Green;
-                    lblMessage.Visible = true;
+                    if (UpdatePassword(employeeID, newPassword))
+                    {
+                        lblMessage.Text = "Password changed successfully.";
+                        lblMessage.ForeColor = System.Drawing.Color.Green;
+                        lblMessage.Visible = true;
+                    }
+                    else
+                    {
+                        lblMessage.Text = "Failed to change password. Please try again later.";
+                        lblMessage.ForeColor = System.Drawing.Color.Red;
+                        lblMessage.Visible = true;
+                    }
                 }
                 else
                 {
-                    lblMessage.Text = "Failed to change password. Please try again later.";
+                    lblMessage.Text = "Incorrect current password.";
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                     lblMessage.Visible = true;
                 }
+
             }
             else
             {
-                lblMessage.Text = "Incorrect current password.";
+                lblMessage.Text = "New Password and Confirm New Password must match.";
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Visible = true;
             }
+
         }
 
         private bool IsValidCurrentPassword(string currentPassword)

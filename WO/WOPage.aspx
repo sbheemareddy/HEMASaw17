@@ -98,6 +98,14 @@
             </div>
             <div class="card">
                 <h6>Thickness</h6>
+                  <div class="field">
+                    <label class="fixed-size-label">Thickness</label>
+                    <asp:TextBox ID="txtThick" class="fixed-size-input-Readonly" ReadOnly="true" runat="server">4.84445</asp:TextBox>
+                </div>
+                <div class="field">
+                    <label class="fixed-size-label">Tolerance</label>
+                    <asp:TextBox ID="txtThicTol" class="fixed-size-input-Readonly" ReadOnly="true" runat="server">0.56789</asp:TextBox>
+                </div>
                 <div class="field">
                     <label class="fixed-size-label">Min</label>
                     <asp:TextBox ID="txtMin" class="fixed-size-input-Readonly" ReadOnly="true" runat="server" />

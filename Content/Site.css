@@ -506,5 +506,18 @@ h6 {
     transform: scale(1.02);
 }
 
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.ml-2 {
+    margin-left: 0.5rem; /* Adjust margin as needed */
+}
+
+.text-danger {
+    white-space: nowrap; /* Prevents the validator from wrapping */
+}
+
+
 
 

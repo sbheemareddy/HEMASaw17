@@ -40,10 +40,18 @@ namespace HEMASaw.WO
 
                 PopulateSystemData(workOrder, sliceBatch, blockBatch, sliceNum, isScannedWO);
             }
-            densityDiv.Style["background-color"] = "#f0f0f0";
-            lblAcceptanceMsg.InnerHtml = string.Empty;
-            divpass.Visible = false;
-            //HasDataChanged();
+            if (txtDensityTol.Text.ToString() == "0")
+            {
+                divpass.Visible = false;
+                lblAcceptanceMsg.InnerHtml = "Density tolerance is 0 , Review the Item.";
+                densityDiv.Style["background-color"] = "Red";
+            }
+            else
+            {
+                densityDiv.Style["background-color"] = "#f0f0f0";
+                lblAcceptanceMsg.InnerHtml = string.Empty;
+                divpass.Visible = false;
+            }
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -116,6 +124,8 @@ namespace HEMASaw.WO
                 txtWeight.Text = (wOData.Weight.ToString() == "0" ? "" : wOData.Weight.ToString());
                 txtComments.Text = wOData.Comments.ToString();
                 txtCellCount.Text =( wOData.CellCount.ToString() == "0" ? "" : wOData.CellCount.ToString());
+                txtThick.Text = wOData.Thickness.ToString();
+                txtThicTol.Text = wOData.ThicknessTol.ToString();
 
                 txtLength.Attributes["data-orig-value"] = wOData.Length.ToString();
                 txtWeight.Attributes["data-orig-value"] = wOData.Weight.ToString();
@@ -134,6 +144,13 @@ namespace HEMASaw.WO
                 btnLast.Enabled = wOData.HasNext;
                 btnNext.Enabled = wOData.HasNext;
                 btnLast.Attributes["LastSliceNum"] = wOData.LastSliceNum.ToString();
+            }
+
+            if (wOData.DensityTol.ToString() =="0")
+            {
+                divpass.Visible = false;
+                lblAcceptanceMsg.InnerHtml = "Density tolerance is 0 , Review the Item.";
+                densityDiv.Style["background-color"] = "Red";
             }
         }
 
