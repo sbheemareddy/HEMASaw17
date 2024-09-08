@@ -124,20 +124,21 @@ namespace HEMASaw.WO
                 txtWeight.Text = (wOData.Weight.ToString() == "0" ? "" : wOData.Weight.ToString());
                 txtComments.Text = wOData.Comments.ToString();
                 txtCellCount.Text =( wOData.CellCount.ToString() == "0" ? "" : wOData.CellCount.ToString());
-                txtThick.Text = wOData.Thickness.ToString();
-                txtThicTol.Text = wOData.ThicknessTol.ToString();
+                txtThick.Text = decimal.Parse(wOData.Thickness.ToString()).ToString("F3");
+                txtThicTol.Text = decimal.Parse(wOData.ThicknessTol.ToString()).ToString("F3");
+                ddlOptions.SelectedValue = wOData.ExpanderNum.ToString();
 
                 txtLength.Attributes["data-orig-value"] = wOData.Length.ToString();
                 txtWeight.Attributes["data-orig-value"] = wOData.Weight.ToString();
                 txtWidth.Attributes["data-orig-value"] = wOData.Width.ToString();
 
                 Session["widthOrig"] = wOData.Width.ToString();
-                Session["weightOrig"] = wOData.Weight.ToString();
+                Session["weightOrig"] = wOData.Weight.ToString(); 
                 Session["lengthOrig"] = wOData.Length.ToString();
                 Session["Thickness"] = wOData.Thickness.ToString();
                 Session["SystemData"] = wOData;
                 lblTargetDensity.InnerHtml = $"Target Density:&nbsp;&nbsp;&nbsp;<b>{wOData.Density}</b>&nbsp;&nbsp;&nbsp;Density Tol:&nbsp;&nbsp;&nbsp;<b>{wOData.DensityTol}</b>";
-                lblTgtCellCount.InnerHtml = $"Target Cell Count:&nbsp;&nbsp;&nbsp;<b>{wOData.TargetCellCount}</b>&nbsp;&nbsp;&nbsp;Min:&nbsp;&nbsp;&nbsp;<b>{wOData.MinCellCount}</b>&nbsp;&nbsp;&nbsp;Max:&nbsp;&nbsp;&nbsp;<b>{wOData.MaxCellCount}</b>";
+                //lblTgtCellCount.InnerHtml = $"Target Cell Count:&nbsp;&nbsp;&nbsp;<b>{wOData.TargetCellCount}</b>&nbsp;&nbsp;&nbsp;Min:&nbsp;&nbsp;&nbsp;<b>{wOData.MinCellCount}</b>&nbsp;&nbsp;&nbsp;Max:&nbsp;&nbsp;&nbsp;<b>{wOData.MaxCellCount}</b>";
 
                 btnPrevious.Enabled = wOData.HasPrevious;
                 btnFirst.Enabled = wOData.HasPrevious;

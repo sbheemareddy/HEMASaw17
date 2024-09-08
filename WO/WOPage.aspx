@@ -44,10 +44,19 @@
                 <div class="field">
                     <label class="fixed-size-label">Expander</label>
                         <asp:DropDownList ID="ddlOptions" runat="server" CssClass="fixed-size-Select">
-                            <asp:ListItem Value="1">1</asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                             <asp:ListItem Value="2">2</asp:ListItem>
                             <asp:ListItem Value="3">3</asp:ListItem>
                         </asp:DropDownList>
+                    <asp:RequiredFieldValidator 
+                        ID="rfvDdlOptions" 
+                        runat="server" 
+                        ControlToValidate="ddlOptions"
+                        InitialValue=""
+                        ErrorMessage="*"
+                        CssClass="error-message" 
+                        Display="Dynamic">
+                    </asp:RequiredFieldValidator>
                 </div>
                 <div class="field">
                     <label for="Date" class="fixed-size-label">QR Date</label>
@@ -100,11 +109,11 @@
                 <h6>Thickness</h6>
                   <div class="field">
                     <label class="fixed-size-label">Thickness</label>
-                    <asp:TextBox ID="txtThick" class="fixed-size-input-Readonly" ReadOnly="true" runat="server">4.84445</asp:TextBox>
+                    <asp:TextBox ID="txtThick" class="fixed-size-input-Readonly" ReadOnly="true" runat="server"></asp:TextBox>
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Tolerance</label>
-                    <asp:TextBox ID="txtThicTol" class="fixed-size-input-Readonly" ReadOnly="true" runat="server">0.56789</asp:TextBox>
+                    <asp:TextBox ID="txtThicTol" class="fixed-size-input-Readonly" ReadOnly="true" runat="server"></asp:TextBox>
                 </div>
                 <div class="field">
                     <label class="fixed-size-label">Min</label>
@@ -146,7 +155,7 @@
                         ErrorMessage="<span class='error-message'>*</span>" ValidationExpression="^\d+(\.\d+)?$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
                 <div class="field">
-                    <label class="fixed-size-label">Cell Count</label>
+                    <label class="fixed-size-label">Cell Count / 10"</label>
                     <asp:TextBox ID="txtCellCount" onkeypress="return event.keyCode != 13;" CssClass="fixed-size-input" runat="server"></asp:TextBox>
                 <%--    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtCellCount" runat="server"
                         ErrorMessage="<span class='error-message'>*</span>" Display="Dynamic"></asp:RequiredFieldValidator>--%>
@@ -159,9 +168,9 @@
                 <div class="field">
                     <label class="fixed-size-label-long" id="lblTargetDensity" runat="server">Target Density : Density Tol :</label>
                 </div>
-                <div class="field">
+     <%--           <div class="field">
                     <label class="fixed-size-label-long"  id="lblTgtCellCount" runat="server">Target Cell Count : Min : Max : </label>
-                </div>
+                </div>--%>
                 <div class="field">
                     <label class="fixed-size-label">Actual Density</label>
                     <label class="fixed-size-input-Readonly" id="lblPCFCalculated" runat="server"></label>

@@ -57,6 +57,7 @@ namespace HEMASaw.DAO
                         wOData.LastSliceNum = int.Parse(reader["LastSliceNum"].ToString());
                         wOData.Comments = reader["Comments"].ToString();
                         wOData.CellCount = reader["CellCount"].ToString();
+                        wOData.ExpanderNum = reader["ExpanderNum"].ToString();
                     }
 
                     reader.Close();

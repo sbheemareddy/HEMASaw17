@@ -177,6 +177,15 @@ namespace HEMASaw.WO
         protected global::System.Web.UI.WebControls.DropDownList ddlOptions;
 
         /// <summary>
+        /// rfvDdlOptions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvDdlOptions;
+
+        /// <summary>
         /// txtQRCodeDate control.
         /// </summary>
         /// <remarks>
@@ -409,15 +418,6 @@ namespace HEMASaw.WO
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTargetDensity;
-
-        /// <summary>
-        /// lblTgtCellCount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblTgtCellCount;
 
         /// <summary>
         /// lblPCFCalculated control.

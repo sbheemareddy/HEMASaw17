@@ -46,7 +46,7 @@
                             <asp:BoundField DataField="VisualPartID" HeaderText="Part ID" />
                             <asp:BoundField DataField="Description" HeaderText="Description" />
                             <asp:BoundField DataField="SliceNum" HeaderText="Slice Num" />
-                            <asp:BoundField DataField="Thickness" HeaderText="Thickness" />
+                            <asp:BoundField DataField="Thickness" HeaderText="Thickness" DataFormatString="{0:F3}"  />
                             <asp:TemplateField HeaderText="View">
                                 <ItemTemplate>
                                     <asp:Button ID="btnView" runat="server" Text="View" CommandName="View" CommandArgument='<%# Container.DataItemIndex %>' />
