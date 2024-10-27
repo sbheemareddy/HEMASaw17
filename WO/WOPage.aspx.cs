@@ -84,7 +84,7 @@ namespace HEMASaw.WO
 
                             break;
                         case "Slice#":
-                            txtSliceBatch.Text = value;
+                            txtCutSlice.Text = value;
 
                             break;
                         case "Saw#":
@@ -116,7 +116,8 @@ namespace HEMASaw.WO
                 txtTargetDensity.Text = wOData.Density.ToString();
                 txtDensityTol.Text = wOData.DensityTol.ToString();
                 txtCutSlice.Text = wOData.SliceNum.ToString();
-                txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
+                txtSliceBatch.Text = wOData.SliceBatch.ToString();
+               txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
                 txtMinCellCount.Text = wOData.MinCellCount.ToString();
                 txtMaxCellCount.Text = wOData.MaxCellCount.ToString();
                 txtLength.Text = (wOData.Length.ToString() == "0" ? "" : wOData.Length.ToString());

@@ -61,10 +61,12 @@ namespace HEMASaw.DAO
                     }
 
                     reader.Close();
+                    return wOData;
                 }
+               
             }
 
-            return wOData;
+            return null;
 
         }
         public static QRCodeData GetQRDataFromSystem(int workOrder, string slicebatch, string blockbatch, int sliceNum)
