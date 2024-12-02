@@ -13,13 +13,13 @@ using System.Linq;
 using System.Data.SqlClient;
 using HEMASaw.DAO;
 using HEMASaw;
+using System.Configuration;
 
 public partial class SliceLabelReport : HemaBasePage
 {
 
     public int m_currentPageIndex;
     public IList<Stream> m_streams;
-
     protected void Page_Load(object sender, EventArgs e)
     {
         int SliceID = int.Parse(Session["SliceID"].ToString());
@@ -28,10 +28,19 @@ public partial class SliceLabelReport : HemaBasePage
         string blockBatch = Session["Block_Batch"].ToString();
         string sliceNum = Session["SliceNum"].ToString();
         string reportName = Path.ChangeExtension(Request.QueryString["reportName"], ".trdx");
-        Report report = CustomizeReport(reportName,workOrder,sliceBatch,blockBatch,sliceNum , SliceID);
-        RenderinPage(report);
+        bool shouldSendToPrinter = bool.Parse(ConfigurationManager.AppSettings["SendToPrinter"].ToString());
+        Report report = CustomizeReport(reportName, workOrder, sliceBatch, blockBatch, sliceNum, SliceID);
+        if (shouldSendToPrinter)
+        {
+            RenderToPrinter(report);
+        }
+        else 
+        {
+            RenderinPage(report);
+        }
+        
+        
     }
-
     public Report CustomizeReport(string filename, int workOrder ,string sliceBatch , string blockBatch , string sliceNum , int SliceID)
     {
 
@@ -63,7 +72,6 @@ public partial class SliceLabelReport : HemaBasePage
         }
         return report;
     }
-
     private Report GetTelerikReportFromXml(string filename)
     {
         var report = new Report();
@@ -74,7 +82,6 @@ public partial class SliceLabelReport : HemaBasePage
         }
         return report;
     }
-
     public void PrintReport(Report report)
     {
         string printerName = "Microsoft Print to PDF";
@@ -166,8 +173,6 @@ public partial class SliceLabelReport : HemaBasePage
            //handle error
         }
     }
-
-
     public void RenderinPage(Report report)
     {
         string  printerName = "Microsoft Print to PDF";
@@ -231,16 +236,41 @@ public partial class SliceLabelReport : HemaBasePage
             // Handle exceptions
         }
     }
+    public void RenderToPrinter(Report report)
+    {
+        string printerName = ConfigurationManager.AppSettings["PrinterName"].ToString();
+       // string printerName = "Honeywell PM45";
+        Telerik.Reporting.Processing.ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
+        InstanceReportSource instanceReportSource = new InstanceReportSource();
+        PrinterSettings psettings = new PrinterSettings { PrinterName = printerName };
+        m_streams = new List<Stream>();
+        Byte[][] pages = null;
+
+        var deviceInfo = new System.Collections.Hashtable();
+        deviceInfo["OutputFormat"] = "EMF";
+        deviceInfo["StartPage"] = 0;
+        deviceInfo["DpiX"] = 100;
+        deviceInfo["DpiY"] = 100;
+
+        try
+        {
+            instanceReportSource.ReportDocument = report;
+            var renderResult = reportProcessor.RenderReport("PDF", instanceReportSource, deviceInfo);
+            reportProcessor.PrintReport(instanceReportSource, psettings);
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+        }
+    }
 
     private static Random random = new Random();
-
     public static string RandomString(int length)
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return new string(Enumerable.Repeat(chars, length)
             .Select(s => s[random.Next(s.Length)]).ToArray());
     }
-
     public void PrintPage(object sender, PrintPageEventArgs ev)
     {
         try

@@ -2,6 +2,7 @@
 using HEMASaw.Utility;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Telerik.Reporting;
 
 namespace HEMASaw.WO
 {
@@ -50,8 +52,10 @@ namespace HEMASaw.WO
             {
                 densityDiv.Style["background-color"] = "#f0f0f0";
                 lblAcceptanceMsg.InnerHtml = string.Empty;
-                divpass.Visible = false;
+                //divpass.Visible = false;
             }
+            // btnAcceptData_Click(sender, e);
+           // ValidateAndEnablePrint();
         }
 
         private void ParseAndPopulateTextBoxes(string inputText)
@@ -117,7 +121,7 @@ namespace HEMASaw.WO
                 txtDensityTol.Text = wOData.DensityTol.ToString();
                 txtCutSlice.Text = wOData.SliceNum.ToString();
                 txtSliceBatch.Text = wOData.SliceBatch.ToString();
-               txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
+                txtTargetCellCount.Text = wOData.TargetCellCount.ToString();
                 txtMinCellCount.Text = wOData.MinCellCount.ToString();
                 txtMaxCellCount.Text = wOData.MaxCellCount.ToString();
                 txtLength.Text = (wOData.Length.ToString() == "0" ? "" : wOData.Length.ToString());
@@ -196,87 +200,94 @@ namespace HEMASaw.WO
             rfvWeight.Validate();
             if (Page.IsValid)
             {
-                double width = 0.0;
-                double.TryParse(txtWidth.Text, out width);
+                ValidateAndEnablePrint();
+            }
 
-                double weight = 0.0;
-                double.TryParse(txtWeight.Text, out weight);
+        }
 
-                double length = 0.0;
-                double.TryParse(txtLength.Text, out length);
+        private bool ValidateAndEnablePrint()
+        {
+            double width = 0.0;
+            double.TryParse(txtWidth.Text, out width);
 
-                double thickness = 0.0;
-                double.TryParse(Session["Thickness"].ToString(), out thickness);
+            double weight = 0.0;
+            double.TryParse(txtWeight.Text, out weight);
 
-                double CC = (width * length * thickness) / 1728;
+            double length = 0.0;
+            double.TryParse(txtLength.Text, out length);
 
-                double DensityPCF = weight / CC;
+            double thickness = 0.0;
+            double.TryParse(Session["Thickness"].ToString(), out thickness);
 
-                double psFCC = (width * length) / 144;
+            double CC = (width * length * thickness) / 1728;
 
-                double DensityPSF = weight / psFCC;
+            double DensityPCF = weight / CC;
+
+            double psFCC = (width * length) / 144;
+
+            double DensityPSF = weight / psFCC;
 
 
-                lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
+            lblPCFCalculated.InnerText = DensityPCF.ToString("0.000");
 
-                double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
+            double tolHigher = double.Parse(txtTargetDensity.Text) + double.Parse(txtDensityTol.Text);
 
-                double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
+            double tolLower = (double.Parse(txtTargetDensity.Text) - double.Parse(txtDensityTol.Text));
 
-                int minCellCount = int.Parse(txtMinCellCount.Text.Trim());
-                int maxCellCount = int.Parse(txtMaxCellCount.Text.Trim());
-                int cellCount;
-                if (!int.TryParse(txtCellCount.Text.Trim(), out cellCount))
+            int minCellCount = int.Parse(txtMinCellCount.Text.Trim());
+            int maxCellCount = int.Parse(txtMaxCellCount.Text.Trim());
+            int cellCount;
+            if (!int.TryParse(txtCellCount.Text.Trim(), out cellCount))
+            {
+                cellCount = 0; // Set cellCount to 0 if parsing fails or if the input is empty
+            }
+
+
+            DateTime qrCodeDate;
+            if (string.IsNullOrEmpty(txtQRCodeDate.Text.Trim()) || !DateTime.TryParse(txtQRCodeDate.Text.Trim(), out qrCodeDate))
+            {
+                qrCodeDate = DateTime.Today;
+            }
+            else
+            {
+                // Check if the parsed date is within the acceptable range
+                if (qrCodeDate < SqlDateTime.MinValue.Value || qrCodeDate > SqlDateTime.MaxValue.Value)
                 {
-                    cellCount = 0; // Set cellCount to 0 if parsing fails or if the input is empty
-                }
-
-
-                DateTime qrCodeDate;
-                if (string.IsNullOrEmpty(txtQRCodeDate.Text.Trim()) || !DateTime.TryParse(txtQRCodeDate.Text.Trim(), out qrCodeDate))
-                {
-                    qrCodeDate = DateTime.Today;
-                }
-                else
-                {
-                    // Check if the parsed date is within the acceptable range
-                    if (qrCodeDate < SqlDateTime.MinValue.Value || qrCodeDate > SqlDateTime.MaxValue.Value)
-                    {
-                        // If the parsed date is out of range, set it to the minimum or maximum allowed value
-                        qrCodeDate = (qrCodeDate < SqlDateTime.MinValue.Value) ? SqlDateTime.MinValue.Value : SqlDateTime.MaxValue.Value;
-                    }
-                }
-
-                //DateTime.TryParseExact(txtQRCodeDate.Text.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out qrCodeDate);
-
-               // bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
-                //if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount)
-                //{
-                //divpass.Visible = true;
-                //lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
-                //densityDiv.Style["background-color"] = "green";
-
-                densityDiv.Style["background-color"] = "#f0f0f0";
-                lblAcceptanceMsg.InnerHtml = string.Empty;
-                divpass.Visible = true;
-                int ID = int.Parse(Session["SliceID"].ToString());
-                string EmployeeID = Session["EmployeeID"].ToString();
-                SessionData sessionData = new SessionData();
-                QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
-                PopulateQRDataFromScreen(qrscanData);
-                if (IsValidDecimal(DensityPCF.ToString()) && IsValidDecimal(DensityPSF.ToString()))
-                {
-                    int SliceId = HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
-                    Session["SliceID"] = SliceId;
-                }
-                else
-                {
-                    divpass.Visible = false;
-                    lblAcceptanceMsg.InnerHtml = "Error in QR Code, retry scanning again.";
-                    densityDiv.Style["background-color"] = "Red";
+                    // If the parsed date is out of range, set it to the minimum or maximum allowed value
+                    qrCodeDate = (qrCodeDate < SqlDateTime.MinValue.Value) ? SqlDateTime.MinValue.Value : SqlDateTime.MaxValue.Value;
                 }
             }
-            
+
+            //DateTime.TryParseExact(txtQRCodeDate.Text.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out qrCodeDate);
+
+            // bool isValidCellCount = cellCount >= minCellCount && cellCount <= maxCellCount;
+            //if (DensityPCF <= tolHigher && DensityPCF >= tolLower && isValidCellCount)
+            //{
+            //divpass.Visible = true;
+            //lblAcceptanceMsg.InnerHtml = "Acceptance Passed";
+            //densityDiv.Style["background-color"] = "green";
+
+            densityDiv.Style["background-color"] = "#f0f0f0";
+            lblAcceptanceMsg.InnerHtml = string.Empty;
+            divpass.Visible = true;
+            int ID = int.Parse(Session["SliceID"].ToString());
+            string EmployeeID = Session["EmployeeID"].ToString();
+            SessionData sessionData = new SessionData();
+            QRCodeData qrscanData = sessionData.GetQRCodeData(Session["QRScanData"].ToString());
+            PopulateQRDataFromScreen(qrscanData);
+            if (IsValidDecimal(DensityPCF.ToString()) && IsValidDecimal(DensityPSF.ToString()))
+            {
+                int SliceId = HemaSawDAO.AcceptSliceData(ID, EmployeeID, ddlOptions.SelectedValue, length, width, weight, txtComments.Text.Trim(), DensityPCF, DensityPSF, cellCount, qrCodeDate, qrscanData);
+                Session["SliceID"] = SliceId;
+                return true;
+            }
+            else
+            {
+               // divpass.Visible = false;
+                lblAcceptanceMsg.InnerHtml = "Error in QR Code, retry scanning again.";
+                densityDiv.Style["background-color"] = "Red";
+            }
+            return false;
         }
 
         private void PopulateQRDataFromScreen(QRCodeData qrscanData)
@@ -300,18 +311,59 @@ namespace HEMASaw.WO
 
         protected void btnPrintSliceLabel_Click(object sender, EventArgs e)
         {
+            if (ValidateAndEnablePrint())
+            {
+                int SliceID = int.Parse(Session["SliceID"].ToString());
+                int workOrder = int.Parse(Session["Workorder"].ToString());
+                string sliceBatch = Session["Slice_Batch"].ToString();
+                string blockBatch = Session["Block_Batch"].ToString();
+                string sliceNum = Session["SliceNum"].ToString();
+                string reportName = "SliceLabel.trdx";
+                bool shouldSendToPrinter = bool.Parse(ConfigurationManager.AppSettings["SendToPrinter"].ToString());
+               
+                if (shouldSendToPrinter)
+                {
+                    SliceLabelReport sliceLabelReport = new SliceLabelReport();
+                    Report report = sliceLabelReport.CustomizeReport(reportName, workOrder, sliceBatch, blockBatch, sliceNum, SliceID);
+                    sliceLabelReport.RenderToPrinter(report);
+                }
+                else
+                {
+                    var url = @"../Report/SliceLabelReport.aspx?reportName=SliceLabel";
+                    Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
+                    Response.End();
+                }
 
-            var url = @"../Report/SliceLabelReport.aspx?reportName=SliceLabel";
-            Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
-            Response.End();
+            }
+          
         }
 
         protected void btnPrintSummaryLabel_Click(object sender, EventArgs e)
         {
-            var url = @"../Report/SliceLabelReport.aspx?reportName=SummaryLabel";
-            Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
-            Response.End();
-
+            if (ValidateAndEnablePrint())
+            {
+                int SliceID = int.Parse(Session["SliceID"].ToString());
+                int workOrder = int.Parse(Session["Workorder"].ToString());
+                string sliceBatch = Session["Slice_Batch"].ToString();
+                string blockBatch = Session["Block_Batch"].ToString();
+                string sliceNum = Session["SliceNum"].ToString();
+                string reportName = "SummaryLabel.trdx";
+                bool shouldSendToPrinter = bool.Parse(ConfigurationManager.AppSettings["SendToPrinter"].ToString());
+              
+                if (shouldSendToPrinter)
+                {
+                    SliceLabelReport sliceLabelReport = new SliceLabelReport();
+                    Report report = sliceLabelReport.CustomizeReport(reportName, workOrder, sliceBatch, blockBatch, sliceNum, SliceID);
+                    sliceLabelReport.RenderToPrinter(report);
+                }
+                else
+                {
+                    var url = @"../Report/SliceLabelReport.aspx?reportName=SummaryLabel";
+                    Response.Write("<script> window.open( '" + url + "','_blank' ); </script>");
+                    Response.End();
+                }
+                
+            }
         }
 
         protected void btnCheckDensity_Click(object sender, EventArgs e)
@@ -354,7 +406,7 @@ namespace HEMASaw.WO
                 densityDiv.Style["background-color"] = "Red";
                 lblAcceptanceMsg.InnerHtml = "Acceptance Failed";
             }
-            divpass.Visible = false;
+            //divpass.Visible = false;
 
         }
 
@@ -384,7 +436,7 @@ namespace HEMASaw.WO
                 hidDataChanged.Value = "0";
             }
             // Cast the sender to a TextBox type
-            TextBox textBox = sender as TextBox;
+            System.Web.UI.WebControls.TextBox textBox = sender as System.Web.UI.WebControls.TextBox;
 
             // Check if the cast was successful
             if (textBox != null)
