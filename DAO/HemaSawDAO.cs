@@ -12,7 +12,7 @@ namespace HEMASaw.DAO
     public static class HemaSawDAO
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["HemaSawDBConnection"].ConnectionString;
-        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, int sliceNum , bool isScannedWO)
+        public static WOData GetSystemData(int workOrder,string slicebatch,string blockbatch, int sliceNum , bool isScannedWO, bool isPrevClick)
         {
             WOData wOData = new WOData();
             string storedProcedureName = "spGetSystemData";
@@ -30,38 +30,40 @@ namespace HEMASaw.DAO
                     command.Parameters.AddWithValue("@block_batch", blockbatch);
                     command.Parameters.AddWithValue("@sliceNum", sliceNum);
                     command.Parameters.AddWithValue("@IsScanned", isScannedWO);
+                    command.Parameters.AddWithValue("@Previous", isPrevClick);
 
                     SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        string densityTol = double.Parse(reader["DensityTol"].ToString()).ToString("0.000");
-                        string density = double.Parse(reader["Density"].ToString()).ToString("0.000");
-                        wOData.Material = reader["Material"].ToString();
-                        wOData.SliceBatch = reader["Slice_Batch"].ToString();
-                        wOData.Density = double.Parse(density);
-                        wOData.DensityTol = double.Parse(densityTol);
-                        wOData.Description = reader["Description"].ToString();
-                        wOData.VisualPartID = reader["VisualPartID"].ToString();
-                        wOData.SliceNum = reader["SliceNum"].ToString();
-                        wOData.Thickness = reader["Thickness"].ToString();
-                        wOData.ThicknessTol = reader["ThicknessTol"].ToString();
-                        wOData.TargetCellCount = reader["TargetCellCount"].ToString();
-                        wOData.MinCellCount = reader["MinCellCount"].ToString();
-                        wOData.MaxCellCount = reader["MaxCellCount"].ToString();
-                        wOData.Length = double.Parse(reader["Length"].ToString());
-                        wOData.Width = double.Parse(reader["Width"].ToString());
-                        wOData.Weight = double.Parse(reader["Weight"].ToString());
-                        wOData.HasPrevious = Boolean.Parse(reader["hasPrevious"].ToString());
-                        wOData.HasNext = Boolean.Parse(reader["hasLast"].ToString());
-                        wOData.LastSliceNum = int.Parse(reader["LastSliceNum"].ToString());
-                        wOData.Comments = reader["Comments"].ToString();
-                        wOData.CellCount = reader["CellCount"].ToString();
-                        wOData.ExpanderNum = reader["ExpanderNum"].ToString();
+                        while (reader.Read())
+                        {
+                            string densityTol = double.Parse(reader["DensityTol"].ToString()).ToString("0.000");
+                            string density = double.Parse(reader["Density"].ToString()).ToString("0.000");
+                            wOData.Material = reader["Material"].ToString();
+                            wOData.SliceBatch = reader["Slice_Batch"].ToString();
+                            wOData.Density = double.Parse(density);
+                            wOData.DensityTol = double.Parse(densityTol);
+                            wOData.Description = reader["Description"].ToString();
+                            wOData.VisualPartID = reader["VisualPartID"].ToString();
+                            wOData.SliceNum = reader["SliceNum"].ToString();
+                            wOData.Thickness = reader["Thickness"].ToString();
+                            wOData.ThicknessTol = reader["ThicknessTol"].ToString();
+                            wOData.TargetCellCount = reader["TargetCellCount"].ToString();
+                            wOData.MinCellCount = reader["MinCellCount"].ToString();
+                            wOData.MaxCellCount = reader["MaxCellCount"].ToString();
+                            wOData.Length = double.Parse(reader["Length"].ToString());
+                            wOData.Width = double.Parse(reader["Width"].ToString());
+                            wOData.Weight = double.Parse(reader["Weight"].ToString());
+                            wOData.HasPrevious = Boolean.Parse(reader["hasPrevious"].ToString());
+                            wOData.HasNext = Boolean.Parse(reader["hasLast"].ToString());
+                            wOData.LastSliceNum = int.Parse(reader["LastSliceNum"].ToString());
+                            wOData.Comments = reader["Comments"].ToString();
+                            wOData.CellCount = reader["CellCount"].ToString();
+                            wOData.ExpanderNum = reader["ExpanderNum"].ToString();
+                        }
+                        reader.Close();
+                        return wOData;
                     }
-
-                    reader.Close();
-                    return wOData;
                 }
                
             }
