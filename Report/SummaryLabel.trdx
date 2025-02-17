@@ -97,6 +97,28 @@
 				</GroupHeaderSection>
 			</GroupHeader>
 		</Group>
+		<Group Name="Prod. Order#">
+			<GroupHeader>
+				<GroupHeaderSection Height="0.2in" Name="Prod. Order#">
+					<Style>
+						<Padding Left="0.03in" />
+					</Style>
+					<Items>
+						<TextBox Width="0.8in" Height="0.2in" Left="0in" Top="0.1in" Value="Prod. Order#" Name="textBox1">
+							<Style TextAlign="Left" VerticalAlign="Middle">
+								<Font Size="9pt" Bold="True" />
+							</Style>
+						</TextBox>
+						<TextBox Width="1.00in" Height="0.2in" Left="0.90in" Top="0.1in" Value="= Fields.WorkOrder" CanGrow="False" Name="textBox2">
+							<Style TextAlign="Left" VerticalAlign="Middle">
+								<Font Size="9pt" />
+								<Padding Left="0.03in" />
+							</Style>
+						</TextBox>
+					</Items>
+				</GroupHeaderSection>
+			</GroupHeader>
+		</Group>
 		<Group Name="Mtl Barcode">
 			<GroupHeader>
 				<GroupHeaderSection Height="0.2in" Name="Material Barcode">
@@ -128,13 +150,13 @@
 						<Padding Left="0.03in" />
 					</Style>
 					<Items>
-						<TextBox Width="0.50in" Height="0.2in" Left="0in" Top="0.05in" Value="Qty" Name="textBox1">
+						<TextBox Width="0.70in" Height="0.2in" Left="0in" Top="0.05in" Value="Total Slice#" Name="textBox1">
 							<Style TextAlign="Left" VerticalAlign="Middle">
 								<Font Size="9pt" Bold="True" />
 							</Style>
 						</TextBox>
-						<TextBox Width="2.00in" Height="0.2in" Left="0.3in" Top="0.05in" Value="= Fields.Quantity" CanGrow="False" Name="textBox2">
-							<Style TextAlign="Left" VerticalAlign="Middle">
+						<TextBox Width="0.30in" Height="0.2in" Left="0.6in" Top="0.05in" Value="= Fields.Quantity" CanGrow="False" Name="textBox2">
+							<Style TextAlign="Right" VerticalAlign="Middle">
 								<Font Size="9pt" />
 								<Padding Left="0.03in" />
 							</Style>
@@ -255,19 +277,19 @@
 				</GroupHeaderSection>
 			</GroupHeader>
 		</Group>
-		<Group Name="Density PCF">
+		<Group Name="Operator">
 			<GroupHeader>
-				<GroupHeaderSection Height="0.2in" Name="Density PCF">
+				<GroupHeaderSection Height="0.2in" Name="Operator">
 					<Style>
 						<Padding Left="0.01in" />
 					</Style>
 					<Items>
-						<TextBox Width="0.80in" Height="0.2in" Left="0in" Top="0.05in" Value="Density:" Name="textBox1">
+						<TextBox Width="0.35in" Height="0.2in" Left="0in" Top="0.005in" Value="Oper" Name="textBox1">
 							<Style TextAlign="Left" VerticalAlign="Middle">
 								<Font Size="9pt" Bold="True" />
 							</Style>
 						</TextBox>
-						<TextBox Width="0.30in" Height="0.2in" Left="0.85in" Top="0.05in" Value="= Fields.DensityPCF" CanGrow="False" Name="textBox2">
+						<TextBox Width="2.00in" Height="0.2in" Left="0.35in" Top="0.005in" Value="= Fields.OperatorName" CanGrow="False" Name="textBox2">
 							<Style TextAlign="Left" VerticalAlign="Middle">
 								<Font Size="9pt" />
 								<Padding Left="0.01in" />

@@ -146,11 +146,19 @@ namespace HEMASaw
                 if (e.CommandName == "View")
                 {
                     int rowIndex = Convert.ToInt32(e.CommandArgument);
-                    string workOrder = gvSearchResults.DataKeys[rowIndex]["Workorder"].ToString();
-                    string sliceBatch = gvSearchResults.DataKeys[rowIndex]["Slice_Batch"].ToString();
-                    string blockBatch = gvSearchResults.DataKeys[rowIndex]["Block_Batch"].ToString();
-                    string sliceNum = gvSearchResults.DataKeys[rowIndex]["SliceNum"].ToString();
-                    string sliceID = gvSearchResults.DataKeys[rowIndex]["ID"].ToString();
+                    int adjustedIndex = rowIndex;
+                    if (gvSearchResults.PageIndex > 0)
+                    {
+                        adjustedIndex= (rowIndex- gvSearchResults.PageIndex* gvSearchResults.PageSize);
+                    }
+                        
+                    //string workOrder = gvSearchResults.DataKeys[adjustedIndex]["Workorder"].ToString();
+
+                    string workOrder = gvSearchResults.DataKeys[adjustedIndex]["Workorder"].ToString();
+                    string sliceBatch = gvSearchResults.DataKeys[adjustedIndex]["Slice_Batch"].ToString();
+                    string blockBatch = gvSearchResults.DataKeys[adjustedIndex]["Block_Batch"].ToString();
+                    string sliceNum = gvSearchResults.DataKeys[adjustedIndex]["SliceNum"].ToString();
+                    string sliceID = gvSearchResults.DataKeys[adjustedIndex]["ID"].ToString();
 
                     Session["Workorder"] = workOrder;
                     Session["Slice_Batch"] = sliceBatch;

@@ -124,7 +124,7 @@
                     <asp:TextBox ID="txtMax" class="fixed-size-input-Readonly" ReadOnly="true" runat="server" />
                 </div>
                 <div class="field">
-                    <label class="fixed-size-label">Ave</label>
+                    <label class="fixed-size-label">Avg</label>
                     <asp:TextBox ID="txtAve" class="fixed-size-input-Readonly" ReadOnly="true" runat="server" />
                 </div>
             </div>

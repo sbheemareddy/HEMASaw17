@@ -30,7 +30,7 @@ namespace HEMASaw
                 string employeeID = Session["EmployeeID"].ToString(); // Retrieve the user's employee ID
 
                 // Format the display name
-                return $"{lastName} {firstName} ({employeeID})";
+                return $"{firstName} {lastName} ({employeeID})";
 
             }
 
